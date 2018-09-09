@@ -22,6 +22,13 @@ class Telegram
 
     // ########################################
 
+    public function getApiUrl(): ?string
+    {
+        return isset($this->configs['api_url']) ? $this->configs['api_url'] : null;
+    }
+
+    // ########################################
+
     public function getCommandClass($commandAlias, $commandType = null)
     {
         $commands = $this->getCommands();

@@ -6,13 +6,13 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Model;
+namespace App\Service\Telegram\Command\Validator;
 
-abstract class AbstractFactory
+interface BaseInterface
 {
     // ########################################
 
-    public abstract function create();
+    public function validate($param);
 
     // ########################################
 }

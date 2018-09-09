@@ -1,6 +1,11 @@
 
-#Alias: Class
+bot_token: '555677621:AAEBmA5NI8psavI-7IibsXek09QqBd_dFkE'
+api_url: 'https://api.telegram.org/bot555677621:AAEBmA5NI8psavI-7IibsXek09QqBd_dFkE/'
+
+#commandAlias:
+#   class: #name#
+#   paramName: #validatorClassName#
 commands:
     start:
         class: \App\Service\Telegram\Command\Message\Start_v1
-        validators: [1,2]
+        phone: \App\Service\Telegram\Command\Validator\Phone

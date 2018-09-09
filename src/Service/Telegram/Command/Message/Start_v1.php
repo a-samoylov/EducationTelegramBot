@@ -8,13 +8,25 @@
 
 namespace App\Service\Telegram\Command\Message;
 
-class Start_v1 implements \App\Service\Telegram\Command\BaseInterface
+class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
 {
     // ########################################
 
     public function process()
     {
-        return 'hello!';
+        $result = $this->makeJsonRequest('sendMessage', [
+            'chat_id'      => $this->getUser()->getChatId(),
+            'text'         => 'Зарегаться',
+            'reply_markup' => [
+                'inline_keyboard' => [
+                    [
+                        ['text' => 'Зарегаться', 'callback_data' => '{"message": {"chat": {"first_name": "Alexander"}}'],
+                    ],
+                ]
+            ]
+        ]);
+
+
     }
 
     // ########################################

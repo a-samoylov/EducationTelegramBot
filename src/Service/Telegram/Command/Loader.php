@@ -10,27 +10,38 @@ namespace App\Service\Telegram\Command;
 
 use App\Config\Telegram as TelegramConfigs;
 use App\Entity\TelegramUser;
+use App\Service\Telegram\Command\Factory as CommandFactory;
 
 class Loader
 {
-    /** @var \App\Config\Telegram */
+    /** @var TelegramConfigs $telegramConfigs*/
     private $telegramConfigs;
+
+    /** @var CommandFactory $commandFactory */
+    private $commandFactory;
 
     // ########################################
 
-    public function __construct(TelegramConfigs $telegramConfigs)
+    public function __construct(TelegramConfigs $telegramConfigs, CommandFactory $commandFactory)
     {
         $this->telegramConfigs = $telegramConfigs;
+        $this->commandFactory  = $commandFactory;
     }
 
     // ########################################
 
-    public function process(TelegramUser $telegramUser, string $text, ?string $type, \DateTime $dateTime)
+    public function process(TelegramUser $telegramUser, string $commandAlias, ?string $commandType, \DateTime $dateTime, $params = [])
     {
-        list($commandClass, $commandValidators) = $this->telegramConfigs->getCommandClass($text, $type);
+        list($commandClass, $commandValidators) = $this->telegramConfigs->getCommandClass($commandAlias, $commandType);
 
-        /** @var \App\Service\Telegram\Command\BaseInterface $command */
-        $command = new $commandClass;
+        /** @var \App\Service\Telegram\Command\BaseAbstract $command */
+        $command = $this->commandFactory->create($commandClass);
+        $command->setUser($telegramUser);
+
+        //todo validate
+        foreach ($commandValidators as $validator) {
+
+        }
 
         return $command->process();
     }
