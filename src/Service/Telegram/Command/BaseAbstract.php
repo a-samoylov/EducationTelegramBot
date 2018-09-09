@@ -9,22 +9,11 @@
 namespace App\Service\Telegram\Command;
 
 use App\Entity\TelegramUser;
-use App\Service\Telegram\Model\Request\Json as JsonRequest;
 
 abstract class BaseAbstract
 {
     /** @var TelegramUser $user */
     private $user;
-
-    /** @var JsonRequest $jsonRequest */
-    private $jsonRequest;
-
-    // ########################################
-
-    public function __construct(JsonRequest $jsonRequest)
-    {
-        $this->jsonRequest = $jsonRequest;
-    }
 
     // ########################################
 
@@ -41,13 +30,6 @@ abstract class BaseAbstract
     // ########################################
 
     abstract public function process();
-
-    // ########################################
-
-    protected function makeJsonRequest($method, array $params = [])
-    {
-        return $this->jsonRequest->execute($method, $params);
-    }
 
     // ########################################
 }

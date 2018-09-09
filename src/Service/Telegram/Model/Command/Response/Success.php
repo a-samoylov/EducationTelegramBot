@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Command;
+namespace App\Service\Telegram\Model\Command\Response;
 
 class Success
 {

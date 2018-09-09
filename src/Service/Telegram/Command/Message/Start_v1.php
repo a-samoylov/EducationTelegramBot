@@ -14,7 +14,8 @@ class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
 
     public function process()
     {
-        $result = $this->makeJsonRequest('sendMessage', [
+        //todo сделать модель sendMessage
+        /*$result = $this->makeJsonRequest('sendMessage', [
             'chat_id'      => $this->getUser()->getChatId(),
             'text'         => 'Зарегаться',
             'reply_markup' => [
@@ -24,9 +25,7 @@ class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
                     ],
                 ]
             ]
-        ]);
-
-
+        ]);*/
     }
 
     // ########################################

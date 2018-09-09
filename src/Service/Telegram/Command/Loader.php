@@ -8,8 +8,8 @@
 
 namespace App\Service\Telegram\Command;
 
-use App\Config\Telegram as TelegramConfigs;
 use App\Entity\TelegramUser;
+use App\Config\Telegram as TelegramConfigs;
 use App\Service\Telegram\Command\Factory as CommandFactory;
 
 class Loader
