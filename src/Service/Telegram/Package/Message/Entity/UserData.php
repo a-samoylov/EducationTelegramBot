@@ -39,8 +39,8 @@ class UserData
         string $firstName,
         string $lastName,
         bool $isBot,
-        string $languageCode,
-        string $type
+        string $type,
+        string $languageCode
     ) {
         $this->chatId       = $chatId;
         $this->firstName    = $firstName;

@@ -41,6 +41,7 @@ class TelegramUserRepository extends ServiceEntityRepository
     }
     */
 
+    // ########################################
 
     public function findByChatId($chatId): ?\App\Entity\TelegramUser
     {
@@ -50,6 +51,29 @@ class TelegramUserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    // ########################################
+
+    public function create(
+        int $chatId,
+        string $firstName,
+        string $lastName,
+        bool $isBot,
+        string $languageCode
+    ) {
+        $user = new TelegramUser();
+
+        $user->setChatId($chatId);
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        $user->setIsBot($isBot);
+        $user->setLanguageCode($languageCode);
+
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush($user);
+
+        return $user;
     }
 
     // ########################################

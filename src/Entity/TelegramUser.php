@@ -46,6 +46,11 @@ class TelegramUser
     /**
      * @ORM\Column(type="string", length=50)
      */
+    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
     private $languageCode;
 
     // ########################################
@@ -127,6 +132,21 @@ class TelegramUser
     }
 
     // ----------------------------------------
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    // ----------------------------------------
+
 
     public function getLanguageCode(): ?string
     {

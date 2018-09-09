@@ -25,6 +25,9 @@ class Entity
     /** @var \App\Service\Telegram\Package\Message\Entity\UserData */
     private $userData;
 
+    /** @var string */
+    private $commandType;
+
     // ########################################
 
     public function __construct(
@@ -33,13 +36,14 @@ class Entity
         \DateTime $dateTime,
         string $text,
         Entity\UserData $userData,
-        string $commandType = null   //TODO
+        string $commandType = null
     ) {
-        $this->updateId  = $updateId;
-        $this->messageId = $messageId;
-        $this->dateTime  = $dateTime;
-        $this->text      = $text;
-        $this->userData  = $userData;
+        $this->updateId    = $updateId;
+        $this->messageId   = $messageId;
+        $this->dateTime    = $dateTime;
+        $this->text        = $text;
+        $this->userData    = $userData;
+        $this->commandType = $commandType;
     }
 
     // ########################################
@@ -67,6 +71,11 @@ class Entity
     public function getUserData(): \App\Service\Telegram\Package\Message\Entity\UserData
     {
         return $this->userData;
+    }
+
+    public function getCommandType(): string
+    {
+        return $this->commandType;
     }
 
     // ########################################

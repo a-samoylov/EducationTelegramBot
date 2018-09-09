@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use App\Repository\TelegramUserRepository;
+use App\Service\Model\ValidateException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Service\Telegram\Auth\Checker as TelegramAuthChecker;
-use App\Entity\TelegramUser;
 use App\Service\Telegram\Package\Message\Factory as PackageMessageFactory;
 
 class TelegramController extends AbstractController
@@ -34,30 +34,37 @@ class TelegramController extends AbstractController
 
         $request = Request::createFromGlobals();
 
-        $telegramToken = $request->query->get('token');
-        if (!$telegramAuthChecker->isValidToken($telegramToken)) {
+        if (!$telegramAuthChecker->isValidToken($request->query->get('token'))) {
+            //todo event invalid telegram token
+            //todo log
+
             return $this->json([
                 'message' => 'Invalid request',
             ]);
         }
 
-        //create package
-        $data = (array)json_decode($request->getContent(), true);//php://input
-        $packageMessage = $packageMessageFactory->create($data);
+        try {
+            $data = (array)json_decode($request->getContent(), true);//php://input
+            $packageMessage = $packageMessageFactory->create($data);
+        } catch (ValidateException $validateException) {
+            //todo log
+            $message = $validateException->getMessage();
+            $inputData = $validateException->getInputData();
 
-        //todo process request
-        $entityManager = $this->getDoctrine()->getManager();
+            return $this->json([
+                'message' => 'Error',
+            ]);
+        }
 
         $user = $telegramUserRepository->findByChatId($packageMessage->getUserData()->getChatId());
         if (is_null($user)) {
-            //todo in factory
-            $user = new TelegramUser();
-
-            $user->setChatId($packageMessage->getUserData()->getChatId());
-            $user->setFirstName($packageMessage->getUserData()->getFirstName());
-            $user->setLastName($packageMessage->getUserData()->getLastName());
-            $user->setIsBot($packageMessage->getUserData()->isBot());
-            $user->setLanguageCode($packageMessage->getUserData()->getLanguageCode());
+            $user = $telegramUserRepository->create(
+                $packageMessage->getUserData()->getChatId(),
+                $packageMessage->getUserData()->getFirstName(),
+                $packageMessage->getUserData()->getLastName(),
+                $packageMessage->getUserData()->isBot(),
+                $packageMessage->getUserData()->getLanguageCode()
+            );
         }
 
 
@@ -70,13 +77,6 @@ class TelegramController extends AbstractController
         ]);*/
 
         // ########################################
-    }
-
-    // ########################################
-
-    private function isExistUser($chatId)
-    {
-
     }
 
     // ########################################
