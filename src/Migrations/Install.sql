@@ -1,0 +1,14 @@
+DROP TABLE IF EXISTS telegram_user;
+CREATE TABLE telegram_user (
+  id INT AUTO_INCREMENT NOT NULL,
+  first_name VARCHAR(255) DEFAULT NULL,
+  last_name VARCHAR(255) DEFAULT NULL,
+  phone VARCHAR(255) DEFAULT NULL,
+  is_bot TINYINT(1) NOT NULL,
+  chat_id INT NOT NULL,
+  language_code  VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY(id)
+)
+  DEFAULT CHARACTER SET utf8
+  COLLATE utf8_general_ci
+  ENGINE = InnoDB;
