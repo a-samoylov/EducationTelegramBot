@@ -1,4 +1,6 @@
 
 #Alias: Class
 commands:
-    start: \App\..
+    start:
+        class: \App\Service\Telegram\Command\Message\Start_v1
+        validators: [1,2]

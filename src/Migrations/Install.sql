@@ -6,7 +6,7 @@ CREATE TABLE telegram_user (
   phone VARCHAR(255) DEFAULT NULL,
   is_bot TINYINT(1) NOT NULL,
   chat_id INT NOT NULL,
-  username VARCHAR(255) NOT NULL,
+  username VARCHAR(255) DEFAULT NULL,
   language_code VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY(id)
 )

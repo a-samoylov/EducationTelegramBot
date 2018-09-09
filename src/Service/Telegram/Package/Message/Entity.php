@@ -73,7 +73,7 @@ class Entity
         return $this->userData;
     }
 
-    public function getCommandType(): string
+    public function getCommandType(): ?string
     {
         return $this->commandType;
     }

@@ -22,7 +22,7 @@ class Telegram
 
     // ########################################
 
-    public function getCommand($commandAlias)
+    public function getCommandClass($commandAlias, $commandType = null)
     {
         $commands = $this->getCommands();
 
@@ -30,7 +30,21 @@ class Telegram
             return null;
         }
 
-        return isset($commands[$commandAlias]) ? $commands[$commandAlias] : null;
+        $commandAlias = strtolower($commandAlias);
+
+        if (!isset($commands[$commandAlias])) {
+            return null;
+        }
+
+        $command = $commands[$commandAlias];
+
+        if (!isset($command['class'])) {
+            throw new \Exception(); //todo
+        }
+
+        $validators = isset($command['validators']) ? $command['validators'] : [];
+
+        return [$command['class'], $validators];
     }
 
     // ########################################

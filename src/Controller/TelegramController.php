@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Service\Telegram\Auth\Checker as TelegramAuthChecker;
 use App\Service\Telegram\Package\Message\Factory as PackageMessageFactory;
+use App\Service\Telegram\Command\Loader as TelegramCommandLoader;
 
 class TelegramController extends AbstractController
 {
@@ -17,18 +18,19 @@ class TelegramController extends AbstractController
 
     /**
      * @Route("/telegram", name="telegram_index")
+     *
      * @param \App\Service\Telegram\Auth\Checker            $telegramAuthChecker
-     *
      * @param \App\Repository\TelegramUserRepository        $telegramUserRepository
-     *
      * @param \App\Service\Telegram\Package\Message\Factory $packageMessageFactory
+     * @param \App\Service\Telegram\Command\Loader          $telegramCommandLoader
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(
         TelegramAuthChecker $telegramAuthChecker,
         TelegramUserRepository $telegramUserRepository,
-        PackageMessageFactory $packageMessageFactory
+        PackageMessageFactory $packageMessageFactory,
+        TelegramCommandLoader $telegramCommandLoader
     ) {
         // ########################################
 
@@ -48,7 +50,7 @@ class TelegramController extends AbstractController
             $packageMessage = $packageMessageFactory->create($data);
         } catch (ValidateException $validateException) {
             //todo log
-            $message = $validateException->getMessage();
+            $message   = $validateException->getMessage();
             $inputData = $validateException->getInputData();
 
             return $this->json([
@@ -67,8 +69,15 @@ class TelegramController extends AbstractController
             );
         }
 
+        //process command
+        $telegramCommandLoader->process(
+            $user,
+            $packageMessage->getText(),
+            $packageMessage->getCommandType(),
+            $packageMessage->getDateTime()
+        );
 
-        dump($request);
+        //dump($request);
         return $this->render('base.html.twig');
 
         /*return $this->json([
