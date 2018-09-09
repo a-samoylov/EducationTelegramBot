@@ -1,0 +1,4 @@
+
+#Alias: Class
+commands:
+    start: \App\..
