@@ -10,11 +10,21 @@ namespace App\Service\Telegram\Command\Message;
 
 class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
 {
+    /** @var \App\Service\Telegram\Model\Methods\Send\Message\Factory */
+    private $sendMessageFactory = null;
+
     // ########################################
 
-    public function process()
+    protected function initialize()
     {
-        //todo сделать модель sendMessage
+        $this->sendMessageFactory = $this->getContainer()->get('telegram.send.message.factory');
+    }
+
+    protected function execute()
+    {
+        $sendMessageModel = $this->sendMessageFactory->create($this->getUser()->getChatId(), 'Hello');
+        $sendMessageModel->send();
+
         /*$result = $this->makeJsonRequest('sendMessage', [
             'chat_id'      => $this->getUser()->getChatId(),
             'text'         => 'Зарегаться',

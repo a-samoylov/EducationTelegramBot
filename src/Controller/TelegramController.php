@@ -27,10 +27,10 @@ class TelegramController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(
-        TelegramAuthChecker $telegramAuthChecker,
+        TelegramAuthChecker    $telegramAuthChecker,
         TelegramUserRepository $telegramUserRepository,
-        PackageMessageFactory $packageMessageFactory,
-        TelegramCommandLoader $telegramCommandLoader
+        PackageMessageFactory  $packageMessageFactory,
+        TelegramCommandLoader  $telegramCommandLoader
     ) {
         // ########################################
 

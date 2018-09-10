@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Methods\Request;
+namespace App\Service\Telegram\Model\Request;
 
 class Curl
 {

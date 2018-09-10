@@ -8,28 +8,53 @@
 
 namespace App\Service\Telegram\Command;
 
-use App\Entity\TelegramUser;
-
 abstract class BaseAbstract
 {
-    /** @var TelegramUser $user */
-    private $user;
+    /** @var \App\Entity\TelegramUser $user */
+    private $user = null;
+
+    /** @var \Psr\Container\ContainerInterface $user */
+    private $container = null;
 
     // ########################################
 
-    public function setUser(TelegramUser $user)
+    public function process()
     {
-        $this->user = $user;
+        $this->initialize();
+        $this->execute();
+
+        return 'success)'; //todo obj
     }
 
-    protected function getUser(): TelegramUser
+    // ########################################
+
+    protected function getContainer()
+    {
+       return $this->container;
+    }
+
+    public function setContainer(\Psr\Container\ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    // ########################################
+
+    protected function getUser(): \App\Entity\TelegramUser
     {
         return $this->user;
     }
 
+    public function setUser(\App\Entity\TelegramUser $user)
+    {
+        $this->user = $user;
+    }
+
     // ########################################
 
-    abstract public function process();
+    abstract protected function initialize();
+
+    abstract protected function execute();
 
     // ########################################
 }
