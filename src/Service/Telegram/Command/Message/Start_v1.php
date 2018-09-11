@@ -15,12 +15,14 @@ class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
 
     // ########################################
 
-    protected function initialize()
+    public function __construct(\App\Service\Telegram\Model\Methods\Send\Message\Factory $sendMessageFactory)
     {
-        $this->sendMessageFactory = $this->getContainer()->get('telegram.send.message.factory');
+        $this->sendMessageFactory = $sendMessageFactory;
     }
 
-    protected function execute()
+    // ########################################
+
+    public function process(): string
     {
         $sendMessageModel = $this->sendMessageFactory->create($this->getUser()->getChatId(), 'Hello');
         $sendMessageModel->send();
@@ -36,6 +38,8 @@ class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
                 ]
             ]
         ]);*/
+
+        return '';
     }
 
     // ########################################

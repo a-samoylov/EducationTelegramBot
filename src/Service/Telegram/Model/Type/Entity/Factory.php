@@ -6,17 +6,13 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Command;
-
+namespace App\Service\Telegram\Model\Type\Entity;
 
 class Factory
 {
     // ########################################
 
-    public function create($commandClass): BaseAbstract
-    {
-        return new $commandClass();
-    }
+
 
     // ########################################
 }

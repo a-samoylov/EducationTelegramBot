@@ -13,9 +13,6 @@ class Loader
     /** @var \App\Config\Telegram */
     private $telegramConfigs = null;
 
-    /** @var \App\Service\Telegram\Command\Factory */
-    private $commandFactory = null;
-
     /** @var \Psr\Container\ContainerInterface */
     private $container = null;
 
@@ -23,12 +20,10 @@ class Loader
 
     public function __construct(
         \App\Config\Telegram $telegramConfigs,
-        \App\Service\Telegram\Command\Factory $commandFactory,
         \Psr\Container\ContainerInterface $container
     ) {
         $this->telegramConfigs = $telegramConfigs;
-        $this->commandFactory  = $commandFactory;
-        $this->container = $container;
+        $this->container       = $container;
     }
 
     // ########################################
@@ -42,10 +37,13 @@ class Loader
     ) {
         list($commandClass, $commandValidators) = $this->telegramConfigs->getCommandClass($commandAlias, $commandType);
 
+        //todo get service alias
+        $serviceName = 'telegram.start.command';
+
+
         /** @var \App\Service\Telegram\Command\BaseAbstract $command */
-        $command = $this->commandFactory->create($commandClass);
+        $command = $this->container->get($serviceName);
         $command->setUser($telegramUser);
-        $command->setContainer($this->container);
 
         return $command->process();
     }

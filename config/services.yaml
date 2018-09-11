@@ -40,3 +40,10 @@ services:
         alias: App\Service\Telegram\Model\Methods\Send\Message\Factory
         public: true
 
+    App\Service\Telegram\Command\Message\Start_v1:
+        arguments:
+            $sendMessageFactory: '@telegram.send.message.factory'
+
+    telegram.start.command:
+        alias: App\Service\Telegram\Command\Message\Start_v1
+        public: true

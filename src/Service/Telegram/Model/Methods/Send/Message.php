@@ -8,8 +8,6 @@
 
 namespace App\Service\Telegram\Model\Methods\Send;
 
-use \App\Service\Telegram\Model\Request\Json as JsonRequest;
-
 class Message extends BaseAbstract
 {
     private const HTML_PARSE_MODE     = 'HTML';
@@ -29,11 +27,11 @@ class Message extends BaseAbstract
     // ########################################
 
     /**
-     * @param string|integer $chatId
-     * @param string         $text
-     * @param JsonRequest    $jsonRequest
+     * @param string|integer                           $chatId
+     * @param string                                   $text
+     * @param \App\Service\Telegram\Model\Request\Json $jsonRequest
      */
-    public function __construct($chatId, string $text, JsonRequest $jsonRequest)
+    public function __construct($chatId, string $text, \App\Service\Telegram\Model\Request\Json $jsonRequest)
     {
         $this->chatId = $chatId;
         $this->text   = $text;

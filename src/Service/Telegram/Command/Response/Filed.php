@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Command\Response;
+namespace App\Service\Telegram\Command\Response;
 
 class Filed
 {

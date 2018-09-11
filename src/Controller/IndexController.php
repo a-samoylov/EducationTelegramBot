@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -10,29 +11,13 @@ class IndexController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(
-        \Psr\Container\ContainerInterface $container,
-        \App\Service\Telegram\Model\Methods\Send\Message\Factory $factory
-    ) {
+    public function index()
+    {
+        $a = \App\Service\Telegram\Model\Type\User::class;
 
-        $a = $factory->create(1, '21');
-        //$logger = $container->get('app.config');
-
-        $logger = $this->container->get('doctrine.dbal.default_connection');
-        //$a = $this->getParameter('api_user');
-
-        $configDirectories = ['C:\OSPanel\domains\telegram-bot-platform\config'];
-
-        $fileLocator   = new FileLocator($configDirectories);
-        $yamlUserFiles = $fileLocator->locate('routes.yaml', null, false);
-
-        $a            = file_get_contents('C:\OSPanel\domains\telegram-bot-platform\config\services.yaml');
-        $configValues = Yaml::parse($a);
-
-        $treeBuilder = new TreeBuilder();
-        $rootNode    = $treeBuilder->root('doctrine');
-
-        $a = 1;
+        $reflection = new ReflectionClass(\App\Service\Telegram\Model\Type\User::class);
+        $method = $reflection->getMethod('get');
+        $a = $method->getDocComment();
 
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',

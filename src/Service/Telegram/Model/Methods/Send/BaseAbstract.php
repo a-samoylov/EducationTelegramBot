@@ -8,16 +8,14 @@
 
 namespace App\Service\Telegram\Model\Methods\Send;
 
-use \App\Service\Telegram\Model\Request\Json as JsonRequest;
-
 abstract class BaseAbstract
 {
     // ########################################
 
-    /** @var JsonRequest */
+    /** @var \App\Service\Telegram\Model\Request\Json */
     private $jsonRequest = null;
 
-    public function __construct(JsonRequest $jsonRequest)
+    public function __construct(\App\Service\Telegram\Model\Request\Json $jsonRequest)
     {
         $this->jsonRequest = $jsonRequest;
     }

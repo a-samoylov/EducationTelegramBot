@@ -13,31 +13,6 @@ abstract class BaseAbstract
     /** @var \App\Entity\TelegramUser $user */
     private $user = null;
 
-    /** @var \Psr\Container\ContainerInterface $user */
-    private $container = null;
-
-    // ########################################
-
-    public function process()
-    {
-        $this->initialize();
-        $this->execute();
-
-        return 'success)'; //todo obj
-    }
-
-    // ########################################
-
-    protected function getContainer()
-    {
-       return $this->container;
-    }
-
-    public function setContainer(\Psr\Container\ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
     // ########################################
 
     protected function getUser(): \App\Entity\TelegramUser
@@ -52,9 +27,7 @@ abstract class BaseAbstract
 
     // ########################################
 
-    abstract protected function initialize();
-
-    abstract protected function execute();
+    abstract public function process(): string;//todo responseObj
 
     // ########################################
 }
