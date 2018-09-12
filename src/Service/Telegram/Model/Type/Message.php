@@ -20,35 +20,57 @@ class Message
     /**
      * Optional. Sender name. Can be empty for messages sent to channels
      *
-     * @var \TelegramBot\Api\Types\User
+     * @var User
      */
     protected $from;
 
     /**
      * Date the message was sent in Unix time
      *
-     * @var int
+     * @var \DateTime
      */
     protected $date;
 
     /**
      * Conversation the message belongs to — user in case of a private message, GroupChat in case of a group
      *
-     * @var \TelegramBot\Api\Types\Chat
+     * @var Chat
      */
     protected $chat;
 
     /**
      * Optional. For forwarded messages, sender of the original message
      *
-     * @var \TelegramBot\Api\Types\User
+     * @var User
      */
     protected $forwardFrom;
 
     /**
-     * Optional. For forwarded messages, date the original message was sent in Unix time
+     * Optional. For messages forwarded from channels, information about the original channel
+     *
+     * @var Chat
+     */
+    protected $forwardFromChat;
+
+    /**
+     * Optional. For messages forwarded from channels, identifier of the original message in the channel
      *
      * @var int
+     */
+    protected $forwardFromMessageId;
+
+
+    /**
+     * Optional. For messages forwarded from channels, signature of the post author if present
+     *
+     * @var string
+     */
+    protected $forwardSignature;
+
+    /**
+     * Optional. For forwarded messages, date the original message was sent in Unix time
+     *
+     * @var \DateTime
      */
     protected $forwardDate;
 
@@ -56,9 +78,30 @@ class Message
      * Optional. For replies, the original message. Note that the Message object in this field will not contain further
      * reply_to_message fields even if it itself is a reply.
      *
-     * @var \TelegramBot\Api\Types\Message
+     * @var Message
      */
     protected $replyToMessage;
+
+    /**
+     * Optional. Date the message was last edited in Unix time
+     *
+     * @var \DateTime
+     */
+    protected $editDate;
+
+    /**
+     * Optional. The unique identifier of a media message group this message belongs to
+     *
+     * @var int
+     */
+    protected $mediaGroupId;
+
+    /**
+     * Optional. Signature of the post author for messages in channels
+     *
+     * @var string
+     */
+    protected $authorSignature;
 
     /**
      * Optional. For text messages, the actual UTF-8 text of the message
@@ -71,85 +114,120 @@ class Message
      * Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text.
      * array of \TelegramBot\Api\Types\MessageEntity
      *
-     * @var array
+     * @var MessageEntity[]
      */
     protected $entities;
 
     /**
+     * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption
+     *
+     * @var MessageEntity[]
+     */
+    protected $captionEntities;
+
+    /**
      * Optional. Message is an audio file, information about the file
      *
-     * @var \TelegramBot\Api\Types\Audio
+     * @var Audio
      */
     protected $audio;
 
     /**
      * Optional. Message is a general file, information about the file
      *
-     * @var \TelegramBot\Api\Types\Document
+     * @var Document
      */
     protected $document;
 
     /**
-     * Optional. Message is a photo, available sizes of the photo
-     * array of \TelegramBot\Api\Types\Photo
+     * Optional. Message is an animation, information about the animation.
+     * For backward compatibility, when this field is set, the document field will also be set
      *
-     * @var array
+     * @var Animation
+     */
+    protected $animation;
+
+    /**
+     * Optional. Message is a game, information about the game.
+     *
+     * @var Game
+     */
+    protected $game;
+
+    /**
+     * Optional. Message is a photo, available sizes of the photo
+     *
+     * @var PhotoSize[]
      */
     protected $photo;
 
     /**
      * Optional. Message is a sticker, information about the sticker
      *
-     * @var \TelegramBot\Api\Types\Sticker
+     * @var Sticker
      */
     protected $sticker;
 
     /**
      * Optional. Message is a video, information about the video
      *
-     * @var \TelegramBot\Api\Types\Video
+     * @var Video
      */
     protected $video;
 
     /**
      * Optional. Message is a voice message, information about the file
      *
-     * @var \TelegramBot\Api\Types\Voice
+     * @var Voice
      */
     protected $voice;
 
     /**
+     * Optional. Message is a video note, information about the video message
+     *
+     * @var VoiceNote
+     */
+    protected $voiceNote;
+
+    /**
+     * Optional. Caption for the audio, document, photo, video or voice, 0-200 characters
+     *
+     * @var string
+     */
+    protected $caption;
+
+    /**
      * Optional. Message is a shared contact, information about the contact
      *
-     * @var \TelegramBot\Api\Types\Contact
+     * @var Contact
      */
     protected $contact;
 
     /**
      * Optional. Message is a shared location, information about the location
      *
-     * @var \TelegramBot\Api\Types\Location
+     * @var Location
      */
     protected $location;
 
     /**
      * Optional. Message is a venue, information about the venue
      *
-     * @var \TelegramBot\Api\Types\Venue
+     * @var Venue
      */
     protected $venue;
 
     /**
      * Optional. A new member was added to the group, information about them (this member may be bot itself)
      *
-     * @var \TelegramBot\Api\Types\User
+     * @var User
      */
     protected $newChatMember;
 
     /**
      * Optional. A member was removed from the group, information about them (this member may be bot itself)
      *
-     * @var \TelegramBot\Api\Types\User
+     * @var User
      */
     protected $leftChatMember;
 
@@ -163,7 +241,7 @@ class Message
     /**
      * Optional. A group photo was change to this value
      *
-     * @var mixed
+     * @var PhotoSize[]
      */
     protected $newChatPhoto;
 
@@ -182,19 +260,11 @@ class Message
     protected $groupChatCreated;
 
     /**
-     * Optional. Text description of the video (usually empty)
-     *
-     * @var string
-     */
-    protected $caption;
-
-
-    /**
      * Optional. Service message: the supergroup has been created
      *
      * @var bool
      */
-    protected $supergroupChatCreated;
+    protected $superGroupChatCreated;
 
     /**
      * Optional. Service message: the channel has been created
@@ -242,34 +312,18 @@ class Message
     protected $successfulPayment;
 
     /**
-     * Optional. For messages forwarded from channels, signature of the post author if present
-     *
-     * @var string
-     */
-    protected $forwardSignature;
-
-    /**
-     * Optional. Signature of the post author for messages in channels
-     *
-     * @var string
-     */
-    protected $authorSignature;
-
-    /**
-     * Optional. For messages with a caption, special entities like usernames,
-     * URLs, bot commands, etc. that appear in the caption
-     *
-     * @var ArrayOfMessageEntity
-     */
-    protected $captionEntities;
-
-    /**
      * Optional. The domain name of the website on which the user has logged in.
      *
      * @var string
      */
     protected $connectedWebsite;
 
-    // ########################################
+    /**
+     * Optional. Telegram Passport data
+     *
+     * @var PassportData
+     */
+    protected $passportData;
+
     // ########################################
 }

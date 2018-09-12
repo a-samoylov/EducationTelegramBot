@@ -10,34 +10,44 @@ namespace App\Service\Telegram\Command;
 
 class Processor
 {
-    /** @var \App\Config\Telegram */
+    /**
+     * @var \App\Config\Telegram
+     */
     private $telegramConfigs = null;
 
-    /** @var \Psr\Container\ContainerInterface */
+    /**
+     * @var \Psr\Container\ContainerInterface
+     */
     private $container = null;
+
+    /**
+     * @var \App\Service\Telegram\Command\Resolver
+     */
+    private $resolver;
 
     // ########################################
 
     public function __construct(
         \App\Config\Telegram $telegramConfigs,
-        \Psr\Container\ContainerInterface $container
+        \Psr\Container\ContainerInterface $container,
+        Resolver $resolver
     ) {
         $this->telegramConfigs = $telegramConfigs;
         $this->container       = $container;
+        $this->resolver        = $resolver;
     }
 
     // ########################################
 
-    public function process($update) {
-        //list($commandClass, $commandValidators) = $this->telegramConfigs->getCommandClass($commandAlias, $commandType);
-
-        //todo get service alias
-        $serviceName = 'telegram.start.command';
-
-
+    /**
+     * @param \App\Service\Telegram\Model\Type\Update\BaseAbstract $update
+     *
+     * @return string
+     */
+    public function process($update)
+    {
         /** @var \App\Service\Telegram\Command\BaseAbstract $command */
-        $command = $this->container->get($serviceName);
-        //$command->setUser($telegramUser);
+        $command = $this->container->get($this->resolver->resolve($update));
 
         return $command->process();
     }

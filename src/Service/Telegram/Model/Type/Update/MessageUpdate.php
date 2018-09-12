@@ -8,18 +8,8 @@
 
 namespace App\Service\Telegram\Model\Type\Update;
 
-class MessageUpdate
+class MessageUpdate extends BaseAbstract
 {
-    /**
-     * The update‘s unique identifier.
-     * Update identifiers start from a certain positive number and increase sequentially.
-     * This ID becomes especially handy if you’re using Webhooks, since it allows you to ignore repeated updates or
-     * to restore the correct update sequence, should they get out of order.
-     *
-     * @var integer
-     */
-    protected $updateId;
-
     /**
      * Optional. New incoming message of any kind — text, photo, sticker, etc.
      *
@@ -35,19 +25,11 @@ class MessageUpdate
      */
     public function __construct(int $updateId, \App\Service\Telegram\Model\Type\Message $message)
     {
-        $this->updateId = $updateId;
+        parent::__construct($updateId);
         $this->message  = $message;
     }
 
     // ########################################
-
-    /**
-     * @return int
-     */
-    public function getUpdateId(): int
-    {
-        return $this->updateId;
-    }
 
     /**
      * @return \App\Service\Telegram\Model\Type\Message
