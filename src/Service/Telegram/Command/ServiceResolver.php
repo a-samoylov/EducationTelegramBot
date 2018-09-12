@@ -8,7 +8,7 @@
 
 namespace App\Service\Telegram\Command;
 
-class Resolver
+class ServiceResolver
 {
     // ########################################
 
@@ -17,7 +17,7 @@ class Resolver
      *
      * @return string
      */
-    public function resolve($update): string
+    public function resolve($update): ?string
     {
         //todo instance of by updates, get params
 

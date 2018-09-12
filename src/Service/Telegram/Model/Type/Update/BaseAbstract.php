@@ -8,7 +8,7 @@
 
 namespace App\Service\Telegram\Model\Type\Update;
 
-class BaseAbstract
+abstract class BaseAbstract
 {
     // ########################################
 

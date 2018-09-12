@@ -21,20 +21,20 @@ class Processor
     private $container = null;
 
     /**
-     * @var \App\Service\Telegram\Command\Resolver
+     * @var \App\Service\Telegram\Command\ServiceResolver
      */
-    private $resolver;
+    private $serviceResolver;
 
     // ########################################
 
     public function __construct(
         \App\Config\Telegram $telegramConfigs,
         \Psr\Container\ContainerInterface $container,
-        Resolver $resolver
+        ServiceResolver $serviceResolver
     ) {
         $this->telegramConfigs = $telegramConfigs;
         $this->container       = $container;
-        $this->resolver        = $resolver;
+        $this->serviceResolver = $serviceResolver;
     }
 
     // ########################################
@@ -46,8 +46,13 @@ class Processor
      */
     public function process($update)
     {
+        $serviceName = $this->serviceResolver->resolve($update);
+        if (is_null($serviceName)) {
+            //todo log
+        }
+
         /** @var \App\Service\Telegram\Command\BaseAbstract $command */
-        $command = $this->container->get($this->resolver->resolve($update));
+        $command = $this->container->get($serviceName);
 
         return $command->process();
     }
