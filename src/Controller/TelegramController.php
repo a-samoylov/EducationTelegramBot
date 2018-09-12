@@ -10,7 +10,8 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Service\Telegram\Auth\Checker as TelegramAuthChecker;
 use App\Service\Telegram\Package\Message\Factory as PackageMessageFactory;
-use App\Service\Telegram\Command\Loader as TelegramCommandLoader;
+use App\Service\Telegram\Command\Processor as TelegramCommandProcessor;
+use App\Service\Telegram\Model\Type\Update\Resolver as UpdateResolver;
 
 class TelegramController extends AbstractController
 {
@@ -19,18 +20,20 @@ class TelegramController extends AbstractController
     /**
      * @Route("/telegram", name="telegram_index")
      *
-     * @param \App\Service\Telegram\Auth\Checker            $telegramAuthChecker
-     * @param \App\Repository\TelegramUserRepository        $telegramUserRepository
-     * @param \App\Service\Telegram\Package\Message\Factory $packageMessageFactory
-     * @param \App\Service\Telegram\Command\Loader          $telegramCommandLoader
+     * @param \App\Service\Telegram\Auth\Checker               $telegramAuthChecker
+     * @param \App\Repository\TelegramUserRepository           $telegramUserRepository
+     * @param \App\Service\Telegram\Package\Message\Factory    $packageMessageFactory
+     * @param \App\Service\Telegram\Command\Processor          $telegramCommandProcessor
+     * @param \App\Service\Telegram\Model\Type\Update\Resolver $updateResolver
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(
-        TelegramAuthChecker    $telegramAuthChecker,
+        TelegramAuthChecker $telegramAuthChecker,
         TelegramUserRepository $telegramUserRepository,
-        PackageMessageFactory  $packageMessageFactory,
-        TelegramCommandLoader  $telegramCommandLoader
+        PackageMessageFactory $packageMessageFactory,
+        TelegramCommandProcessor $telegramCommandProcessor,
+        UpdateResolver $updateResolver
     ) {
         // ########################################
 
@@ -45,20 +48,17 @@ class TelegramController extends AbstractController
             ]);
         }
 
-        try {
-            $data = (array)json_decode($request->getContent(), true);//php://input
-            $packageMessage = $packageMessageFactory->create($data);
-        } catch (ValidateException $validateException) {
-            //todo log
-            $message   = $validateException->getMessage();
-            $inputData = $validateException->getInputData();
+        $data = (array)json_decode($request->getContent(), true);//php://input
+        //$packageMessage = $packageMessageFactory->create($data);
 
+        $update = $updateResolver->resolve($data);
+        if (is_null($update)) {
             return $this->json([
                 'message' => 'Error',
             ]);
         }
 
-        $user = $telegramUserRepository->findByChatId($packageMessage->getUserData()->getChatId());
+        /*$user = $telegramUserRepository->findByChatId($packageMessage->getUserData()->getChatId());
         if (is_null($user)) {
             $user = $telegramUserRepository->create(
                 $packageMessage->getUserData()->getChatId(),
@@ -67,15 +67,10 @@ class TelegramController extends AbstractController
                 $packageMessage->getUserData()->isBot(),
                 $packageMessage->getUserData()->getLanguageCode()
             );
-        }
+        }*/
 
         //process command
-        $telegramCommandLoader->process(
-            $user,
-            $packageMessage->getText(),
-            $packageMessage->getCommandType(),
-            $packageMessage->getDateTime()
-        );
+        $telegramCommandProcessor->process($update);
 
         //dump($request);
         return $this->render('base.html.twig');
@@ -84,7 +79,6 @@ class TelegramController extends AbstractController
             'message' => 'Welcome to your new controller!',
             'path' => 'src/Controller/IndexController.php',
         ]);*/
-
         // ########################################
     }
 

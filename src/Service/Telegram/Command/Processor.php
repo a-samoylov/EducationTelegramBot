@@ -8,7 +8,7 @@
 
 namespace App\Service\Telegram\Command;
 
-class Loader
+class Processor
 {
     /** @var \App\Config\Telegram */
     private $telegramConfigs = null;
@@ -28,14 +28,8 @@ class Loader
 
     // ########################################
 
-    public function process(
-        \App\Entity\TelegramUser $telegramUser,
-        string $commandAlias,
-        ?string $commandType,
-        \DateTime $dateTime,
-        $params = []
-    ) {
-        list($commandClass, $commandValidators) = $this->telegramConfigs->getCommandClass($commandAlias, $commandType);
+    public function process($update) {
+        //list($commandClass, $commandValidators) = $this->telegramConfigs->getCommandClass($commandAlias, $commandType);
 
         //todo get service alias
         $serviceName = 'telegram.start.command';
@@ -43,7 +37,7 @@ class Loader
 
         /** @var \App\Service\Telegram\Command\BaseAbstract $command */
         $command = $this->container->get($serviceName);
-        $command->setUser($telegramUser);
+        //$command->setUser($telegramUser);
 
         return $command->process();
     }
