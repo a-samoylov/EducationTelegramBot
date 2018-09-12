@@ -60,9 +60,9 @@ class User
         int $id,
         bool $isBot,
         string $firstName,
-        string $lastName,
-        string $username,
-        string $languageCode
+        string $lastName = null,
+        string $username = null,
+        string $languageCode = null
     ) {
         $this->id           = $id;
         $this->isBot        = $isBot;

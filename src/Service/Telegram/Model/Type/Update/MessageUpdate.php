@@ -26,7 +26,7 @@ class MessageUpdate extends BaseAbstract
     public function __construct(int $updateId, \App\Service\Telegram\Model\Type\Message $message)
     {
         parent::__construct($updateId);
-        $this->message  = $message;
+        $this->message = $message;
     }
 
     // ########################################

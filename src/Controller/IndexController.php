@@ -13,11 +13,19 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-        $a = \App\Service\Telegram\Model\Type\User::class;
+        $a = new \App\Service\Telegram\Model\Type\User(
+            1,
+            true,
+            'ads',
+            '',
+            '',
+            null
+        );
 
-        $reflection = new ReflectionClass(\App\Service\Telegram\Model\Type\User::class);
+
+        /*$reflection = new ReflectionClass(\App\Service\Telegram\Model\Type\User::class);
         $method = $reflection->getMethod('get');
-        $a = $method->getDocComment();
+        $a = $method->getDocComment();*/
 
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',

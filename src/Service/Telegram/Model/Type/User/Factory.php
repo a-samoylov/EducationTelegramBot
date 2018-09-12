@@ -8,22 +8,48 @@
 
 namespace App\Service\Telegram\Model\Type\User;
 
-use App\Service\Telegram\Model\Type\User;
+use App\Service\Model\ValidateException;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 
 class Factory implements FactoryInterface
 {
     // ########################################
 
-    public function create(array $data): User
+    public function create(array $data): \App\Service\Telegram\Model\Type\User
     {
-        return new User(
+        //todo validation
+
+        $lastName = null;
+        if (!empty($data['last_name'])) {
+            if (!is_string($data['last_name'])) {
+                throw new ValidateException(self::class, 'last_name');
+            }
+            $lastName = $data['last_name'];
+        }
+
+        $username = null;
+        if (!empty($data['username'])) {
+            if (!is_string($data['username'])) {
+                throw new ValidateException(self::class, 'username');
+            }
+            $username = $data['username'];
+        }
+
+        $languageCode = null;
+        if (!empty($data['language_code'])) {
+            if (!is_string($data['language_code'])) {
+                throw new ValidateException(self::class, 'language_code');
+            }
+            $languageCode = $data['language_code'];
+        }
+
+        return new \App\Service\Telegram\Model\Type\User(
             $data['id'],
             $data['is_bot'],
             $data['first_name'],
-            $data['last_name'],
-            $data['username'],
-            $data['language_code']
+            $lastName,
+            $username,
+            $languageCode
         );
     }
 

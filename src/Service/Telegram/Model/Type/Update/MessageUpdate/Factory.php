@@ -8,10 +8,10 @@
 
 namespace App\Service\Telegram\Model\Type\Update\MessageUpdate;
 
+use App\Service\Model\ValidateException;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 use App\Service\Telegram\Model\Type\Update\MessageUpdate;
 use App\Service\Telegram\Model\Type\Message\Factory as MessageFactory;
-use App\Service\Telegram\Model\Type\Update\MessageUpdate\Factory as MessageUpdateFactory;
 
 class Factory implements FactoryInterface
 {
@@ -33,6 +33,10 @@ class Factory implements FactoryInterface
 
     public function create(array $data): MessageUpdate
     {
+        if (empty($data['update_id']) && is_int($data['update_id'])) {
+            throw new ValidateException(self::class, 'update_id');
+        }
+
         return new MessageUpdate(
             $data['update_id'],
             $this->messageFactory->create($data['message'])

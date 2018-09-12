@@ -51,12 +51,13 @@ class TelegramController extends AbstractController
         $data = (array)json_decode($request->getContent(), true);//php://input
         //$packageMessage = $packageMessageFactory->create($data);
 
-        $update = $updateResolver->resolve($data);
-        if (is_null($update)) {
-            return $this->json([
-                'message' => 'Error',
-            ]);
+        try {
+            $update = $updateResolver->resolve($data);
+        } catch (ValidateException $exception) {
+            //todo log
+            return $this->render('base.html.twig');
         }
+
 
         /*$user = $telegramUserRepository->findByChatId($packageMessage->getUserData()->getChatId());
         if (is_null($user)) {

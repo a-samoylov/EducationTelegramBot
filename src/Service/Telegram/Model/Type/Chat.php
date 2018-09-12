@@ -108,17 +108,17 @@ class Chat
     public function __construct(
         int $id,
         string $type,
-        string $title,
-        string $username,
-        string $firstName,
-        string $lastName,
-        bool $allMembersAreAdministrators,
-        ChatPhoto $photo,
-        string $description,
-        string $inviteLink,
-        Message $pinnedMessage,
-        string $stickerSetName,
-        bool $canSetStickerSet
+        string $title = null,
+        string $username = null,
+        string $firstName = null,
+        string $lastName = null,
+        bool $allMembersAreAdministrators = null,
+        ChatPhoto $photo = null,
+        string $description = null,
+        string $inviteLink = null,
+        Message $pinnedMessage = null,
+        string $stickerSetName = null,
+        bool $canSetStickerSet = null
     ) {
         $this->id                          = $id;
         $this->type                        = $type;
