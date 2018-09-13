@@ -11,7 +11,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index()
+    public function index(LoggerInterface $logger)
     {
         /*$reflection = new ReflectionClass(\App\Service\Telegram\Model\Type\User::class);
         $method = $reflection->getMethod('get');

@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\Model\Exception\Validate as ValidateException;
+use App\Model\Exception\Validate as ValidateException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
