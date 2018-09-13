@@ -8,6 +8,8 @@
 
 namespace App\Service\Telegram\Command\Message;
 
+use App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton;
+
 class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
 {
     /** @var \App\Service\Telegram\Model\Methods\Send\Message\Factory */
@@ -24,7 +26,13 @@ class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
 
     public function process(): string
     {
-        $sendMessageModel = $this->sendMessageFactory->create($this->getUser()->getChatId(), 'Hello');
+        $sendMessageModel = $this->sendMessageFactory->create(367843856, 'Hello');
+
+        //todo factory
+        $inlineKeyboardButton = new InlineKeyboardButton('hi');
+        $inlineKeyboardButton2 = new InlineKeyboardButton('hi2');
+        $sendMessageModel->setReplyMarkup([$inlineKeyboardButton, $inlineKeyboardButton2]);
+
         $sendMessageModel->send();
 
         /*$result = $this->makeJsonRequest('sendMessage', [

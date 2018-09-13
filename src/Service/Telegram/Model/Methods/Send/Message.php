@@ -15,14 +15,40 @@ class Message extends BaseAbstract
 
     // ########################################
 
+    /**
+     * @var int
+     */
     private $chatId = null;
-    private $text   = null;
 
+    /**
+     * @var string
+     */
+    private $text = null;
+
+    /**
+     * @var string
+     */
     private $parseMode = null;
 
+    /**
+     * @var bool
+     */
     private $disableWebPagePreview = null;
-    private $disableNotification   = null;
-    private $replyToMessageId      = null;
+
+    /**
+     * @var bool
+     */
+    private $disableNotification = null;
+
+    /**
+     * @var int
+     */
+    private $replyToMessageId = null;
+
+    /**
+     * @var array
+     */
+    private $replyMarkup = null;
 
     // ########################################
 
@@ -48,55 +74,85 @@ class Message extends BaseAbstract
 
     protected function getRequestParams(): array
     {
-        return [
+        $result = [
             'chat_id' => $this->chatId,
             'text'    => $this->text,
         ];
+
+        if ($this->hasReplyMarkup()) {
+            if (current($this->replyMarkup) instanceof \App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton) {
+                $inlineKeyboardButtonsArray = [];
+
+                /**
+                 * @var \App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton $inlineKeyboardButton
+                 */
+                foreach ($this->replyMarkup as $inlineKeyboardButton) {
+                    $inlineKeyboardButtonsArray[] = [
+                        'text' => $inlineKeyboardButton->getText(),
+                        'callback_data' => 'asd'
+                    ];
+                }
+
+                $result['reply_markup'] = [];
+                $result['reply_markup']['inline_keyboard'] = [];
+                $result['reply_markup']['inline_keyboard'][] = $inlineKeyboardButtonsArray;
+            }
+        }
+
+        return $result;
     }
 
     // ########################################
 
-    public function setParseMarkdownMode()
+    public function setParseMarkdownMode(): void
     {
         $this->parseMode = self::MARKDOWN_PARSE_MODE;
     }
 
-    public function setParseHtmlMode()
+    public function setParseHtmlMode(): void
     {
         $this->parseMode = self::HTML_PARSE_MODE;
     }
 
-    public function setParseDefaultMode()
+    public function setParseDefaultMode(): void
     {
         $this->parseMode = null;
     }
 
     // ########################################
 
-    public function setDisableWebPagePreview(bool $value)
+    public function setDisableWebPagePreview(bool $value): void
     {
         $this->disableWebPagePreview = $value;
     }
 
     // ########################################
 
-    public function setDisableNotification(bool $value)
+    public function setDisableNotification(bool $value): void
     {
         $this->disableNotification = $value;
     }
 
     // ########################################
 
-    public function setReplyToMessageId(int $value)
+    public function setReplyToMessageId(int $replyToMessageId): void
     {
-        $this->replyToMessageId = $value;
+        $this->replyToMessageId = $replyToMessageId;
     }
 
     // ########################################
 
-    public function setReplyMarkup()
+    /**
+     * @param \App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton[] $replyMarkup
+     */
+    public function setReplyMarkup(array $replyMarkup)
     {
-        //todo
+        $this->replyMarkup = $replyMarkup;
+    }
+
+    public function hasReplyMarkup(): bool
+    {
+        return !is_null($this->replyMarkup);
     }
 
     // ########################################

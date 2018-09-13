@@ -330,141 +330,18 @@ class Message
     /**
      * Message constructor.
      *
-     * @param int                                                $messageId
-     * @param \App\Service\Telegram\Model\Type\User              $from
-     * @param \DateTime                                          $date
-     * @param \App\Service\Telegram\Model\Type\Chat              $chat
-     * @param \App\Service\Telegram\Model\Type\User              $forwardFrom
-     * @param \App\Service\Telegram\Model\Type\Chat              $forwardFromChat
-     * @param int                                                $forwardFromMessageId
-     * @param string                                             $forwardSignature
-     * @param \DateTime                                          $forwardDate
-     * @param \App\Service\Telegram\Model\Type\Message           $replyToMessage
-     * @param \DateTime                                          $editDate
-     * @param int                                                $mediaGroupId
-     * @param string                                             $authorSignature
-     * @param string                                             $text
-     * @param \App\Service\Telegram\Model\Type\MessageEntity[]   $entities
-     * @param \App\Service\Telegram\Model\Type\MessageEntity[]   $captionEntities
-     * @param \App\Service\Telegram\Model\Type\Audio             $audio
-     * @param \App\Service\Telegram\Model\Type\Document          $document
-     * @param \App\Service\Telegram\Model\Type\Animation         $animation
-     * @param \App\Service\Telegram\Model\Type\Game              $game
-     * @param \App\Service\Telegram\Model\Type\PhotoSize[]       $photo
-     * @param \App\Service\Telegram\Model\Type\Sticker           $sticker
-     * @param \App\Service\Telegram\Model\Type\Video             $video
-     * @param \App\Service\Telegram\Model\Type\Voice             $voice
-     * @param \App\Service\Telegram\Model\Type\VoiceNote         $voiceNote
-     * @param string                                             $caption
-     * @param \App\Service\Telegram\Model\Type\Contact           $contact
-     * @param \App\Service\Telegram\Model\Type\Location          $location
-     * @param \App\Service\Telegram\Model\Type\Venue             $venue
-     * @param \App\Service\Telegram\Model\Type\User              $newChatMember
-     * @param \App\Service\Telegram\Model\Type\User              $leftChatMember
-     * @param string                                             $newChatTitle
-     * @param \App\Service\Telegram\Model\Type\PhotoSize[]       $newChatPhoto
-     * @param bool                                               $deleteChatPhoto
-     * @param bool                                               $groupChatCreated
-     * @param bool                                               $superGroupChatCreated
-     * @param bool                                               $channelChatCreated
-     * @param int                                                $migrateToChatId
-     * @param int                                                $migrateFromChatId
-     * @param \App\Service\Telegram\Model\Type\Message           $pinnedMessage
-     * @param \App\Service\Telegram\Model\Type\Invoice           $invoice
-     * @param \App\Service\Telegram\Model\Type\SuccessfulPayment $successfulPayment
-     * @param string                                             $connectedWebsite
-     * @param \App\Service\Telegram\Model\Type\PassportData      $passportData
+     * @param int                                   $messageId
+     * @param \DateTime                             $date
+     * @param \App\Service\Telegram\Model\Type\Chat $chat
      */
     public function __construct(
         int $messageId,
         \DateTime $date,
-        \App\Service\Telegram\Model\Type\Chat $chat,
-        \App\Service\Telegram\Model\Type\User $from = null,
-        \App\Service\Telegram\Model\Type\User $forwardFrom = null,
-        \App\Service\Telegram\Model\Type\Chat $forwardFromChat = null,
-        int $forwardFromMessageId = null,
-        string $forwardSignature = null,
-        \DateTime $forwardDate = null,
-        \App\Service\Telegram\Model\Type\Message $replyToMessage = null,
-        \DateTime $editDate = null,
-        int $mediaGroupId = null,
-        string $authorSignature = null,
-        string $text = null,
-        array $entities = null,
-        array $captionEntities = null,
-        \App\Service\Telegram\Model\Type\Audio $audio = null,
-        \App\Service\Telegram\Model\Type\Document $document = null,
-        \App\Service\Telegram\Model\Type\Animation $animation = null,
-        \App\Service\Telegram\Model\Type\Game $game = null,
-        array $photo = null,
-        \App\Service\Telegram\Model\Type\Sticker $sticker = null,
-        \App\Service\Telegram\Model\Type\Video $video = null,
-        \App\Service\Telegram\Model\Type\Voice $voice = null,
-        \App\Service\Telegram\Model\Type\VoiceNote $voiceNote = null,
-        string $caption = null,
-        \App\Service\Telegram\Model\Type\Contact $contact = null,
-        \App\Service\Telegram\Model\Type\Location $location = null,
-        \App\Service\Telegram\Model\Type\Venue $venue = null,
-        \App\Service\Telegram\Model\Type\User $newChatMember = null,
-        \App\Service\Telegram\Model\Type\User $leftChatMember = null,
-        string $newChatTitle = null,
-        array $newChatPhoto = null,
-        bool $deleteChatPhoto = null,
-        bool $groupChatCreated = null,
-        bool $superGroupChatCreated = null,
-        bool $channelChatCreated = null,
-        int $migrateToChatId = null,
-        int $migrateFromChatId = null,
-        \App\Service\Telegram\Model\Type\Message $pinnedMessage = null,
-        \App\Service\Telegram\Model\Type\Invoice $invoice = null,
-        \App\Service\Telegram\Model\Type\SuccessfulPayment $successfulPayment = null,
-        string $connectedWebsite = null,
-        \App\Service\Telegram\Model\Type\PassportData $passportData = null
+        \App\Service\Telegram\Model\Type\Chat $chat
     ) {
         $this->messageId             = $messageId;
-        $this->from                  = $from;
         $this->date                  = $date;
         $this->chat                  = $chat;
-        $this->forwardFrom           = $forwardFrom;
-        $this->forwardFromChat       = $forwardFromChat;
-        $this->forwardFromMessageId  = $forwardFromMessageId;
-        $this->forwardSignature      = $forwardSignature;
-        $this->forwardDate           = $forwardDate;
-        $this->replyToMessage        = $replyToMessage;
-        $this->editDate              = $editDate;
-        $this->mediaGroupId          = $mediaGroupId;
-        $this->authorSignature       = $authorSignature;
-        $this->text                  = $text;
-        $this->entities              = $entities;
-        $this->captionEntities       = $captionEntities;
-        $this->audio                 = $audio;
-        $this->document              = $document;
-        $this->animation             = $animation;
-        $this->game                  = $game;
-        $this->photo                 = $photo;
-        $this->sticker               = $sticker;
-        $this->video                 = $video;
-        $this->voice                 = $voice;
-        $this->voiceNote             = $voiceNote;
-        $this->caption               = $caption;
-        $this->contact               = $contact;
-        $this->location              = $location;
-        $this->venue                 = $venue;
-        $this->newChatMember         = $newChatMember;
-        $this->leftChatMember        = $leftChatMember;
-        $this->newChatTitle          = $newChatTitle;
-        $this->newChatPhoto          = $newChatPhoto;
-        $this->deleteChatPhoto       = $deleteChatPhoto;
-        $this->groupChatCreated      = $groupChatCreated;
-        $this->superGroupChatCreated = $superGroupChatCreated;
-        $this->channelChatCreated    = $channelChatCreated;
-        $this->migrateToChatId       = $migrateToChatId;
-        $this->migrateFromChatId     = $migrateFromChatId;
-        $this->pinnedMessage         = $pinnedMessage;
-        $this->invoice               = $invoice;
-        $this->successfulPayment     = $successfulPayment;
-        $this->connectedWebsite      = $connectedWebsite;
-        $this->passportData          = $passportData;
     }
 
     // ########################################
@@ -478,11 +355,27 @@ class Message
     }
 
     /**
+     * @param int $messageId
+     */
+    public function setMessageId(int $messageId): void
+    {
+        $this->messageId = $messageId;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\User
      */
     public function getFrom(): \App\Service\Telegram\Model\Type\User
     {
         return $this->from;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\User $from
+     */
+    public function setFrom(\App\Service\Telegram\Model\Type\User $from): void
+    {
+        $this->from = $from;
     }
 
     /**
@@ -494,11 +387,27 @@ class Message
     }
 
     /**
+     * @param \DateTime $date
+     */
+    public function setDate(\DateTime $date): void
+    {
+        $this->date = $date;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Chat
      */
     public function getChat(): \App\Service\Telegram\Model\Type\Chat
     {
         return $this->chat;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Chat $chat
+     */
+    public function setChat(\App\Service\Telegram\Model\Type\Chat $chat): void
+    {
+        $this->chat = $chat;
     }
 
     /**
@@ -510,11 +419,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\User $forwardFrom
+     */
+    public function setForwardFrom(\App\Service\Telegram\Model\Type\User $forwardFrom): void
+    {
+        $this->forwardFrom = $forwardFrom;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Chat
      */
     public function getForwardFromChat(): \App\Service\Telegram\Model\Type\Chat
     {
         return $this->forwardFromChat;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Chat $forwardFromChat
+     */
+    public function setForwardFromChat(\App\Service\Telegram\Model\Type\Chat $forwardFromChat): void
+    {
+        $this->forwardFromChat = $forwardFromChat;
     }
 
     /**
@@ -526,11 +451,27 @@ class Message
     }
 
     /**
+     * @param int $forwardFromMessageId
+     */
+    public function setForwardFromMessageId(int $forwardFromMessageId): void
+    {
+        $this->forwardFromMessageId = $forwardFromMessageId;
+    }
+
+    /**
      * @return string
      */
     public function getForwardSignature(): string
     {
         return $this->forwardSignature;
+    }
+
+    /**
+     * @param string $forwardSignature
+     */
+    public function setForwardSignature(string $forwardSignature): void
+    {
+        $this->forwardSignature = $forwardSignature;
     }
 
     /**
@@ -542,11 +483,27 @@ class Message
     }
 
     /**
+     * @param \DateTime $forwardDate
+     */
+    public function setForwardDate(\DateTime $forwardDate): void
+    {
+        $this->forwardDate = $forwardDate;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Message
      */
     public function getReplyToMessage(): \App\Service\Telegram\Model\Type\Message
     {
         return $this->replyToMessage;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Message $replyToMessage
+     */
+    public function setReplyToMessage(\App\Service\Telegram\Model\Type\Message $replyToMessage): void
+    {
+        $this->replyToMessage = $replyToMessage;
     }
 
     /**
@@ -558,11 +515,27 @@ class Message
     }
 
     /**
+     * @param \DateTime $editDate
+     */
+    public function setEditDate(\DateTime $editDate): void
+    {
+        $this->editDate = $editDate;
+    }
+
+    /**
      * @return int
      */
     public function getMediaGroupId(): int
     {
         return $this->mediaGroupId;
+    }
+
+    /**
+     * @param int $mediaGroupId
+     */
+    public function setMediaGroupId(int $mediaGroupId): void
+    {
+        $this->mediaGroupId = $mediaGroupId;
     }
 
     /**
@@ -574,11 +547,27 @@ class Message
     }
 
     /**
+     * @param string $authorSignature
+     */
+    public function setAuthorSignature(string $authorSignature): void
+    {
+        $this->authorSignature = $authorSignature;
+    }
+
+    /**
      * @return string
      */
     public function getText(): string
     {
         return $this->text;
+    }
+
+    /**
+     * @param string $text
+     */
+    public function setText(string $text): void
+    {
+        $this->text = $text;
     }
 
     /**
@@ -590,11 +579,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\MessageEntity[] $entities
+     */
+    public function setEntities(array $entities): void
+    {
+        $this->entities = $entities;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\MessageEntity[]
      */
     public function getCaptionEntities(): array
     {
         return $this->captionEntities;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\MessageEntity[] $captionEntities
+     */
+    public function setCaptionEntities(array $captionEntities): void
+    {
+        $this->captionEntities = $captionEntities;
     }
 
     /**
@@ -606,11 +611,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\Audio $audio
+     */
+    public function setAudio(\App\Service\Telegram\Model\Type\Audio $audio): void
+    {
+        $this->audio = $audio;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Document
      */
     public function getDocument(): \App\Service\Telegram\Model\Type\Document
     {
         return $this->document;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Document $document
+     */
+    public function setDocument(\App\Service\Telegram\Model\Type\Document $document): void
+    {
+        $this->document = $document;
     }
 
     /**
@@ -622,11 +643,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\Animation $animation
+     */
+    public function setAnimation(\App\Service\Telegram\Model\Type\Animation $animation): void
+    {
+        $this->animation = $animation;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Game
      */
     public function getGame(): \App\Service\Telegram\Model\Type\Game
     {
         return $this->game;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Game $game
+     */
+    public function setGame(\App\Service\Telegram\Model\Type\Game $game): void
+    {
+        $this->game = $game;
     }
 
     /**
@@ -638,11 +675,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\PhotoSize[] $photo
+     */
+    public function setPhoto(array $photo): void
+    {
+        $this->photo = $photo;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Sticker
      */
     public function getSticker(): \App\Service\Telegram\Model\Type\Sticker
     {
         return $this->sticker;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Sticker $sticker
+     */
+    public function setSticker(\App\Service\Telegram\Model\Type\Sticker $sticker): void
+    {
+        $this->sticker = $sticker;
     }
 
     /**
@@ -654,11 +707,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\Video $video
+     */
+    public function setVideo(\App\Service\Telegram\Model\Type\Video $video): void
+    {
+        $this->video = $video;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Voice
      */
     public function getVoice(): \App\Service\Telegram\Model\Type\Voice
     {
         return $this->voice;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Voice $voice
+     */
+    public function setVoice(\App\Service\Telegram\Model\Type\Voice $voice): void
+    {
+        $this->voice = $voice;
     }
 
     /**
@@ -670,11 +739,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\VoiceNote $voiceNote
+     */
+    public function setVoiceNote(\App\Service\Telegram\Model\Type\VoiceNote $voiceNote): void
+    {
+        $this->voiceNote = $voiceNote;
+    }
+
+    /**
      * @return string
      */
     public function getCaption(): string
     {
         return $this->caption;
+    }
+
+    /**
+     * @param string $caption
+     */
+    public function setCaption(string $caption): void
+    {
+        $this->caption = $caption;
     }
 
     /**
@@ -686,11 +771,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\Contact $contact
+     */
+    public function setContact(\App\Service\Telegram\Model\Type\Contact $contact): void
+    {
+        $this->contact = $contact;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Location
      */
     public function getLocation(): \App\Service\Telegram\Model\Type\Location
     {
         return $this->location;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Location $location
+     */
+    public function setLocation(\App\Service\Telegram\Model\Type\Location $location): void
+    {
+        $this->location = $location;
     }
 
     /**
@@ -702,11 +803,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\Venue $venue
+     */
+    public function setVenue(\App\Service\Telegram\Model\Type\Venue $venue): void
+    {
+        $this->venue = $venue;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\User
      */
     public function getNewChatMember(): \App\Service\Telegram\Model\Type\User
     {
         return $this->newChatMember;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\User $newChatMember
+     */
+    public function setNewChatMember(\App\Service\Telegram\Model\Type\User $newChatMember): void
+    {
+        $this->newChatMember = $newChatMember;
     }
 
     /**
@@ -718,11 +835,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\User $leftChatMember
+     */
+    public function setLeftChatMember(\App\Service\Telegram\Model\Type\User $leftChatMember): void
+    {
+        $this->leftChatMember = $leftChatMember;
+    }
+
+    /**
      * @return string
      */
     public function getNewChatTitle(): string
     {
         return $this->newChatTitle;
+    }
+
+    /**
+     * @param string $newChatTitle
+     */
+    public function setNewChatTitle(string $newChatTitle): void
+    {
+        $this->newChatTitle = $newChatTitle;
     }
 
     /**
@@ -734,11 +867,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\PhotoSize[] $newChatPhoto
+     */
+    public function setNewChatPhoto(array $newChatPhoto): void
+    {
+        $this->newChatPhoto = $newChatPhoto;
+    }
+
+    /**
      * @return bool
      */
     public function isDeleteChatPhoto(): bool
     {
         return $this->deleteChatPhoto;
+    }
+
+    /**
+     * @param bool $deleteChatPhoto
+     */
+    public function setDeleteChatPhoto(bool $deleteChatPhoto): void
+    {
+        $this->deleteChatPhoto = $deleteChatPhoto;
     }
 
     /**
@@ -750,11 +899,27 @@ class Message
     }
 
     /**
+     * @param bool $groupChatCreated
+     */
+    public function setGroupChatCreated(bool $groupChatCreated): void
+    {
+        $this->groupChatCreated = $groupChatCreated;
+    }
+
+    /**
      * @return bool
      */
     public function isSuperGroupChatCreated(): bool
     {
         return $this->superGroupChatCreated;
+    }
+
+    /**
+     * @param bool $superGroupChatCreated
+     */
+    public function setSuperGroupChatCreated(bool $superGroupChatCreated): void
+    {
+        $this->superGroupChatCreated = $superGroupChatCreated;
     }
 
     /**
@@ -766,11 +931,27 @@ class Message
     }
 
     /**
+     * @param bool $channelChatCreated
+     */
+    public function setChannelChatCreated(bool $channelChatCreated): void
+    {
+        $this->channelChatCreated = $channelChatCreated;
+    }
+
+    /**
      * @return int
      */
     public function getMigrateToChatId(): int
     {
         return $this->migrateToChatId;
+    }
+
+    /**
+     * @param int $migrateToChatId
+     */
+    public function setMigrateToChatId(int $migrateToChatId): void
+    {
+        $this->migrateToChatId = $migrateToChatId;
     }
 
     /**
@@ -782,11 +963,27 @@ class Message
     }
 
     /**
+     * @param int $migrateFromChatId
+     */
+    public function setMigrateFromChatId(int $migrateFromChatId): void
+    {
+        $this->migrateFromChatId = $migrateFromChatId;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Message
      */
     public function getPinnedMessage(): \App\Service\Telegram\Model\Type\Message
     {
         return $this->pinnedMessage;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Message $pinnedMessage
+     */
+    public function setPinnedMessage(\App\Service\Telegram\Model\Type\Message $pinnedMessage): void
+    {
+        $this->pinnedMessage = $pinnedMessage;
     }
 
     /**
@@ -798,11 +995,27 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\Invoice $invoice
+     */
+    public function setInvoice(\App\Service\Telegram\Model\Type\Invoice $invoice): void
+    {
+        $this->invoice = $invoice;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\SuccessfulPayment
      */
     public function getSuccessfulPayment(): \App\Service\Telegram\Model\Type\SuccessfulPayment
     {
         return $this->successfulPayment;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\SuccessfulPayment $successfulPayment
+     */
+    public function setSuccessfulPayment(\App\Service\Telegram\Model\Type\SuccessfulPayment $successfulPayment): void
+    {
+        $this->successfulPayment = $successfulPayment;
     }
 
     /**
@@ -814,11 +1027,27 @@ class Message
     }
 
     /**
+     * @param string $connectedWebsite
+     */
+    public function setConnectedWebsite(string $connectedWebsite): void
+    {
+        $this->connectedWebsite = $connectedWebsite;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\PassportData
      */
     public function getPassportData(): \App\Service\Telegram\Model\Type\PassportData
     {
         return $this->passportData;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\PassportData $passportData
+     */
+    public function setPassportData(\App\Service\Telegram\Model\Type\PassportData $passportData): void
+    {
+        $this->passportData = $passportData;
     }
 
     // ########################################
