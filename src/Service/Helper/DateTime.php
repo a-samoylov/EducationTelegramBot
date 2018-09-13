@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Helper;
+namespace App\Service\Helper;
 
 class DateTime
 {

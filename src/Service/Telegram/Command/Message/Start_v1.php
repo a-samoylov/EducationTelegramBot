@@ -28,24 +28,12 @@ class Start_v1 extends \App\Service\Telegram\Command\BaseAbstract
     {
         $sendMessageModel = $this->sendMessageFactory->create(367843856, 'Hello');
 
-        //todo factory
+        //todo get $inlineKeyboardButton by factory
         $inlineKeyboardButton = new InlineKeyboardButton('hi');
         $inlineKeyboardButton2 = new InlineKeyboardButton('hi2');
         $sendMessageModel->setReplyMarkup([$inlineKeyboardButton, $inlineKeyboardButton2]);
 
         $sendMessageModel->send();
-
-        /*$result = $this->makeJsonRequest('sendMessage', [
-            'chat_id'      => $this->getUser()->getChatId(),
-            'text'         => 'Зарегаться',
-            'reply_markup' => [
-                'inline_keyboard' => [
-                    [
-                        ['text' => 'Зарегаться', 'callback_data' => '{"message": {"chat": {"first_name": "Alexander"}}'],
-                    ],
-                ]
-            ]
-        ]);*/
 
         return '';
     }

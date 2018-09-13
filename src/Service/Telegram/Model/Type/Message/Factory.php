@@ -27,17 +27,17 @@ class Factory implements FactoryInterface
     private $chatFactory;
 
     /**
-     * @var \App\Service\Telegram\Model\Helper\DateTime
+     * @var \App\Service\Helper\DateTime
      */
     private $dateTimeHelper;
 
     public function __construct(
         \App\Service\Telegram\Model\Type\User\Factory $userFactory,
         \App\Service\Telegram\Model\Type\Chat\Factory $chatFactory,
-        \App\Service\Telegram\Model\Helper\DateTime $dateTimeHelper
+        \App\Service\Helper\DateTime $dateTimeHelper
     ) {
-        $this->userFactory = $userFactory;
-        $this->chatFactory = $chatFactory;
+        $this->userFactory    = $userFactory;
+        $this->chatFactory    = $chatFactory;
         $this->dateTimeHelper = $dateTimeHelper;
     }
 
