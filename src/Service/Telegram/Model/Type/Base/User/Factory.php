@@ -17,22 +17,36 @@ class Factory implements FactoryInterface
 
     public function create(array $data): \App\Service\Telegram\Model\Type\Base\User
     {
-        //todo validation
+        if (empty($data['id']) || !is_int($data['id'])) {
+            throw new ValidateException(self::class, 'id');
+        }
 
-        $lastName = null;
+        if (!isset($data['is_bot']) || !is_bool($data['is_bot'])) {
+            throw new ValidateException(self::class, 'id');
+        }
+
+        if (empty($data['first_name']) || !is_string($data['first_name'])) {
+            throw new ValidateException(self::class, 'first_name');
+        }
+
+        $result = new \App\Service\Telegram\Model\Type\Base\User(
+            $data['id'],
+            $data['is_bot'],
+            $data['first_name']
+        );
+
         if (!empty($data['last_name'])) {
             if (!is_string($data['last_name'])) {
                 throw new ValidateException(self::class, 'last_name');
             }
-            $lastName = $data['last_name'];
+            $result->setLastName($data['last_name']);
         }
 
-        $username = null;
         if (!empty($data['username'])) {
             if (!is_string($data['username'])) {
                 throw new ValidateException(self::class, 'username');
             }
-            $username = $data['username'];
+            $result->setUsername($data['username']);
         }
 
         $languageCode = null;
@@ -40,17 +54,10 @@ class Factory implements FactoryInterface
             if (!is_string($data['language_code'])) {
                 throw new ValidateException(self::class, 'language_code');
             }
-            $languageCode = $data['language_code'];
+            $result->setLanguageCode($data['language_code']);
         }
 
-        return new \App\Service\Telegram\Model\Type\Base\User(
-            $data['id'],
-            $data['is_bot'],
-            $data['first_name'],
-            $lastName,
-            $username,
-            $languageCode
-        );
+        return $result;
     }
 
     // ########################################
