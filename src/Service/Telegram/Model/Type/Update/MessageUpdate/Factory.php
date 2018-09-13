@@ -8,7 +8,7 @@
 
 namespace App\Service\Telegram\Model\Type\Update\MessageUpdate;
 
-use App\Service\Model\Exception\Validate as ValidateException;
+use App\Model\Exception\Validate as ValidateException;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 use App\Service\Telegram\Model\Type\Update\MessageUpdate;
 use App\Service\Telegram\Model\Type\Base\Message\Factory as MessageFactory;

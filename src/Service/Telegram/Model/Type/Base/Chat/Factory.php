@@ -8,7 +8,7 @@
 
 namespace App\Service\Telegram\Model\Type\Base\Chat;
 
-use App\Service\Model\Exception\Validate as ValidateException;
+use App\Model\Exception\Validate as ValidateException;
 use App\Service\Telegram\Model\Type\Base\Chat;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 

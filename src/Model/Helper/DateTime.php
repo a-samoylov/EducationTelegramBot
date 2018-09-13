@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Helper;
+namespace App\Model\Helper;
 
 class DateTime
 {

@@ -8,7 +8,7 @@
 
 namespace App\Service\Telegram\Model\Type\Base\Message;
 
-use App\Service\Model\Exception\Validate as ValidateException;
+use App\Model\Exception\Validate as ValidateException;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 use App\Service\Telegram\Model\Type\Base\Message;
 
@@ -27,14 +27,14 @@ class Factory implements FactoryInterface
     private $chatFactory;
 
     /**
-     * @var \App\Service\Helper\DateTime
+     * @var \App\Model\Helper\DateTime
      */
     private $dateTimeHelper;
 
     public function __construct(
         \App\Service\Telegram\Model\Type\Base\User\Factory $userFactory,
         \App\Service\Telegram\Model\Type\Base\Chat\Factory $chatFactory,
-        \App\Service\Helper\DateTime $dateTimeHelper
+        \App\Model\Helper\DateTime $dateTimeHelper
     ) {
         $this->userFactory    = $userFactory;
         $this->chatFactory    = $chatFactory;

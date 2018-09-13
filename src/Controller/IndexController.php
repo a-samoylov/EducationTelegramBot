@@ -13,16 +13,6 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-        $a = new \App\Service\Telegram\Model\Type\User(
-            1,
-            true,
-            'ads',
-            '',
-            '',
-            null
-        );
-
-
         /*$reflection = new ReflectionClass(\App\Service\Telegram\Model\Type\User::class);
         $method = $reflection->getMethod('get');
         $a = $method->getDocComment();*/
