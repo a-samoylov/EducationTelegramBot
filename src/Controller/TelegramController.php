@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Service\Telegram\Auth\Checker as TelegramAuthChecker;
 use App\Service\Telegram\Command\Processor as TelegramCommandProcessor;
-use \App\Service\Telegram\Model\Type\Update\Resolver as UpdateResolver;
+use App\Service\Telegram\Model\Type\Update\Resolver as UpdateResolver;
 
 class TelegramController extends AbstractController
 {

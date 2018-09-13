@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use ReflectionClass;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -11,7 +10,7 @@ class IndexController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(LoggerInterface $logger)
+    public function index()
     {
         /*$reflection = new ReflectionClass(\App\Service\Telegram\Model\Type\User::class);
         $method = $reflection->getMethod('get');
