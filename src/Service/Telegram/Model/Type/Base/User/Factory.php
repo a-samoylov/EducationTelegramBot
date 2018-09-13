@@ -6,16 +6,16 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Type\User;
+namespace App\Service\Telegram\Model\Type\Base\User;
 
-use App\Service\Model\ValidateException;
+use App\Service\Model\Exception\Validate as ValidateException;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 
 class Factory implements FactoryInterface
 {
     // ########################################
 
-    public function create(array $data): \App\Service\Telegram\Model\Type\User
+    public function create(array $data): \App\Service\Telegram\Model\Type\Base\User
     {
         //todo validation
 
@@ -43,7 +43,7 @@ class Factory implements FactoryInterface
             $languageCode = $data['language_code'];
         }
 
-        return new \App\Service\Telegram\Model\Type\User(
+        return new \App\Service\Telegram\Model\Type\Base\User(
             $data['id'],
             $data['is_bot'],
             $data['first_name'],

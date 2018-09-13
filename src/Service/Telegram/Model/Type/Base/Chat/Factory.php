@@ -6,10 +6,10 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Type\Chat;
+namespace App\Service\Telegram\Model\Type\Base\Chat;
 
-use App\Service\Model\ValidateException;
-use App\Service\Telegram\Model\Type\Chat;
+use App\Service\Model\Exception\Validate as ValidateException;
+use App\Service\Telegram\Model\Type\Base\Chat;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 
 class Factory implements FactoryInterface

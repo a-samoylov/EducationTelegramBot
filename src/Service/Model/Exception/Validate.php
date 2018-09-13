@@ -6,9 +6,9 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Model;
+namespace App\Service\Model\Exception;
 
-class ValidateException extends \Exception
+class Validate extends \Exception
 {
     // ########################################
 

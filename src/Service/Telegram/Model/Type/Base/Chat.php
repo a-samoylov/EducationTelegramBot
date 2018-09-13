@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Type;
+namespace App\Service\Telegram\Model\Type\Base;
 
 class Chat
 {

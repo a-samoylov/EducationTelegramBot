@@ -6,23 +6,23 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Type\Message;
+namespace App\Service\Telegram\Model\Type\Base\Message;
 
-use App\Service\Model\ValidateException;
+use App\Service\Model\Exception\Validate as ValidateException;
 use App\Service\Telegram\Model\Type\FactoryInterface;
-use App\Service\Telegram\Model\Type\Message;
+use App\Service\Telegram\Model\Type\Base\Message;
 
 class Factory implements FactoryInterface
 {
     // ########################################
 
     /**
-     * @var \App\Service\Telegram\Model\Type\User\Factory
+     * @var \App\Service\Telegram\Model\Type\Base\User\Factory
      */
     private $userFactory;
 
     /**
-     * @var \App\Service\Telegram\Model\Type\Chat\Factory
+     * @var \App\Service\Telegram\Model\Type\Base\Chat\Factory
      */
     private $chatFactory;
 
@@ -32,8 +32,8 @@ class Factory implements FactoryInterface
     private $dateTimeHelper;
 
     public function __construct(
-        \App\Service\Telegram\Model\Type\User\Factory $userFactory,
-        \App\Service\Telegram\Model\Type\Chat\Factory $chatFactory,
+        \App\Service\Telegram\Model\Type\Base\User\Factory $userFactory,
+        \App\Service\Telegram\Model\Type\Base\Chat\Factory $chatFactory,
         \App\Service\Helper\DateTime $dateTimeHelper
     ) {
         $this->userFactory    = $userFactory;

@@ -8,17 +8,17 @@
 
 namespace App\Service\Telegram\Model\Type\Update\MessageUpdate;
 
-use App\Service\Model\ValidateException;
+use App\Service\Model\Exception\Validate as ValidateException;
 use App\Service\Telegram\Model\Type\FactoryInterface;
 use App\Service\Telegram\Model\Type\Update\MessageUpdate;
-use App\Service\Telegram\Model\Type\Message\Factory as MessageFactory;
+use App\Service\Telegram\Model\Type\Base\Message\Factory as MessageFactory;
 
 class Factory implements FactoryInterface
 {
     // ########################################
 
     /**
-     * @var \App\Service\Telegram\Model\Type\Message\Factory
+     * @var \App\Service\Telegram\Model\Type\Base\Message\Factory
      */
     private $messageFactory;
 

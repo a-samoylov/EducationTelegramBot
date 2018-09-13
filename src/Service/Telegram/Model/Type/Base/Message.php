@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Model\Type;
+namespace App\Service\Telegram\Model\Type\Base;
 
 class Message
 {
@@ -332,12 +332,12 @@ class Message
      *
      * @param int                                   $messageId
      * @param \DateTime                             $date
-     * @param \App\Service\Telegram\Model\Type\Chat $chat
+     * @param \App\Service\Telegram\Model\Type\Base\Chat $chat
      */
     public function __construct(
         int $messageId,
         \DateTime $date,
-        \App\Service\Telegram\Model\Type\Chat $chat
+        \App\Service\Telegram\Model\Type\Base\Chat $chat
     ) {
         $this->messageId             = $messageId;
         $this->date                  = $date;
@@ -363,17 +363,17 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\User
+     * @return \App\Service\Telegram\Model\Type\Base\User
      */
-    public function getFrom(): \App\Service\Telegram\Model\Type\User
+    public function getFrom(): \App\Service\Telegram\Model\Type\Base\User
     {
         return $this->from;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\User $from
+     * @param \App\Service\Telegram\Model\Type\Base\User $from
      */
-    public function setFrom(\App\Service\Telegram\Model\Type\User $from): void
+    public function setFrom(\App\Service\Telegram\Model\Type\Base\User $from): void
     {
         $this->from = $from;
     }
@@ -395,49 +395,49 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Chat
+     * @return \App\Service\Telegram\Model\Type\Base\Chat
      */
-    public function getChat(): \App\Service\Telegram\Model\Type\Chat
+    public function getChat(): \App\Service\Telegram\Model\Type\Base\Chat
     {
         return $this->chat;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Chat $chat
+     * @param \App\Service\Telegram\Model\Type\Base\Chat $chat
      */
-    public function setChat(\App\Service\Telegram\Model\Type\Chat $chat): void
+    public function setChat(\App\Service\Telegram\Model\Type\Base\Chat $chat): void
     {
         $this->chat = $chat;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\User
+     * @return \App\Service\Telegram\Model\Type\Base\User
      */
-    public function getForwardFrom(): \App\Service\Telegram\Model\Type\User
+    public function getForwardFrom(): \App\Service\Telegram\Model\Type\Base\User
     {
         return $this->forwardFrom;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\User $forwardFrom
+     * @param \App\Service\Telegram\Model\Type\Base\User $forwardFrom
      */
-    public function setForwardFrom(\App\Service\Telegram\Model\Type\User $forwardFrom): void
+    public function setForwardFrom(\App\Service\Telegram\Model\Type\Base\User $forwardFrom): void
     {
         $this->forwardFrom = $forwardFrom;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Chat
+     * @return \App\Service\Telegram\Model\Type\Base\Chat
      */
-    public function getForwardFromChat(): \App\Service\Telegram\Model\Type\Chat
+    public function getForwardFromChat(): \App\Service\Telegram\Model\Type\Base\Chat
     {
         return $this->forwardFromChat;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Chat $forwardFromChat
+     * @param \App\Service\Telegram\Model\Type\Base\Chat $forwardFromChat
      */
-    public function setForwardFromChat(\App\Service\Telegram\Model\Type\Chat $forwardFromChat): void
+    public function setForwardFromChat(\App\Service\Telegram\Model\Type\Base\Chat $forwardFromChat): void
     {
         $this->forwardFromChat = $forwardFromChat;
     }
@@ -491,17 +491,17 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Message
+     * @return \App\Service\Telegram\Model\Type\Base\Message
      */
-    public function getReplyToMessage(): \App\Service\Telegram\Model\Type\Message
+    public function getReplyToMessage(): \App\Service\Telegram\Model\Type\Base\Message
     {
         return $this->replyToMessage;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Message $replyToMessage
+     * @param \App\Service\Telegram\Model\Type\Base\Message $replyToMessage
      */
-    public function setReplyToMessage(\App\Service\Telegram\Model\Type\Message $replyToMessage): void
+    public function setReplyToMessage(\App\Service\Telegram\Model\Type\Base\Message $replyToMessage): void
     {
         $this->replyToMessage = $replyToMessage;
     }
@@ -571,7 +571,7 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\MessageEntity[]
+     * @return \App\Service\Telegram\Model\Type\Base\MessageEntity[]
      */
     public function getEntities(): array
     {
@@ -579,7 +579,7 @@ class Message
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\MessageEntity[] $entities
+     * @param \App\Service\Telegram\Model\Type\Base\MessageEntity[] $entities
      */
     public function setEntities(array $entities): void
     {
@@ -587,7 +587,7 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\MessageEntity[]
+     * @return \App\Service\Telegram\Model\Type\Base\MessageEntity[]
      */
     public function getCaptionEntities(): array
     {
@@ -595,7 +595,7 @@ class Message
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\MessageEntity[] $captionEntities
+     * @param \App\Service\Telegram\Model\Type\Base\MessageEntity[] $captionEntities
      */
     public function setCaptionEntities(array $captionEntities): void
     {
@@ -603,71 +603,71 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Audio
+     * @return \App\Service\Telegram\Model\Type\Base\Audio
      */
-    public function getAudio(): \App\Service\Telegram\Model\Type\Audio
+    public function getAudio(): \App\Service\Telegram\Model\Type\Base\Audio
     {
         return $this->audio;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Audio $audio
+     * @param \App\Service\Telegram\Model\Type\Base\Audio $audio
      */
-    public function setAudio(\App\Service\Telegram\Model\Type\Audio $audio): void
+    public function setAudio(\App\Service\Telegram\Model\Type\Base\Audio $audio): void
     {
         $this->audio = $audio;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Document
+     * @return \App\Service\Telegram\Model\Type\Base\Document
      */
-    public function getDocument(): \App\Service\Telegram\Model\Type\Document
+    public function getDocument(): \App\Service\Telegram\Model\Type\Base\Document
     {
         return $this->document;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Document $document
+     * @param \App\Service\Telegram\Model\Type\Base\Document $document
      */
-    public function setDocument(\App\Service\Telegram\Model\Type\Document $document): void
+    public function setDocument(\App\Service\Telegram\Model\Type\Base\Document $document): void
     {
         $this->document = $document;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Animation
+     * @return \App\Service\Telegram\Model\Type\Base\Animation
      */
-    public function getAnimation(): \App\Service\Telegram\Model\Type\Animation
+    public function getAnimation(): \App\Service\Telegram\Model\Type\Base\Animation
     {
         return $this->animation;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Animation $animation
+     * @param \App\Service\Telegram\Model\Type\Base\Animation $animation
      */
-    public function setAnimation(\App\Service\Telegram\Model\Type\Animation $animation): void
+    public function setAnimation(\App\Service\Telegram\Model\Type\Base\Animation $animation): void
     {
         $this->animation = $animation;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Game
+     * @return \App\Service\Telegram\Model\Type\Base\Game
      */
-    public function getGame(): \App\Service\Telegram\Model\Type\Game
+    public function getGame(): \App\Service\Telegram\Model\Type\Base\Game
     {
         return $this->game;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Game $game
+     * @param \App\Service\Telegram\Model\Type\Base\Game $game
      */
-    public function setGame(\App\Service\Telegram\Model\Type\Game $game): void
+    public function setGame(\App\Service\Telegram\Model\Type\Base\Game $game): void
     {
         $this->game = $game;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\PhotoSize[]
+     * @return \App\Service\Telegram\Model\Type\Base\PhotoSize[]
      */
     public function getPhoto(): array
     {
@@ -675,7 +675,7 @@ class Message
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\PhotoSize[] $photo
+     * @param \App\Service\Telegram\Model\Type\Base\PhotoSize[] $photo
      */
     public function setPhoto(array $photo): void
     {
@@ -683,65 +683,65 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Sticker
+     * @return \App\Service\Telegram\Model\Type\Base\Sticker
      */
-    public function getSticker(): \App\Service\Telegram\Model\Type\Sticker
+    public function getSticker(): \App\Service\Telegram\Model\Type\Base\Sticker
     {
         return $this->sticker;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Sticker $sticker
+     * @param \App\Service\Telegram\Model\Type\Base\Sticker $sticker
      */
-    public function setSticker(\App\Service\Telegram\Model\Type\Sticker $sticker): void
+    public function setSticker(\App\Service\Telegram\Model\Type\Base\Sticker $sticker): void
     {
         $this->sticker = $sticker;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Video
+     * @return \App\Service\Telegram\Model\Type\Base\Video
      */
-    public function getVideo(): \App\Service\Telegram\Model\Type\Video
+    public function getVideo(): \App\Service\Telegram\Model\Type\Base\Video
     {
         return $this->video;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Video $video
+     * @param \App\Service\Telegram\Model\Type\Base\Video $video
      */
-    public function setVideo(\App\Service\Telegram\Model\Type\Video $video): void
+    public function setVideo(\App\Service\Telegram\Model\Type\Base\Video $video): void
     {
         $this->video = $video;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Voice
+     * @return \App\Service\Telegram\Model\Type\Base\Voice
      */
-    public function getVoice(): \App\Service\Telegram\Model\Type\Voice
+    public function getVoice(): \App\Service\Telegram\Model\Type\Base\Voice
     {
         return $this->voice;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Voice $voice
+     * @param \App\Service\Telegram\Model\Type\Base\Voice $voice
      */
-    public function setVoice(\App\Service\Telegram\Model\Type\Voice $voice): void
+    public function setVoice(\App\Service\Telegram\Model\Type\Base\Voice $voice): void
     {
         $this->voice = $voice;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\VoiceNote
+     * @return \App\Service\Telegram\Model\Type\Base\VoiceNote
      */
-    public function getVoiceNote(): \App\Service\Telegram\Model\Type\VoiceNote
+    public function getVoiceNote(): \App\Service\Telegram\Model\Type\Base\VoiceNote
     {
         return $this->voiceNote;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\VoiceNote $voiceNote
+     * @param \App\Service\Telegram\Model\Type\Base\VoiceNote $voiceNote
      */
-    public function setVoiceNote(\App\Service\Telegram\Model\Type\VoiceNote $voiceNote): void
+    public function setVoiceNote(\App\Service\Telegram\Model\Type\Base\VoiceNote $voiceNote): void
     {
         $this->voiceNote = $voiceNote;
     }
@@ -763,81 +763,81 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Contact
+     * @return \App\Service\Telegram\Model\Type\Base\Contact
      */
-    public function getContact(): \App\Service\Telegram\Model\Type\Contact
+    public function getContact(): \App\Service\Telegram\Model\Type\Base\Contact
     {
         return $this->contact;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Contact $contact
+     * @param \App\Service\Telegram\Model\Type\Base\Contact $contact
      */
-    public function setContact(\App\Service\Telegram\Model\Type\Contact $contact): void
+    public function setContact(\App\Service\Telegram\Model\Type\Base\Contact $contact): void
     {
         $this->contact = $contact;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Location
+     * @return \App\Service\Telegram\Model\Type\Base\Location
      */
-    public function getLocation(): \App\Service\Telegram\Model\Type\Location
+    public function getLocation(): \App\Service\Telegram\Model\Type\Base\Location
     {
         return $this->location;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Location $location
+     * @param \App\Service\Telegram\Model\Type\Base\Location $location
      */
-    public function setLocation(\App\Service\Telegram\Model\Type\Location $location): void
+    public function setLocation(\App\Service\Telegram\Model\Type\Base\Location $location): void
     {
         $this->location = $location;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Venue
+     * @return \App\Service\Telegram\Model\Type\Base\Venue
      */
-    public function getVenue(): \App\Service\Telegram\Model\Type\Venue
+    public function getVenue(): \App\Service\Telegram\Model\Type\Base\Venue
     {
         return $this->venue;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Venue $venue
+     * @param \App\Service\Telegram\Model\Type\Base\Venue $venue
      */
-    public function setVenue(\App\Service\Telegram\Model\Type\Venue $venue): void
+    public function setVenue(\App\Service\Telegram\Model\Type\Base\Venue $venue): void
     {
         $this->venue = $venue;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\User
+     * @return \App\Service\Telegram\Model\Type\Base\User
      */
-    public function getNewChatMember(): \App\Service\Telegram\Model\Type\User
+    public function getNewChatMember(): \App\Service\Telegram\Model\Type\Base\User
     {
         return $this->newChatMember;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\User $newChatMember
+     * @param \App\Service\Telegram\Model\Type\Base\User $newChatMember
      */
-    public function setNewChatMember(\App\Service\Telegram\Model\Type\User $newChatMember): void
+    public function setNewChatMember(\App\Service\Telegram\Model\Type\Base\User $newChatMember): void
     {
         $this->newChatMember = $newChatMember;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\User
+     * @return \App\Service\Telegram\Model\Type\Base\User
      */
-    public function getLeftChatMember(): \App\Service\Telegram\Model\Type\User
+    public function getLeftChatMember(): \App\Service\Telegram\Model\Type\Base\User
     {
         return $this->leftChatMember;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\User $leftChatMember
+     * @param \App\Service\Telegram\Model\Type\Base\User $leftChatMember
      */
-    public function setLeftChatMember(\App\Service\Telegram\Model\Type\User $leftChatMember): void
+    public function setLeftChatMember(\App\Service\Telegram\Model\Type\Base\User $leftChatMember): void
     {
         $this->leftChatMember = $leftChatMember;
     }
@@ -859,7 +859,7 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\PhotoSize[]
+     * @return \App\Service\Telegram\Model\Type\Base\PhotoSize[]
      */
     public function getNewChatPhoto(): array
     {
@@ -867,7 +867,7 @@ class Message
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\PhotoSize[] $newChatPhoto
+     * @param \App\Service\Telegram\Model\Type\Base\PhotoSize[] $newChatPhoto
      */
     public function setNewChatPhoto(array $newChatPhoto): void
     {
@@ -971,50 +971,50 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Message
+     * @return \App\Service\Telegram\Model\Type\Base\Message
      */
-    public function getPinnedMessage(): \App\Service\Telegram\Model\Type\Message
+    public function getPinnedMessage(): \App\Service\Telegram\Model\Type\Base\Message
     {
         return $this->pinnedMessage;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Message $pinnedMessage
+     * @param \App\Service\Telegram\Model\Type\Base\Message $pinnedMessage
      */
-    public function setPinnedMessage(\App\Service\Telegram\Model\Type\Message $pinnedMessage): void
+    public function setPinnedMessage(\App\Service\Telegram\Model\Type\Base\Message $pinnedMessage): void
     {
         $this->pinnedMessage = $pinnedMessage;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Invoice
+     * @return \App\Service\Telegram\Model\Type\Base\Invoice
      */
-    public function getInvoice(): \App\Service\Telegram\Model\Type\Invoice
+    public function getInvoice(): \App\Service\Telegram\Model\Type\Base\Invoice
     {
         return $this->invoice;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Invoice $invoice
+     * @param \App\Service\Telegram\Model\Type\Base\Invoice $invoice
      */
-    public function setInvoice(\App\Service\Telegram\Model\Type\Invoice $invoice): void
+    public function setInvoice(\App\Service\Telegram\Model\Type\Base\Invoice $invoice): void
     {
         $this->invoice = $invoice;
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\SuccessfulPayment
+     * @return \App\Service\Telegram\Model\Type\Base\SuccessfulPayment
      */
-    public function getSuccessfulPayment(): \App\Service\Telegram\Model\Type\SuccessfulPayment
+    public function getSuccessfulPayment(): \App\Service\Telegram\Model\Type\Base\SuccessfulPayment
     {
         return $this->successfulPayment;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\SuccessfulPayment $successfulPayment
+     * @param \App\Service\Telegram\Model\Type\Base\SuccessfulPayment $successfulPayment
      */
-    public function setSuccessfulPayment(\App\Service\Telegram\Model\Type\SuccessfulPayment $successfulPayment): void
-    {
+    public function setSuccessfulPayment(\App\Service\Telegram\Model\Type\Base\SuccessfulPayment $successfulPayment
+    ): void {
         $this->successfulPayment = $successfulPayment;
     }
 
@@ -1035,17 +1035,17 @@ class Message
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\PassportData
+     * @return \App\Service\Telegram\Model\Type\Base\PassportData
      */
-    public function getPassportData(): \App\Service\Telegram\Model\Type\PassportData
+    public function getPassportData(): \App\Service\Telegram\Model\Type\Base\PassportData
     {
         return $this->passportData;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\PassportData $passportData
+     * @param \App\Service\Telegram\Model\Type\Base\PassportData $passportData
      */
-    public function setPassportData(\App\Service\Telegram\Model\Type\PassportData $passportData): void
+    public function setPassportData(\App\Service\Telegram\Model\Type\Base\PassportData $passportData): void
     {
         $this->passportData = $passportData;
     }

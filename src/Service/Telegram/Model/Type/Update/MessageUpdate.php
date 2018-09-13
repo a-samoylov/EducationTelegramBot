@@ -13,7 +13,7 @@ class MessageUpdate extends BaseAbstract
     /**
      * Optional. New incoming message of any kind — text, photo, sticker, etc.
      *
-     * @var \App\Service\Telegram\Model\Type\Message
+     * @var \App\Service\Telegram\Model\Type\Base\Message
      */
     protected $message;
 
@@ -21,9 +21,9 @@ class MessageUpdate extends BaseAbstract
      * MessageUpdate constructor.
      *
      * @param int                                      $updateId
-     * @param \App\Service\Telegram\Model\Type\Message $message
+     * @param \App\Service\Telegram\Model\Type\Base\Message $message
      */
-    public function __construct(int $updateId, \App\Service\Telegram\Model\Type\Message $message)
+    public function __construct(int $updateId, \App\Service\Telegram\Model\Type\Base\Message $message)
     {
         parent::__construct($updateId);
         $this->message = $message;
@@ -32,9 +32,9 @@ class MessageUpdate extends BaseAbstract
     // ########################################
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Message
+     * @return \App\Service\Telegram\Model\Type\Base\Message
      */
-    public function getMessage(): \App\Service\Telegram\Model\Type\Message
+    public function getMessage(): \App\Service\Telegram\Model\Type\Base\Message
     {
         return $this->message;
     }
