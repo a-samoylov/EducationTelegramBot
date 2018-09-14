@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
-use App\Model\Exception\Validate as ValidateException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+use Psr\Log\LoggerInterface;
+
+use App\Model\Exception\Validate as ValidateException;
 use App\Service\Telegram\Auth\Checker as TelegramAuthChecker;
 use App\Service\Telegram\Command\Processor as TelegramCommandProcessor;
 use App\Service\Telegram\Model\Type\Update\Resolver as UpdateResolver;
@@ -21,37 +24,66 @@ class TelegramController extends AbstractController
      * @param \App\Service\Telegram\Auth\Checker               $telegramAuthChecker
      * @param \App\Service\Telegram\Command\Processor          $telegramCommandProcessor
      * @param \App\Service\Telegram\Model\Type\Update\Resolver $updateResolver
+     * @param \Psr\Log\LoggerInterface                         $logger
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(
         TelegramAuthChecker $telegramAuthChecker,
         TelegramCommandProcessor $telegramCommandProcessor,
-        UpdateResolver $updateResolver
+        UpdateResolver $updateResolver,
+        LoggerInterface $logger
     ) {
         $request = Request::createFromGlobals();
+        $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
 
         if (!$telegramAuthChecker->isValidToken($request->query->get('token'))) {
-            //todo event invalid telegram token
-            //todo log
-
-            return $this->json([
-                'message' => 'Invalid request',
+            $logger->alert('Invalid access token.', [
+                '_SERVER'     => $_SERVER,
+                '_POST'       => $_POST,
+                'php://input' => $request->getContent(),
             ]);
+
+            $response->setContent(json_encode(['message' => 'Invalid access data.']));
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+
+            return $response;
         }
 
         try {
             $data = (array)json_decode($request->getContent(), true);//php://input
             $update = $updateResolver->resolve($data);
-        } catch (ValidateException $exception) {
-            //todo log
-            return $this->render('base.html.twig');
+        } catch (ValidateException $validateException) {
+            $logger->alert('Error input data.', [
+                'input_data' => $validateException->getInputData(),
+                'field_name' => $validateException->getFieldName(),
+                'file_name'  => $validateException->getFileName(),
+                'message'    => $validateException->getMessage(),
+                'code'       => $validateException->getCode(),
+            ]);
+
+            $response->setContent(json_encode(['message' => 'Error input data.']));
+            $response->setStatusCode(Response::HTTP_FORBIDDEN);
+
+            return $response;
         }
 
-        $telegramCommandProcessor->process($update);
+        /** @var \App\Service\Telegram\Command\Response $commandResponse */
+        $commandResponse = $telegramCommandProcessor->process($update);
+        if (!$commandResponse->isSuccess()) {
+            $response->setContent(json_encode(['message' => 'Server error.']));
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+
+            //dump($request);
+            return $response;
+        }
+
+        $response->setContent(json_encode([]));
+        $response->setStatusCode(Response::HTTP_OK);
 
         //dump($request);
-        return $this->render('base.html.twig');
+        return $response;
     }
 
     // ########################################

@@ -1,16 +1,21 @@
 monolog:
     handlers:
-        main:
+        stream:
             type: stream
-            path: "%kernel.logs_dir%/stream.log"
+            path: "%kernel.logs_dir%/debug.log"
             level: debug
             channels: ["!event"]
 
-        file_log:
+        error_log:
             type: stream
             path: "%kernel.logs_dir%/errors.log"
             level: error
             channels: ["!event"]
+
+        critical_log:
+            type: stream
+            path: "%kernel.logs_dir%/critical.log"
+            level: critical
 
         # uncomment to get logging in your browser
         # you may have to allow bigger header sizes in your Web server configuration

@@ -8,6 +8,8 @@
 
 namespace App\Service\Telegram\Command;
 
+use Psr\Log\LoggerInterface;
+
 class Processor
 {
     /**
@@ -25,16 +27,23 @@ class Processor
      */
     private $serviceResolver;
 
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $logger;
+
     // ########################################
 
     public function __construct(
         \App\Config\Telegram $telegramConfigs,
         \Psr\Container\ContainerInterface $container,
-        ServiceResolver $serviceResolver
+        ServiceResolver $serviceResolver,
+        LoggerInterface $logger
     ) {
         $this->telegramConfigs = $telegramConfigs;
         $this->container       = $container;
         $this->serviceResolver = $serviceResolver;
+        $this->logger          = $logger;
     }
 
     // ########################################
@@ -42,14 +51,12 @@ class Processor
     /**
      * @param \App\Service\Telegram\Model\Type\Update\BaseAbstract $update
      *
-     * @return string
+     * @return \App\Service\Telegram\Command\Response
      */
     public function process($update)
     {
+        /** @var string $serviceName */
         $serviceName = $this->serviceResolver->resolve($update);
-        if (is_null($serviceName)) {
-            //todo log
-        }
 
         /** @var \App\Service\Telegram\Command\BaseAbstract $command */
         $command = $this->container->get($serviceName);

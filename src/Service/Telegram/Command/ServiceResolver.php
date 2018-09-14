@@ -10,6 +10,8 @@ namespace App\Service\Telegram\Command;
 
 class ServiceResolver
 {
+    private const DEFAULT_COMMAND_SERVICE = 'telegram.default.command';
+
     // ########################################
 
     /**
@@ -21,6 +23,7 @@ class ServiceResolver
     {
         //todo instance of by updates, get params
 
+        //todo log if cant found
         return 'telegram.start.command';
     }
 

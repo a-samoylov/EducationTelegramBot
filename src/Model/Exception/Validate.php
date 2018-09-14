@@ -12,18 +12,52 @@ class Validate extends \Exception
 {
     // ########################################
 
-    /**  @var array */
-    private $inputData = [];
+    /**
+     * @var string
+     */
+    private $fileName;
+
+    /**
+     * @var string
+     */
+    private $fieldName;
+
+    /**
+     * @var array
+     */
+    private $inputData;
 
     public function __construct($fileName = '', $fieldName = '', $inputData = [], $message = '', $code = 0)
     {
-        parent::__construct($message, $code, null);
+        parent::__construct($message, $code);
+
+        $this->fileName  = $fileName;
+        $this->fieldName = $fieldName;
         $this->inputData = $inputData;
     }
 
     // ########################################
 
-    public function getInputData()
+    /**
+     * @return string
+     */
+    public function getFileName(): string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
+    }
+
+    /**
+     * @return array
+     */
+    public function getInputData(): array
     {
         return $this->inputData;
     }

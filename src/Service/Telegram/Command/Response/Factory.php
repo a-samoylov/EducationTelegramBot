@@ -8,13 +8,20 @@
 
 namespace App\Service\Telegram\Command\Response;
 
+use App\Service\Telegram\Command\Response;
+
 class Factory
 {
     // ########################################
 
-    public function create($isSuccess)
+    /**
+     * @param bool $isSuccess
+     *
+     * @return \App\Service\Telegram\Command\Response
+     */
+    public function create(bool $isSuccess)
     {
-
+        return new Response($isSuccess);
     }
 
     // ########################################
