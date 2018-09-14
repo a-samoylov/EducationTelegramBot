@@ -12,10 +12,6 @@ class IndexController extends AbstractController
      */
     public function index()
     {
-        /*$reflection = new ReflectionClass(\App\Service\Telegram\Model\Type\User::class);
-        $method = $reflection->getMethod('get');
-        $a = $method->getDocComment();*/
-
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',
         ]);

@@ -18,14 +18,14 @@ class YamlLoader
 
     public function __construct($baseDir)
     {
-        $this->baseDir = $baseDir . 'config\\';
+        $this->baseDir = $baseDir;
     }
 
     // ########################################
 
-    public function load($resource)
+    public function load($resourceName)
     {
-        return Yaml::parse(file_get_contents($this->baseDir . $resource . '.yaml'));
+        return Yaml::parse(file_get_contents($this->baseDir . '\\config\\' . $resourceName . '.yaml'));
     }
 
     // ########################################
