@@ -1,0 +1,15 @@
+parameters:
+    auth_telegram_token: '123'
+
+services:
+    App\Service\Telegram\Auth\Checker:
+        arguments:
+            $accessToken: "asd"
+
+    telegram.model.send.message.factory:
+        alias: App\Service\Telegram\Model\Methods\Send\Message\Factory
+        public: true
+
+    model.command.response.factory:
+        alias: App\Model\Command\Response\Factory
+        public: true

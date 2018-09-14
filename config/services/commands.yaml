@@ -1,8 +1,10 @@
 services:
-    telegram.start.command:
-        alias: App\Service\Telegram\Command\Message\Start_v1
+    telegram.command.start:
+        alias: App\Service\Command\Start\Start_v1
         public: true
 
-    App\Service\Telegram\Command\Message\Start_v1:
+    App\Service\Command\Start\Start_v1:
         arguments:
-            $sendMessageFactory: '@telegram.send.message.factory'
+            $sendMessageFactory: '@telegram.model.send.message.factory'
+            $responseFactory: '@model.command.response.factory'
+

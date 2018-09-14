@@ -6,20 +6,18 @@
  * Time: 00:12
  */
 
-namespace App\Service\Telegram\Command;
-
-use App\Service\Telegram\Command\Response\Factory as ResponseFactory;
+namespace App\Model\Command;
 
 abstract class BaseAbstract
 {
     // ########################################
 
     /**
-     * @var \App\Service\Telegram\Command\Response\Factory
+     * @var \App\Model\Command\Response\Factory
      */
     private $responseFactory;
 
-    public function __construct(ResponseFactory $responseFactory)
+    public function __construct(Response\Factory $responseFactory)
     {
         $this->responseFactory = $responseFactory;
     }

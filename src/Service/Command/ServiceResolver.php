@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Command;
+namespace App\Service\Command;
 
 class ServiceResolver
 {

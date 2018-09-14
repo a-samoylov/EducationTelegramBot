@@ -10,11 +10,11 @@ namespace App\Service\Telegram\Auth;
 
 class Checker
 {
-    // ########################################
-
     private $accessToken = null;
 
-    public function __construct($accessToken)
+    // ########################################
+
+    public function __construct(string $accessToken)
     {
         $this->accessToken = $accessToken;
     }

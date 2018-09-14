@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Command;
+namespace App\Model\Command;
 
 class Response
 {

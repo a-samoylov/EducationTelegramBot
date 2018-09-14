@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Command\Validator;
+namespace App\Model\Command\Validator;
 
 interface BaseInterface
 {

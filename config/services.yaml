@@ -29,15 +29,9 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    App\Service\Telegram\Auth\Checker:
-        factory: 'App\Service\Telegram\Auth\Factory:create'
-
     App\Config\YamlLoader:
         arguments: ['%kernel.project_dir%']
 
-    telegram.send.message.factory:
-        alias: App\Service\Telegram\Model\Methods\Send\Message\Factory
-        public: true
-
 imports:
 - { resource: 'services/commands.yaml' }
+- { resource: 'services/model.yaml' }

@@ -6,7 +6,9 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Telegram\Command\Validator;
+namespace App\Service\Command\Validator;
+
+use App\Model\Command\Validator\BaseInterface;
 
 class Phone implements BaseInterface
 {
