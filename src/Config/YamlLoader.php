@@ -16,7 +16,7 @@ class YamlLoader
 
     // ########################################
 
-    public function __construct($baseDir)
+    public function __construct(string $baseDir)
     {
         $this->baseDir = $baseDir;
     }

@@ -24,7 +24,7 @@ class ServiceResolver
         //todo instance of by updates, get params
 
         //todo log if cant found
-        return 'telegram.start.command';
+        return 'telegram.command.start';
     }
 
     // ########################################
