@@ -6,36 +6,44 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Command\Start;
+namespace App\Service\Command\Message\Start;
 
 use App\Model\Command\Response;
 use App\Model\Command\Response\Factory as ResponseFactory;
 use App\Service\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
 use App\Model\Command\BaseAbstract;
-use App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
+use App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory as ReplyKeyboardMarkupFactory;
+use App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory as KeyboardButtonFactory;
 
 class v1 extends BaseAbstract
 {
     /**
      * @var \App\Service\Telegram\Model\Methods\Send\Message\Factory
      */
-    private $sendMessageFactory = null;
+    private $sendMessageFactory;
 
     /**
-     * @var \App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton\Factory
+     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory
      */
-    private $inlineKeyboardButtonFactory;
+    private $replyKeyboardMarkupFactory;
+
+    /**
+     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory
+     */
+    private $keyboardButtonFactory;
 
     // ########################################
 
     public function __construct(
         SendMessageFactory $sendMessageFactory,
         ResponseFactory $responseFactory,
-        InlineKeyboardButtonFactory $inlineKeyboardButtonFactory
+        ReplyKeyboardMarkupFactory $replyKeyboardMarkupFactory,
+        KeyboardButtonFactory $keyboardButtonFactory
     ) {
         parent::__construct($responseFactory);
-        $this->sendMessageFactory          = $sendMessageFactory;
-        $this->inlineKeyboardButtonFactory = $inlineKeyboardButtonFactory;
+        $this->sendMessageFactory         = $sendMessageFactory;
+        $this->replyKeyboardMarkupFactory = $replyKeyboardMarkupFactory;
+        $this->keyboardButtonFactory      = $keyboardButtonFactory;
     }
 
     // ########################################
@@ -47,12 +55,12 @@ class v1 extends BaseAbstract
          */
         $update = $this->getUpdate();
 
-        //todo save user entity
+        //todo save user|chat entity
 
         $sendMessageModel = $this->sendMessageFactory->create($update->getMessage()->getChat()->getId(), 'Доброго дня!');
-        $sendMessageModel->setReplyMarkup([
-            $this->inlineKeyboardButtonFactory->create(['text' => 'Зареєструватися'])
-        ]);
+        $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
+            $this->keyboardButtonFactory->create('Зареєструватися')
+        ]));
 
         $sendMessageModel->send();
 
