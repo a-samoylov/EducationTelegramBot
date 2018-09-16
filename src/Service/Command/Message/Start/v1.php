@@ -57,10 +57,10 @@ class v1 extends BaseAbstract
 
         //todo save user|chat entity
 
-        $sendMessageModel = $this->sendMessageFactory->create($update->getMessage()->getChat()->getId(), 'Доброго дня!');
+        $sendMessageModel = $this->sendMessageFactory->create($update->getMessage()->getChat()->getId(), 'Вітаємо на порталі підготовки до ЗНО!');
         $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
-            $this->keyboardButtonFactory->create('Зареєструватися')
-        ]));
+            $this->keyboardButtonFactory->create('Зареєструватися за номером телфону', true)
+        ], true));
 
         $sendMessageModel->send();
 

@@ -75,42 +75,37 @@ class Message extends BaseAbstract
     protected function getRequestParams(): array
     {
         $result = [
-            'chat_id'      => $this->chatId,
-            'text'         => $this->text,
-            'reply_markup' => [
-                'keyboard' => [
-                    [
-                        ['text' => 'Надіслати', 'request_contact' => true],
-                        ['text' => 'Текст'],
-                    ]
-                ]
-            ],
-            'resize_keyboard' => true
+            'chat_id' => $this->chatId,
+            'text'    => $this->text,
         ];
-
-
 
         if ($this->hasReplyMarkup()) {
             if ($this->isReplyMarkupReplyKeyboardMarkup()) {
+                /**
+                 * @var \App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup $replyKeyboardMarkup
+                 */
+                $replyKeyboardMarkup = $this->getReplyMarkup();
 
+                $keyboard = [];
+                foreach ($replyKeyboardMarkup->getKeyboardButtons() as $keyboardButton) {
+                    $keyboard[] = [
+                        'text'             => $keyboardButton->getText(),
+                        'request_contact'  => $keyboardButton->isRequestContact(),
+                        'request_location' => $keyboardButton->isRequestLocation()
+                    ];
+                }
+
+                $replyMarkup = [
+                    'keyboard' => [
+                        $keyboard
+                    ],
+                    'resize_keyboard'   => $replyKeyboardMarkup->isResizeKeyboard(),
+                    'one_time_keyboard' => $replyKeyboardMarkup->isOneTimeKeyboard(),
+                    'selective'         => $replyKeyboardMarkup->isSelective()
+                ];
+
+                $result['reply_markup'] = $replyMarkup;
             }
-            //if (current($this->replyMarkup) instanceof \App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton) {
-            //    $inlineKeyboardButtonsArray = [];
-            //
-            //    /**
-            //     * @var \App\Service\Telegram\Model\Type\Inline\InlineKeyboardButton $inlineKeyboardButton
-            //     */
-            //    foreach ($this->replyMarkup as $inlineKeyboardButton) {
-            //        $inlineKeyboardButtonsArray[] = [
-            //            'text' => $inlineKeyboardButton->getText(),
-            //            'callback_data' => 'asd'
-            //        ];
-            //    }
-            //
-            //    $result['reply_markup'] = [];
-            //    $result['reply_markup']['inline_keyboard'] = [];
-            //    $result['reply_markup']['inline_keyboard'][] = $inlineKeyboardButtonsArray;
-            //}
         }
 
         return $result;
@@ -248,7 +243,7 @@ class Message extends BaseAbstract
      */
     public function hasReplyMarkup(): bool
     {
-        return is_null($this->replyMarkup);
+        return !is_null($this->replyMarkup);
     }
 
     /**
