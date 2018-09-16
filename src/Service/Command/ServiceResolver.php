@@ -15,7 +15,7 @@ class ServiceResolver
     // ########################################
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Update\BaseAbstract $update
+     * @param \App\Service\Telegram\Model\Type\Update\BaseAbstr act $update
      *
      * @return string
      */

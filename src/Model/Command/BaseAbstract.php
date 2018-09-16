@@ -15,7 +15,14 @@ abstract class BaseAbstract
     /**
      * @var \App\Model\Command\Response\Factory
      */
-    private $responseFactory;
+    private $responseFactory = null;
+
+    /**
+     * @var \App\Service\Telegram\Model\Type\Update\BaseAbstract
+     */
+    private $update = null;
+
+    // ########################################
 
     public function __construct(Response\Factory $responseFactory)
     {
@@ -36,6 +43,24 @@ abstract class BaseAbstract
     public function createFailedResponse(): Response
     {
         return $this->responseFactory->create(false);
+    }
+
+    // ########################################
+
+    /**
+     * @return \App\Service\Telegram\Model\Type\Update\BaseAbstract
+     */
+    public function getUpdate(): \App\Service\Telegram\Model\Type\Update\BaseAbstract
+    {
+        return $this->update;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Update\BaseAbstract $update
+     */
+    public function setUpdate(\App\Service\Telegram\Model\Type\Update\BaseAbstract $update): void
+    {
+        $this->update = $update;
     }
 
     // ########################################

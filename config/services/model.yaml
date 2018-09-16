@@ -1,6 +1,3 @@
-parameters:
-    auth_telegram_token: '123'
-
 services:
     telegram.model.send.message.factory:
         alias: App\Service\Telegram\Model\Methods\Send\Message\Factory

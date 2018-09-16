@@ -22,11 +22,15 @@ class Telegram
 
     // ########################################
 
-    public function getApiUrl(): ?string
+    public function getAuthToken(): ?string
     {
-        return isset($this->configs['api_url']) ? $this->configs['api_url'] : null;
+        return isset($this->configs['parameters']['auth_token']) ? $this->configs['parameters']['auth_token'] : null;
     }
 
+    public function getApiUrl(): ?string
+    {
+        return isset($this->configs['parameters']['api_url']) ? $this->configs['parameters']['api_url'] : null;
+    }
     // ########################################
 
     public function getCommandClass($commandAlias, $commandType = null)

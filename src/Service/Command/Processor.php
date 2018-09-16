@@ -60,6 +60,7 @@ class Processor
 
         /** @var \App\Model\Command\BaseAbstract $command */
         $command = $this->container->get($serviceName);
+        $command->setUpdate($update);
 
         return $command->process();
     }

@@ -20,7 +20,7 @@ class MessageUpdate extends BaseAbstract
     /**
      * MessageUpdate constructor.
      *
-     * @param int                                      $updateId
+     * @param int                                           $updateId
      * @param \App\Service\Telegram\Model\Type\Base\Message $message
      */
     public function __construct(int $updateId, \App\Service\Telegram\Model\Type\Base\Message $message)

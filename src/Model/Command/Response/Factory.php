@@ -19,7 +19,7 @@ class Factory
      *
      * @return \App\Model\Command\Response
      */
-    public function create(bool $isSuccess)
+    public function create(bool $isSuccess): Response
     {
         return new Response($isSuccess);
     }

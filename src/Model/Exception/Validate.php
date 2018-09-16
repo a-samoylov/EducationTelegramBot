@@ -15,7 +15,7 @@ class Validate extends \Exception
     /**
      * @var string
      */
-    private $fileName;
+    private $className;
 
     /**
      * @var string
@@ -27,11 +27,11 @@ class Validate extends \Exception
      */
     private $inputData;
 
-    public function __construct($fileName = '', $fieldName = '', $inputData = [], $message = '', $code = 0)
+    public function __construct($clsasName = '', $fieldName = '', $inputData = [], $message = '', $code = 0)
     {
         parent::__construct($message, $code);
 
-        $this->fileName  = $fileName;
+        $this->className = $clsasName;
         $this->fieldName = $fieldName;
         $this->inputData = $inputData;
     }
@@ -41,9 +41,9 @@ class Validate extends \Exception
     /**
      * @return string
      */
-    public function getFileName(): string
+    public function getClassName(): string
     {
-        return $this->fileName;
+        return $this->className;
     }
 
     /**

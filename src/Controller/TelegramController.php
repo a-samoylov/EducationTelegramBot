@@ -58,7 +58,7 @@ class TelegramController extends AbstractController
             $logger->alert('Error input data.', [
                 'input_data' => $validateException->getInputData(),
                 'field_name' => $validateException->getFieldName(),
-                'file_name'  => $validateException->getFileName(),
+                'class_name' => $validateException->getClassName(),
                 'message'    => $validateException->getMessage(),
                 'code'       => $validateException->getCode(),
             ]);
