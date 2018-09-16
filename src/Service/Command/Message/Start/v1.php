@@ -59,7 +59,7 @@ class v1 extends BaseAbstract
 
         $sendMessageModel = $this->sendMessageFactory->create($update->getMessage()->getChat()->getId(), 'Вітаємо на порталі підготовки до ЗНО!');
         $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
-            $this->keyboardButtonFactory->create('Зареєструватися за номером телфону', true)
+            $this->keyboardButtonFactory->create('Зареєструватися за номером телефона', true)//TODO TEXT
         ], true));
 
         $sendMessageModel->send();
