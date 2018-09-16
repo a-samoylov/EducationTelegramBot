@@ -33,36 +33,23 @@ class Telegram
     }
     // ########################################
 
-    public function getCommandClass($commandAlias, $commandType = null)
+    public function getMessageServiceName(string $text): ?string
     {
-        $commands = $this->getCommands();
-
-        if (is_null($commands)) {
+        if (empty($this->configs['commands']['message'])) {
             return null;
         }
 
-        $commandAlias = strtolower($commandAlias);
-
-        if (!isset($commands[$commandAlias])) {
-            return null;
+        /**
+         * @var array $messages
+         */
+        $messageCommands = $this->configs['commands']['message'];
+        foreach ($messageCommands as $serviceName => $serviceData) {
+            if ($serviceData['text'] == $text) {
+                return $serviceName;
+            }
         }
 
-        $command = $commands[$commandAlias];
-
-        if (!isset($command['class'])) {
-            throw new \Exception(); //todo
-        }
-
-        $validators = isset($command['validators']) ? $command['validators'] : [];
-
-        return [$command['class'], $validators];
-    }
-
-    // ########################################
-
-    private function getCommands()
-    {
-        return isset($this->configs['commands']) ? $this->configs['commands'] : null;
+        return null;
     }
 
     // ########################################

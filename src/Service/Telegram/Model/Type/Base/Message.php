@@ -587,6 +587,17 @@ class Message
     }
 
     /**
+     * @param \App\Service\Telegram\Model\Type\Base\MessageEntity $entity
+     */
+    public function addEntity(\App\Service\Telegram\Model\Type\Base\MessageEntity $entity): void
+    {
+        if (is_null($this->entities)) {
+            $this->entities = [];
+        }
+        $this->entities[] = $entity;
+    }
+
+    /**
      * @return \App\Service\Telegram\Model\Type\Base\MessageEntity[]
      */
     public function getCaptionEntities(): array
@@ -600,6 +611,17 @@ class Message
     public function setCaptionEntities(array $captionEntities): void
     {
         $this->captionEntities = $captionEntities;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\Base\MessageEntity $captionEntity
+     */
+    public function addCaptionEntity(\App\Service\Telegram\Model\Type\Base\MessageEntity $captionEntity): void
+    {
+        if (is_null($this->captionEntities)) {
+            $this->captionEntities = [];
+        }
+        $this->captionEntities[] = $captionEntity;
     }
 
     /**

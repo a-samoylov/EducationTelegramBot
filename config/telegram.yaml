@@ -2,11 +2,7 @@ parameters:
     auth_token: '123'
     api_url: 'https://api.telegram.org/bot555677621:AAEBmA5NI8psavI-7IibsXek09QqBd_dFkE/'
 
-#commandAlias:
-#   class: #name#
-#   paramName: #validatorClassName#
 commands:
-    start:
-        service: 'telegram.start.command'
-        class: \App\Service\Telegram\Command\Message\Start_v1
-        phone: \App\Service\Telegram\Command\Validator\Phone
+    message:
+        telegram.start.command:
+            text: '/start'

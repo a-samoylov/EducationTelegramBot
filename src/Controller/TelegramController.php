@@ -75,11 +75,10 @@ class TelegramController extends AbstractController
             $response->setContent(json_encode(['message' => 'Server error.']));
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
 
-            //dump($request);
             return $response;
         }
 
-        $response->setContent(json_encode([]));
+        $response->setContent(json_encode(['message' => 'Success.']));
         $response->setStatusCode(Response::HTTP_OK);
 
         //dump($request);
