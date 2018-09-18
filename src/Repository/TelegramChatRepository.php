@@ -26,9 +26,9 @@ class TelegramChatRepository extends ServiceEntityRepository
     /**
      * @param int $chatId
      *
-     * @return \App\Entity\TelegramUser|null Returns an array of TelegramChat objects
+     * @return \App\Entity\User|null Returns an array of TelegramChat objects
      */
-    public function findByChatId(int $chatId): ?\App\Entity\TelegramUser
+    public function findByChatId(int $chatId): ?\App\Entity\User
     {
         return $this->createQueryBuilder('telegramChat')
                     ->andWhere('telegramChat.chatId = :chatId')
@@ -41,10 +41,10 @@ class TelegramChatRepository extends ServiceEntityRepository
 
     public function create(
         int $chatId,
-        string $type,
-        string $username,
-        string $firstName,
-        string $lastName
+        ?string $type,
+        ?string $username,
+        ?string $firstName,
+        ?string $lastName
     ) {
         $char = new TelegramChat();
 

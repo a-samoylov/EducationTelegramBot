@@ -15,6 +15,7 @@ use App\Model\Command\BaseAbstract;
 use App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory as ReplyKeyboardMarkupFactory;
 use App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory as KeyboardButtonFactory;
 use App\Repository\TelegramChatRepository;
+use App\Repository\UserRepository;
 
 class v1 extends BaseAbstract
 {
@@ -36,6 +37,10 @@ class v1 extends BaseAbstract
      * @var \App\Repository\TelegramChatRepository
      */
     private $telegramChatRepository;
+    /**
+     * @var \App\Repository\UserRepository
+     */
+    private $telegramUserRepository;
 
     // ########################################
 
@@ -44,7 +49,8 @@ class v1 extends BaseAbstract
         ResponseFactory            $responseFactory,
         ReplyKeyboardMarkupFactory $replyKeyboardMarkupFactory,
         KeyboardButtonFactory      $keyboardButtonFactory,
-        TelegramChatRepository     $telegramChatRepository
+        TelegramChatRepository     $telegramChatRepository,
+        UserRepository     $telegramUserRepository
     ) {
         parent::__construct($responseFactory);
 
@@ -52,6 +58,7 @@ class v1 extends BaseAbstract
         $this->replyKeyboardMarkupFactory = $replyKeyboardMarkupFactory;
         $this->keyboardButtonFactory      = $keyboardButtonFactory;
         $this->telegramChatRepository     = $telegramChatRepository;
+        $this->telegramUserRepository     = $telegramUserRepository;
     }
 
     // ########################################
@@ -63,23 +70,35 @@ class v1 extends BaseAbstract
          */
         $update = $this->getUpdate();
 
-        $chatType = $update->getMessage()->getChat();
+        $updateChat = $update->getMessage()->getChat();
 
-        $chatEntity = $this->telegramChatRepository->findByChatId($chatType->getId());
+        $chatEntity = $this->telegramChatRepository->findByChatId($updateChat->getId());
         if (is_null($chatEntity)) {
             $chatEntity = $this->telegramChatRepository->create(
-                $chatType->getId(),
-                $chatType->getType(),
-                $chatType->getUsername(),
-                $chatType->getFirstName(),
-                $chatType->getLastName()
+                $updateChat->getId(),
+                $updateChat->getType(),
+                $updateChat->getUsername(),
+                $updateChat->getFirstName(),
+                $updateChat->getLastName()
             );
+
+            /*$this->telegramUserRepository->create(
+                $update->getMessage()->
+            );*/
 
             $this->sendFirstMessage($chatEntity);
 
             return $this->createSuccessResponse();
         }
 
+        //todo is exist user
+        //send first message
+
+
+        //todo has subjects
+
+
+        //todo has program intencivity
 
         return $this->createSuccessResponse();
     }
