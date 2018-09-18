@@ -54,6 +54,16 @@ class TelegramController extends AbstractController
         try {
             $data = (array)json_decode($request->getContent(), true);//php://input
             $update = $updateResolver->resolve($data);
+            if (is_null($update)) {
+                $logger->alert('Update not recognize.', [
+                    'data' => $data
+                ]);
+                $response->setContent(json_encode(['message' => 'Error input data.']));
+                $response->setStatusCode(Response::HTTP_FORBIDDEN);
+
+                return $response;
+            }
+
         } catch (ValidateException $validateException) {
             $logger->alert('Error input data.', [
                 'input_data' => $validateException->getInputData(),

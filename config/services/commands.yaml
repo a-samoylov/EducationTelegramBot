@@ -1,10 +1,11 @@
 services:
-    telegram.command.start:
-        alias: App\Service\Command\Message\Start\v1
+    telegram.command.register:
+        alias: App\Service\Command\Register\v1
         public: true
 
-    App\Service\Command\Message\Start\v1:
-        arguments:
-            $sendMessageFactory: '@telegram.model.send.message.factory'
-            $responseFactory: '@model.command.response.factory'
-
+    #App\Service\Command\Register\v1:
+    #    arguments:
+    #        $sendMessageFactory: '@telegram.model.methods.send.message.factory'
+    #        $responseFactory: '@model.command.response.factory'
+    #        $replyKeyboardMarkupFactory: '@telegram.model.type.replykeyboardmarkup.factory'
+    #        $keyboardButtonFactory: '@telegram.model.type.replymarkup.keyboardbutton.factory'

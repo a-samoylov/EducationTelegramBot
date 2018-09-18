@@ -4,5 +4,5 @@ parameters:
 
 commands:
     message:
-        telegram.command.start:
+        telegram.command.register:
             text: '/start'
