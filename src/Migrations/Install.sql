@@ -5,9 +5,24 @@ CREATE TABLE telegram_user (
   last_name VARCHAR(255) DEFAULT NULL,
   phone VARCHAR(255) DEFAULT NULL,
   is_bot TINYINT(1) NOT NULL,
-  chat_id INT NOT NULL,
   username VARCHAR(255) DEFAULT NULL,
   language_code VARCHAR(50) DEFAULT NULL,
+  PRIMARY KEY(id)
+)
+  DEFAULT CHARACTER SET utf8
+  COLLATE utf8_general_ci
+  ENGINE = InnoDB;
+
+DROP TABLE IF EXISTS telegram_chat;
+CREATE TABLE telegram_chat (
+  id INT AUTO_INCREMENT NOT NULL,
+  chat_id INT NOT NULL,
+  type VARCHAR(20) NOT NULL,
+  username VARCHAR(255) NOT NULL,
+  first_name VARCHAR(255) NOT NULL,
+  last_name VARCHAR(255) NOT NULL,
+  UNIQUE INDEX chat_id (chat_id),
+  UNIQUE INDEX UNIQ_198ED4BA8CDE5729 (type),
   PRIMARY KEY(id)
 )
   DEFAULT CHARACTER SET utf8

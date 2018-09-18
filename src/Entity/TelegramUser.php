@@ -39,11 +39,6 @@ class TelegramUser
     private $isBot;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $chatId;
-
-    /**
      * @ORM\Column(type="string", length=50)
      */
     private $username;
@@ -110,25 +105,6 @@ class TelegramUser
         $this->isBot = $isBot;
 
         return $this;
-    }
-
-    // ----------------------------------------
-
-    public function getChatId(): ?int
-    {
-        return $this->chatId;
-    }
-
-    public function setChatId(int $chatId): self
-    {
-        $this->chatId = $chatId;
-
-        return $this;
-    }
-
-    public function getIsBot(): ?bool
-    {
-        return $this->isBot;
     }
 
     // ----------------------------------------
