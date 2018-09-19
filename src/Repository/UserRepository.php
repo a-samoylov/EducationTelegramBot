@@ -24,21 +24,25 @@ class UserRepository extends ServiceEntityRepository
 
     // ########################################
 
-    public function create(
-        bool $isBot,
-        TelegramChat $telegramChat,
-        ?string $languageCode
-    ) {
+    public function create(TelegramChat $telegramChat)
+    {
         $user = new User();
 
-        $user->setIsBot($isBot);
         $user->setChat($telegramChat);
-        $user->setLanguageCode($languageCode);
 
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush($user);
 
         return $user;
+    }
+
+    public function findByChatId(\App\Entity\TelegramChat $chat): ?\App\Entity\User
+    {
+        return $this->createQueryBuilder('user')
+                    ->andWhere('user.chat = :chat')
+                    ->setParameter('chat', $chat)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
 
     // ########################################

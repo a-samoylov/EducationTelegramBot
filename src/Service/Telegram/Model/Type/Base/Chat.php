@@ -107,33 +107,13 @@ class Chat
 
     public function __construct(
         int $id,
-        string $type,
-        string $title = null,
-        string $username = null,
-        string $firstName = null,
-        string $lastName = null,
-        bool $allMembersAreAdministrators = null,
-        ChatPhoto $photo = null,
-        string $description = null,
-        string $inviteLink = null,
-        Message $pinnedMessage = null,
-        string $stickerSetName = null,
-        bool $canSetStickerSet = null
+        string $type
     ) {
-        $this->id                          = $id;
-        $this->type                        = $type;
-        $this->title                       = $title;
-        $this->username                    = $username;
-        $this->firstName                   = $firstName;
-        $this->lastName                    = $lastName;
-        $this->allMembersAreAdministrators = $allMembersAreAdministrators;
-        $this->photo                       = $photo;
-        $this->description                 = $description;
-        $this->inviteLink                  = $inviteLink;
-        $this->pinnedMessage               = $pinnedMessage;
-        $this->stickerSetName              = $stickerSetName;
-        $this->canSetStickerSet            = $canSetStickerSet;
+        $this->id   = $id;
+        $this->type = $type;
     }
+
+    // ########################################
 
     /**
      * @return int
@@ -162,7 +142,7 @@ class Chat
     /**
      * @return string
      */
-    public function getUsername(): string
+    public function getUsername(): ?string
     {
         return $this->username;
     }
@@ -170,7 +150,7 @@ class Chat
     /**
      * @return string
      */
-    public function getFirstName(): string
+    public function getFirstName(): ?string
     {
         return $this->firstName;
     }
@@ -178,7 +158,7 @@ class Chat
     /**
      * @return string
      */
-    public function getLastName(): string
+    public function getLastName(): ?string
     {
         return $this->lastName;
     }
@@ -192,9 +172,9 @@ class Chat
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\ChatPhoto
+     * @return \App\Service\Telegram\Model\Type\Base\ChatPhoto
      */
-    public function getPhoto(): \App\Service\Telegram\Model\Type\ChatPhoto
+    public function getPhoto(): \App\Service\Telegram\Model\Type\Base\ChatPhoto
     {
         return $this->photo;
     }
@@ -216,9 +196,9 @@ class Chat
     }
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Message
+     * @return \App\Service\Telegram\Model\Type\Base\Message
      */
-    public function getPinnedMessage(): \App\Service\Telegram\Model\Type\Message
+    public function getPinnedMessage(): \App\Service\Telegram\Model\Type\Base\Message
     {
         return $this->pinnedMessage;
     }

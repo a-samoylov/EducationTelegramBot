@@ -20,15 +20,9 @@ class TelegramChat
 
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
-
-    /**
-     * @ORM\Column(type="integer", unique=true, nullable=false)
-     */
-    private $chatId;
 
     /**
      * @ORM\Column(type="text", nullable=false, length=20)
@@ -52,21 +46,16 @@ class TelegramChat
 
     // ########################################
 
+    public function setId(int $id): ?self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getChatId(): ?int
-    {
-        return $this->chatId;
-    }
-
-    public function setChatId(int $chatId): self
-    {
-        $this->chatId = $chatId;
-
-        return $this;
     }
 
     // ########################################
@@ -128,7 +117,7 @@ class TelegramChat
         return $this->username;
     }
 
-    public function setUsername(string $username): self
+    public function setUsername(?string $username): self
     {
         $this->username = $username;
 
@@ -140,7 +129,7 @@ class TelegramChat
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFirstName(?string $firstName): self
     {
         $this->firstName = $firstName;
 
@@ -152,7 +141,7 @@ class TelegramChat
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
 

@@ -1,13 +1,11 @@
 DROP TABLE IF EXISTS telegram_chat;
 CREATE TABLE telegram_chat (
-  id INT AUTO_INCREMENT NOT NULL,
-  chat_id INT NOT NULL,
+  id INT NOT NULL,
   type VARCHAR(20) NOT NULL,
   username VARCHAR(255) DEFAULT NULL,
   first_name VARCHAR(255) DEFAULT NULL,
   last_name VARCHAR(255) DEFAULT NULL,
-  UNIQUE INDEX chat_id (chat_id),
-  PRIMARY KEY(id)
+  UNIQUE INDEX id (id)
 )
   DEFAULT CHARACTER SET utf8
   COLLATE utf8_general_ci
@@ -22,7 +20,7 @@ CREATE TABLE user (
   is_register TINYINT(1) NOT NULL,
   PRIMARY KEY(id),
   UNIQUE INDEX chat_id (chat_id),
-  CONSTRAINT telegram_chat_chat_id FOREIGN KEY (chat_id) REFERENCES telegram_chat (chat_id)
+  CONSTRAINT telegram_chat_id FOREIGN KEY (id) REFERENCES telegram_chat (id)
 )
   DEFAULT CHARACTER SET utf8
   COLLATE utf8_general_ci

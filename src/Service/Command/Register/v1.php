@@ -72,7 +72,7 @@ class v1 extends BaseAbstract
 
         $updateChat = $update->getMessage()->getChat();
 
-        $chatEntity = $this->telegramChatRepository->findByChatId($updateChat->getId());
+        $chatEntity = $this->telegramChatRepository->find($updateChat->getId());
         if (is_null($chatEntity)) {
             $chatEntity = $this->telegramChatRepository->create(
                 $updateChat->getId(),
@@ -82,23 +82,29 @@ class v1 extends BaseAbstract
                 $updateChat->getLastName()
             );
 
-            /*$this->telegramUserRepository->create(
-                $update->getMessage()->
-            );*/
-
             $this->sendFirstMessage($chatEntity);
 
             return $this->createSuccessResponse();
         }
 
-        //todo is exist user
-        //send first message
+        $user = $this->telegramUserRepository->findByChatId($chatEntity);
+        if (is_null($user)) {
+            $this->sendFirstMessage($chatEntity);
 
+            return $this->createSuccessResponse();
+        }
 
-        //todo has subjects
+        if (is_null($user->getIntensity())) {
+            $this->sendChoiceIntensity($chatEntity);
 
+            return $this->createSuccessResponse();
+        }
 
-        //todo has program intencivity
+        if (empty($user->getSubjects()->getKeys())) {
+            $this->sendChoiceSubjects($chatEntity);
+
+            return $this->createSuccessResponse();
+        }
 
         return $this->createSuccessResponse();
     }
@@ -107,12 +113,22 @@ class v1 extends BaseAbstract
 
     private function sendFirstMessage(\App\Entity\TelegramChat $chatEntity)
     {
-        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getChatId(), 'Вітаємо на порталі підготовки до ЗНО!');
+        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Вітаємо на порталі підготовки до ЗНО!');
         $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
             $this->keyboardButtonFactory->create('Зареєструватися за номером телефона', true)//TODO TEXT
         ], true));
 
         $sendMessageModel->send();
+    }
+
+    private function sendChoiceIntensity(\App\Entity\TelegramChat $chatEntity)
+    {
+
+    }
+
+    private function sendChoiceSubjects(\App\Entity\TelegramChat $chatEntity)
+    {
+
     }
 
     // ########################################
