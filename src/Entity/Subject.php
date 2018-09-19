@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Subject
 {
+    // ########################################
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -21,8 +23,24 @@ class Subject
         return $this->id;
     }
 
+    // ########################################
+
     /**
      * @ORM\Column(type="string", length=70)
      */
     private $name;
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    // ########################################
 }
