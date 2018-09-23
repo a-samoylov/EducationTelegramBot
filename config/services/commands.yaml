@@ -1,6 +1,10 @@
 services:
     telegram.command.register.startstep:
         alias: App\Service\Command\Register\StartStep
+        public: true:
+
+    telegram.command.register.subjectstep:
+        alias: App\Service\Command\Register\SubjectStep
         public: true
 
     #App\Service\Command\Register\v1:

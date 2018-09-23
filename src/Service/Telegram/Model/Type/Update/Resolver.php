@@ -15,11 +15,17 @@ class Resolver
      */
     private $messageUpdateFactory;
 
+    /**
+     * @var \App\Service\Telegram\Model\Type\Update\CallbackQuery\Factory
+     */
+    private $callbackQueryFactory;
+
     // ########################################
 
-    public function __construct(MessageUpdate\Factory $messageUpdateFactory)
+    public function __construct(MessageUpdate\Factory $messageUpdateFactory, CallbackQuery\Factory $callbackQueryFactory)
     {
         $this->messageUpdateFactory = $messageUpdateFactory;
+        $this->callbackQueryFactory = $callbackQueryFactory;
     }
 
     // ########################################
@@ -28,6 +34,8 @@ class Resolver
     {
         if (!empty($data['message'])) {
             return $this->messageUpdateFactory->create($data);
+        } elseif (!empty($data['callback_query'])) {
+            return $this->callbackQueryFactory->create($data);
         }
 
         //todo other

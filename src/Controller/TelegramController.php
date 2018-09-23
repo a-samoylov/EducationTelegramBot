@@ -34,7 +34,7 @@ class TelegramController extends AbstractController
         UpdateResolver $updateResolver,
         LoggerInterface $logger
     ) {
-        $request = Request::createFromGlobals();
+        $request  = Request::createFromGlobals();
         $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
 

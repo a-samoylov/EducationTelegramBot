@@ -10,13 +10,11 @@ namespace App\Service\Command\Register;
 
 use App\Model\Command\Response;
 use App\Model\Command\Response\Factory as ResponseFactory;
-use App\Service\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
-
 use App\Model\Command\BaseAbstract;
-use App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory as ReplyKeyboardMarkupFactory;
+
+use App\Service\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
 use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
 use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory as InlineKeyboardMarkupFactory;
-use App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory as KeyboardButtonFactory;
 
 use App\Repository\TelegramChatRepository;
 use App\Repository\UserRepository;
@@ -29,16 +27,6 @@ class StartStep extends BaseAbstract
      * @var \App\Service\Telegram\Model\Methods\Send\Message\Factory
      */
     private $sendMessageFactory;
-
-    /**
-     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory
-     */
-    private $replyKeyboardMarkupFactory;
-
-    /**
-     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory
-     */
-    private $keyboardButtonFactory;
 
     /**
      * @var \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory
@@ -69,8 +57,6 @@ class StartStep extends BaseAbstract
     public function __construct(
         SendMessageFactory          $sendMessageFactory,
         ResponseFactory             $responseFactory,
-        ReplyKeyboardMarkupFactory  $replyKeyboardMarkupFactory,
-        KeyboardButtonFactory       $keyboardButtonFactory,
         InlineKeyboardMarkupFactory $inlineKeyboardMarkupFactory,
         InlineKeyboardButtonFactory $inlineKeyboardButtonFactory,
         TelegramChatRepository      $telegramChatRepository,
@@ -80,8 +66,6 @@ class StartStep extends BaseAbstract
         parent::__construct($responseFactory);
 
         $this->sendMessageFactory          = $sendMessageFactory;
-        $this->replyKeyboardMarkupFactory  = $replyKeyboardMarkupFactory;
-        $this->keyboardButtonFactory       = $keyboardButtonFactory;
         $this->inlineKeyboardMarkupFactory = $inlineKeyboardMarkupFactory;
         $this->inlineKeyboardButtonFactory = $inlineKeyboardButtonFactory;
         $this->telegramChatRepository      = $telegramChatRepository;
@@ -110,28 +94,9 @@ class StartStep extends BaseAbstract
                 $updateChat->getLastName()
             );
 
+            $this->telegramUserRepository->create($chatEntity);
+
             $this->sendFirstMessage($chatEntity);
-
-            return $this->createSuccessResponse();
-        }
-
-        $user = $this->telegramUserRepository->findByChatId($chatEntity);
-        if (is_null($user)) {
-            $this->sendFirstMessage($chatEntity);
-
-            return $this->createSuccessResponse();
-        }
-
-        if (is_null($user->getIntensity())) {
-            $this->sendChoiceIntensity($chatEntity);
-
-            return $this->createSuccessResponse();
-        }
-
-        if (empty($user->getSubjects()->getKeys())) {
-            $this->sendChoiceSubjects($chatEntity);
-
-            return $this->createSuccessResponse();
         }
 
         return $this->createSuccessResponse();
@@ -142,10 +107,7 @@ class StartStep extends BaseAbstract
     private function sendFirstMessage(\App\Entity\TelegramChat $chatEntity)
     {
         $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Підготуватися до ЗНО дуже легко!) 10-15 хвилин щодня і ти отримаешь свої 200 балів!');//TODO TEXT
-        /*$sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
-            $this->keyboardButtonFactory->create('Зареєструватися за номером телефона', true)
-        ], true));*/
-
+        //TODO id, btn
         $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
             $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([
                 'id' => 13333,
@@ -153,16 +115,6 @@ class StartStep extends BaseAbstract
             ])),
         ]));
         $sendMessageModel->send();
-    }
-
-    private function sendChoiceIntensity(\App\Entity\TelegramChat $chatEntity)
-    {
-
-    }
-
-    private function sendChoiceSubjects(\App\Entity\TelegramChat $chatEntity)
-    {
-
     }
 
     // ########################################

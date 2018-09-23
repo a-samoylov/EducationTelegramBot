@@ -52,5 +52,26 @@ class Telegram
         return null;
     }
 
+    // ----------------------------------------
+
+    public function getCallbackQueryServiceName(string $alias): ?string
+    {
+        if (empty($this->configs['commands']['callbackquery'])) {
+            return null;
+        }
+
+        /**
+         * @var array $callbackQueryCommands
+         */
+        $callbackQueryCommands = $this->configs['commands']['callbackquery'];
+        foreach ($callbackQueryCommands as $serviceName => $serviceData) {
+            if ($serviceData['alias'] == $alias) {
+                return $serviceName;
+            }
+        }
+
+        return null;
+    }
+
     // ########################################
 }

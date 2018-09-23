@@ -8,6 +8,26 @@
 
 namespace App\Service\Command\Register;
 
-class SubjectStep
+use App\Model\Command\Response;
+use App\Model\Command\Response\Factory as ResponseFactory;
+use App\Model\Command\BaseAbstract;
+
+class SubjectStep extends BaseAbstract
 {
+    // ########################################
+
+    public function __construct(
+        ResponseFactory $responseFactory
+    ) {
+        parent::__construct($responseFactory);
+    }
+
+    // ########################################
+
+    public function process(): Response
+    {
+        return $this->createSuccessResponse();
+    }
+
+    // ########################################
 }

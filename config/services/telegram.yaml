@@ -6,3 +6,7 @@ commands:
     message:
         telegram.command.register.startstep:
             text: '/start'
+
+    callbackquery:
+        telegram.command.register.subjectstep:
+            alias: 'subject_step'

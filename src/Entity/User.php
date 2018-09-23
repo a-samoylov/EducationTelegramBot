@@ -65,10 +65,14 @@ class User
         $this->subjects = new ArrayCollection();
     }
 
+    // ########################################
+
     public function getId(): ?int
     {
         return $this->id;
     }
+
+    // ########################################
 
     public function getPhone(): ?string
     {
@@ -82,6 +86,8 @@ class User
         return $this;
     }
 
+    // ########################################
+
     public function getIntensity(): ?int
     {
         return $this->intensity;
@@ -94,7 +100,14 @@ class User
         return $this;
     }
 
-    public function getIsRegister(): ?bool
+    public function hasIntensity(): bool
+    {
+        return is_null($this->intensity);
+    }
+
+    // ########################################
+
+    public function isRegister(): bool
     {
         return $this->isRegister;
     }
@@ -105,6 +118,8 @@ class User
 
         return $this;
     }
+
+    // ########################################
 
     public function getChat(): ?TelegramChat
     {
@@ -117,6 +132,8 @@ class User
 
         return $this;
     }
+
+    // ########################################
 
     /**
      * @return Collection|Subject[]
@@ -142,6 +159,11 @@ class User
         }
 
         return $this;
+    }
+
+    public function hasSubjects(): bool
+    {
+        return !empty($this->subjects);
     }
 
     // ########################################

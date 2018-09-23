@@ -27,11 +27,11 @@ class Validate extends \Exception
      */
     private $inputData;
 
-    public function __construct($clsasName = '', $fieldName = '', $inputData = [], $message = '', $code = 0)
+    public function __construct($className = '', $fieldName = '', $inputData = [], $message = '', $code = 0)
     {
         parent::__construct($message, $code);
 
-        $this->className = $clsasName;
+        $this->className = $className;
         $this->fieldName = $fieldName;
         $this->inputData = $inputData;
     }
