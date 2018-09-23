@@ -25,7 +25,7 @@ class YamlLoader
 
     public function load($resourceName)
     {
-        return Yaml::parse(file_get_contents($this->baseDir . '\\config\\' . $resourceName . '.yaml'));
+        return Yaml::parse(file_get_contents($this->baseDir . '\\config\\' . $resourceName));
     }
 
     // ########################################

@@ -17,7 +17,7 @@ class Telegram
 
     public function __construct(YamlLoader $loader)
     {
-        $this->configs = $loader->load('telegram');
+        $this->configs = $loader->load('services\\telegram.yaml');
     }
 
     // ########################################

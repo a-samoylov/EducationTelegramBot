@@ -23,7 +23,7 @@ use App\Repository\UserRepository;
 
 use App\Model\Helper\DateTime as DateTimeHelper;
 
-class v1 extends BaseAbstract
+class StartStep extends BaseAbstract
 {
     /**
      * @var \App\Service\Telegram\Model\Methods\Send\Message\Factory
@@ -101,7 +101,6 @@ class v1 extends BaseAbstract
         $updateChat = $update->getMessage()->getChat();
 
         $chatEntity = $this->telegramChatRepository->find($updateChat->getId());
-        $this->sendFirstMessage($chatEntity);
         if (is_null($chatEntity)) {
             $chatEntity = $this->telegramChatRepository->create(
                 $updateChat->getId(),
@@ -149,10 +148,8 @@ class v1 extends BaseAbstract
 
         $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
             $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([
-                'type'    => 'custom',
-                'command' => 'start_register',
-                'params'  => [],
-                'date'    => $this->dateTimeHelper->getCurrentDateTime()->format('Y-m-d H:i:s')
+                'id' => 13333,
+                'btn' => 11111
             ])),
         ]));
         $sendMessageModel->send();
