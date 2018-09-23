@@ -142,13 +142,14 @@ class v1 extends BaseAbstract
 
     private function sendFirstMessage(\App\Entity\TelegramChat $chatEntity)
     {
-        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Вітаємо на порталі підготовки до ЗНО!');//TODO TEXT
+        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Підготуватися до ЗНО дуже легко!) 10-15 хвилин щодня і ти отримаешь свої 200 балів!');//TODO TEXT
         /*$sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
             $this->keyboardButtonFactory->create('Зареєструватися за номером телефона', true)
         ], true));*/
 
         $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
-            $this->inlineKeyboardButtonFactory->create('Почати заняття', json_encode([
+            $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([
+                'type'    => 'custom',
                 'command' => 'start_register',
                 'params'  => [],
                 'date'    => $this->dateTimeHelper->getCurrentDateTime()->format('Y-m-d H:i:s')
