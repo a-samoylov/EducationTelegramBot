@@ -13,6 +13,7 @@ use App\Model\Command\Response\Factory as ResponseFactory;
 use App\Service\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
 use App\Model\Command\BaseAbstract;
 use App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory as ReplyKeyboardMarkupFactory;
+use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
 use App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory as KeyboardButtonFactory;
 use App\Repository\TelegramChatRepository;
 use App\Repository\UserRepository;
@@ -42,23 +43,30 @@ class v1 extends BaseAbstract
      */
     private $telegramUserRepository;
 
+    /**
+     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory
+     */
+    private $inlineKeyboardButtonFactory;
+
     // ########################################
 
     public function __construct(
-        SendMessageFactory         $sendMessageFactory,
-        ResponseFactory            $responseFactory,
-        ReplyKeyboardMarkupFactory $replyKeyboardMarkupFactory,
-        KeyboardButtonFactory      $keyboardButtonFactory,
-        TelegramChatRepository     $telegramChatRepository,
-        UserRepository     $telegramUserRepository
+        SendMessageFactory          $sendMessageFactory,
+        ResponseFactory             $responseFactory,
+        ReplyKeyboardMarkupFactory  $replyKeyboardMarkupFactory,
+        InlineKeyboardButtonFactory $inlineKeyboardButtonFactory,
+        KeyboardButtonFactory       $keyboardButtonFactory,
+        TelegramChatRepository      $telegramChatRepository,
+        UserRepository              $telegramUserRepository
     ) {
         parent::__construct($responseFactory);
 
-        $this->sendMessageFactory         = $sendMessageFactory;
-        $this->replyKeyboardMarkupFactory = $replyKeyboardMarkupFactory;
-        $this->keyboardButtonFactory      = $keyboardButtonFactory;
-        $this->telegramChatRepository     = $telegramChatRepository;
-        $this->telegramUserRepository     = $telegramUserRepository;
+        $this->sendMessageFactory          = $sendMessageFactory;
+        $this->replyKeyboardMarkupFactory  = $replyKeyboardMarkupFactory;
+        $this->keyboardButtonFactory       = $keyboardButtonFactory;
+        $this->inlineKeyboardButtonFactory = $inlineKeyboardButtonFactory;
+        $this->telegramChatRepository      = $telegramChatRepository;
+        $this->telegramUserRepository      = $telegramUserRepository;
     }
 
     // ########################################
@@ -113,11 +121,14 @@ class v1 extends BaseAbstract
 
     private function sendFirstMessage(\App\Entity\TelegramChat $chatEntity)
     {
-        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Вітаємо на порталі підготовки до ЗНО!');
+        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Вітаємо на порталі підготовки до ЗНО!');//TODO TEXT
         $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
-            $this->keyboardButtonFactory->create('Зареєструватися за номером телефона', true)//TODO TEXT
+            $this->keyboardButtonFactory->create('Зареєструватися за номером телефона', true)
         ], true));
 
+        /*$sendMessageModel->setReplyMarkup($this->inlineKeyboardButtonFactory->create(
+            'Hello'
+        ));*/
         $sendMessageModel->send();
     }
 

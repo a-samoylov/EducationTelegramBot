@@ -8,15 +8,13 @@
 
 namespace App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton;
 
-use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton;
-
 class Factory
 {
     // ########################################
 
-    public function create(string $text): InlineKeyboardButton
+    public function create(string $text): Entity
     {
-        return new InlineKeyboardButton($text);
+        return new Entity($text);
     }
 
     // ########################################

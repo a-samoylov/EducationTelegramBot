@@ -16,7 +16,7 @@ class ReplyKeyboardMarkup extends BaseAbstract
      * Array of button rows, each represented by an Array of Strings
      * Array of Array of String
      *
-     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton[]
+     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[]
      */
     protected $keyboardButtons;
 
@@ -51,10 +51,10 @@ class ReplyKeyboardMarkup extends BaseAbstract
     /**
      * ReplyKeyboardMarkup constructor.
      *
-     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton[] $keyboardButtons
-     * @param bool                                                   $resizeKeyboard
-     * @param bool                                                   $oneTimeKeyboard
-     * @param bool                                                   $selective
+     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[] $keyboardButtons
+     * @param bool                                                                 $resizeKeyboard
+     * @param bool                                                                 $oneTimeKeyboard
+     * @param bool                                                                 $selective
      */
     public function __construct(array $keyboardButtons, bool $resizeKeyboard, bool $oneTimeKeyboard, bool $selective)
     {
@@ -67,7 +67,7 @@ class ReplyKeyboardMarkup extends BaseAbstract
     // ########################################
 
     /**
-     * @return \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton[]
+     * @return \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[]
      */
     public function getKeyboardButtons(): array
     {
@@ -75,7 +75,7 @@ class ReplyKeyboardMarkup extends BaseAbstract
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton[] $keyboardButtons
+     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[] $keyboardButtons
      */
     public function setKeyboardButtons(array $keyboardButtons): void
     {

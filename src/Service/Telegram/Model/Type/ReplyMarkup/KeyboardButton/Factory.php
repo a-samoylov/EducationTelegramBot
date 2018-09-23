@@ -8,15 +8,13 @@
 
 namespace App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton;
 
-use App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton;
-
 class Factory
 {
     // ########################################
 
-    public function create(string $text, bool $requestContact = false, bool $requestLocation = false): KeyboardButton
+    public function create(string $text, bool $requestContact = false, bool $requestLocation = false): Entity
     {
-        return new KeyboardButton($text, $requestContact, $requestLocation);
+        return new Entity($text, $requestContact, $requestLocation);
     }
 
     // ########################################

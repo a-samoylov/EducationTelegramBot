@@ -15,10 +15,10 @@ class Factory
     // ########################################
 
     /**
-     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton[] $keyboardButtons
-     * @param bool                                                          $resizeKeyboard
-     * @param bool                                                          $oneTimeKeyboard
-     * @param bool                                                          $selective
+     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[] $keyboardButtons
+     * @param bool                                                  $resizeKeyboard
+     * @param bool                                                  $oneTimeKeyboard
+     * @param bool                                                  $selective
      *
      * @return \App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup
      */
