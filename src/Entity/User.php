@@ -27,7 +27,7 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $phone;
 
@@ -39,7 +39,7 @@ class User
     private $chat;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="smallint", nullable=true)
      */
     private $intensity;
 
@@ -54,7 +54,7 @@ class User
     private $subjects;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=false, options={"default" : "0"})
      */
     private $isRegister;
 
@@ -164,6 +164,11 @@ class User
     public function hasSubjects(): bool
     {
         return !empty($this->subjects);
+    }
+
+    public function getIsRegister(): ?bool
+    {
+        return $this->isRegister;
     }
 
     // ########################################
