@@ -10,6 +10,7 @@
         "symfony/config": "*",
         "symfony/console": "*",
         "symfony/dependency-injection": "*",
+        "symfony/event-dispatcher": "*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "*",
         "symfony/monolog-bundle": "^3.3",
