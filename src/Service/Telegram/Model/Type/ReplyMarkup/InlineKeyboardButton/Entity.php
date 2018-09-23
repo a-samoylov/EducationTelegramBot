@@ -105,6 +105,16 @@ class Entity
         $this->url = $url;
     }
 
+    // ########################################
+
+    /**
+     * @return bool
+     */
+    public function isHasCallbackData(): bool
+    {
+        return !is_null($this->callbackData);
+    }
+
     /**
      * @return string
      */
@@ -120,6 +130,8 @@ class Entity
     {
         $this->callbackData = $callbackData;
     }
+
+    // ########################################
 
     /**
      * @return string

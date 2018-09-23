@@ -12,9 +12,12 @@ class Factory
 {
     // ########################################
 
-    public function create(string $text): Entity
+    public function create(string $text, string $callbackData): Entity
     {
-        return new Entity($text);
+        $result = new Entity($text);
+        $result->setCallbackData($callbackData);
+
+        return $result;
     }
 
     // ########################################

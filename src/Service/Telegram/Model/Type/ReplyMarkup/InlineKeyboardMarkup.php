@@ -10,4 +10,44 @@ namespace App\Service\Telegram\Model\Type\ReplyMarkup;
 
 class InlineKeyboardMarkup extends BaseAbstract
 {
+    // ########################################
+
+    /**
+     * Array of button rows, each represented by an Array of InlineKeyboardButton objects
+     *
+     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[]
+     */
+    protected $inlineKeyboard;
+
+    // ########################################
+
+    /**
+     * InlineKeyboardMarkup constructor.
+     *
+     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[] $inlineKeyboard
+     */
+    public function __construct(array $inlineKeyboard)
+    {
+        $this->inlineKeyboard = $inlineKeyboard;
+    }
+
+    // ########################################
+
+    /**
+     * @return \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[]
+     */
+    public function getInlineKeyboard(): array
+    {
+        return $this->inlineKeyboard;
+    }
+
+    /**
+     * @param \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[] $inlineKeyboard
+     */
+    public function setInlineKeyboard(array $inlineKeyboard): void
+    {
+        $this->inlineKeyboard = $inlineKeyboard;
+    }
+
+    // ########################################
 }

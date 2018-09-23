@@ -12,6 +12,11 @@ class DateTime
 {
     // ########################################
 
+    public function getCurrentDateTime(): \DateTime
+    {
+        return new \DateTime('now', new \DateTimeZone('UTC'));
+    }
+
     public function create(int $timestamp): \DateTime
     {
         return new \DateTime('@' . $timestamp, new \DateTimeZone('UTC'));

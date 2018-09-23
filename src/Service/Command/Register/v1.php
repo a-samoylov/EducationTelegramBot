@@ -11,12 +11,17 @@ namespace App\Service\Command\Register;
 use App\Model\Command\Response;
 use App\Model\Command\Response\Factory as ResponseFactory;
 use App\Service\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
+
 use App\Model\Command\BaseAbstract;
 use App\Service\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory as ReplyKeyboardMarkupFactory;
 use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
+use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory as InlineKeyboardMarkupFactory;
 use App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory as KeyboardButtonFactory;
+
 use App\Repository\TelegramChatRepository;
 use App\Repository\UserRepository;
+
+use App\Model\Helper\DateTime as DateTimeHelper;
 
 class v1 extends BaseAbstract
 {
@@ -34,19 +39,30 @@ class v1 extends BaseAbstract
      * @var \App\Service\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Factory
      */
     private $keyboardButtonFactory;
+
     /**
-     * @var \App\Repository\TelegramChatRepository
+     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory
      */
-    private $telegramChatRepository;
-    /**
-     * @var \App\Repository\UserRepository
-     */
-    private $telegramUserRepository;
+    private $inlineKeyboardMarkupFactory;
 
     /**
      * @var \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory
      */
     private $inlineKeyboardButtonFactory;
+
+    /**
+     * @var \App\Repository\TelegramChatRepository
+     */
+    private $telegramChatRepository;
+
+    /**
+     * @var \App\Repository\UserRepository
+     */
+    private $telegramUserRepository;
+    /**
+     * @var \App\Model\Helper\DateTime
+     */
+    private $dateTimeHelper;
 
     // ########################################
 
@@ -54,19 +70,23 @@ class v1 extends BaseAbstract
         SendMessageFactory          $sendMessageFactory,
         ResponseFactory             $responseFactory,
         ReplyKeyboardMarkupFactory  $replyKeyboardMarkupFactory,
-        InlineKeyboardButtonFactory $inlineKeyboardButtonFactory,
         KeyboardButtonFactory       $keyboardButtonFactory,
+        InlineKeyboardMarkupFactory $inlineKeyboardMarkupFactory,
+        InlineKeyboardButtonFactory $inlineKeyboardButtonFactory,
         TelegramChatRepository      $telegramChatRepository,
-        UserRepository              $telegramUserRepository
+        UserRepository              $telegramUserRepository,
+        DateTimeHelper              $dateTimeHelper
     ) {
         parent::__construct($responseFactory);
 
         $this->sendMessageFactory          = $sendMessageFactory;
         $this->replyKeyboardMarkupFactory  = $replyKeyboardMarkupFactory;
         $this->keyboardButtonFactory       = $keyboardButtonFactory;
+        $this->inlineKeyboardMarkupFactory = $inlineKeyboardMarkupFactory;
         $this->inlineKeyboardButtonFactory = $inlineKeyboardButtonFactory;
         $this->telegramChatRepository      = $telegramChatRepository;
         $this->telegramUserRepository      = $telegramUserRepository;
+        $this->dateTimeHelper              = $dateTimeHelper;
     }
 
     // ########################################
@@ -81,6 +101,7 @@ class v1 extends BaseAbstract
         $updateChat = $update->getMessage()->getChat();
 
         $chatEntity = $this->telegramChatRepository->find($updateChat->getId());
+        $this->sendFirstMessage($chatEntity);
         if (is_null($chatEntity)) {
             $chatEntity = $this->telegramChatRepository->create(
                 $updateChat->getId(),
@@ -122,13 +143,17 @@ class v1 extends BaseAbstract
     private function sendFirstMessage(\App\Entity\TelegramChat $chatEntity)
     {
         $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Вітаємо на порталі підготовки до ЗНО!');//TODO TEXT
-        $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
+        /*$sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
             $this->keyboardButtonFactory->create('Зареєструватися за номером телефона', true)
-        ], true));
+        ], true));*/
 
-        /*$sendMessageModel->setReplyMarkup($this->inlineKeyboardButtonFactory->create(
-            'Hello'
-        ));*/
+        $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
+            $this->inlineKeyboardButtonFactory->create('Почати заняття', json_encode([
+                'command' => 'start_register',
+                'params'  => [],
+                'date'    => $this->dateTimeHelper->getCurrentDateTime()->format('Y-m-d H:i:s')
+            ])),
+        ]));
         $sendMessageModel->send();
     }
 
