@@ -30,33 +30,33 @@ class TelegramChatRepository extends ServiceEntityRepository
         ?string $firstName,
         ?string $lastName
     ) {
-        $char = new TelegramChat();
+        $chat = new TelegramChat();
 
-        $char->setId($chatId);
+        $chat->setId($chatId);
 
         switch ($type) {
             case \App\Entity\TelegramChat::TYPE_PRIVATE:
-                $char->setTypePrivate();
+                $chat->setTypePrivate();
                 break;
             case \App\Entity\TelegramChat::TYPE_GROUP:
-                $char->setTypeGroup();
+                $chat->setTypeGroup();
                 break;
             case \App\Entity\TelegramChat::TYPE_SUPERGROUP:
-                $char->setTypeSupergroup();
+                $chat->setTypeSupergroup();
                 break;
             case \App\Entity\TelegramChat::TYPE_CHANNEL:
-                $char->setTypeChannel();
+                $chat->setTypeChannel();
                 break;
         }
 
-        !is_null($username)  && $char->setUsername($username);
-        !is_null($firstName) && $char->setFirstName($firstName);
-        !is_null($lastName)  && $char->setLastName($lastName);
+        !is_null($username)  && $chat->setUsername($username);
+        !is_null($firstName) && $chat->setFirstName($firstName);
+        !is_null($lastName)  && $chat->setLastName($lastName);
 
-        $this->getEntityManager()->persist($char);
-        $this->getEntityManager()->flush($char);
+        $this->getEntityManager()->persist($chat);
+        $this->getEntityManager()->flush($chat);
 
-        return $char;
+        return $chat;
     }
 
     // ########################################

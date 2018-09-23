@@ -17,6 +17,9 @@ class User
     private const INTENSITY_MEDIUM = 2;
     private const INTENSITY_LARGE  = 3;
 
+    private const IS_REGISTER     = 1;
+    private const IS_NOT_REGISTER = 0;
+
     // ########################################
 
     /**
@@ -34,7 +37,7 @@ class User
     /**
      * @var \App\Entity\TelegramChat
      * @ORM\OneToOne(targetEntity="App\Entity\TelegramChat")
-     * @JoinColumn(name="chat_id", nullable=false, referencedColumnName="id")
+     * @JoinColumn(name="id", nullable=false, referencedColumnName="id")
      */
     private $chat;
 
@@ -109,19 +112,26 @@ class User
 
     public function isRegister(): bool
     {
-        return $this->isRegister;
+        return $this->isRegister == self::IS_REGISTER;
     }
 
-    public function setIsRegister(bool $isRegister): self
+    public function setRegister(): self
     {
-        $this->isRegister = $isRegister;
+        $this->isRegister = self::IS_REGISTER;
+
+        return $this;
+    }
+
+    public function setNotRegister(): self
+    {
+        $this->isRegister = self::IS_NOT_REGISTER;
 
         return $this;
     }
 
     // ########################################
 
-    public function getChat(): ?TelegramChat
+    public function getChat(): TelegramChat
     {
         return $this->chat;
     }

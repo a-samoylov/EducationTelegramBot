@@ -29,6 +29,7 @@ class UserRepository extends ServiceEntityRepository
         $user = new User();
 
         $user->setChat($telegramChat);
+        $user->setNotRegister();
 
         $this->getEntityManager()->persist($user);
         $this->getEntityManager()->flush($user);
