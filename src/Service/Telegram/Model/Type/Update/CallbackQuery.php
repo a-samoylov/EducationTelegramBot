@@ -8,7 +8,7 @@
 
 namespace App\Service\Telegram\Model\Type\Update;
 
-class CallbackQuery
+class CallbackQuery extends BaseAbstract
 {
     // ########################################
 
@@ -55,7 +55,7 @@ class CallbackQuery
      * Optional. Data associated with the callback button.
      * Be aware that a bad client can send arbitrary data in this field.
      *
-     * @var string
+     * @var array
      */
     protected $data;
 
@@ -72,12 +72,14 @@ class CallbackQuery
     /**
      * CallbackQuery constructor.
      *
+     * @param int                                        $updateId
      * @param string                                     $id
      * @param \App\Service\Telegram\Model\Type\Base\User $from
      * @param string                                     $chatInstance
      */
-    public function __construct(string $id, \App\Service\Telegram\Model\Type\Base\User $from, string $chatInstance)
+    public function __construct(int $updateId, string $id, \App\Service\Telegram\Model\Type\Base\User $from, string $chatInstance)
     {
+        parent::__construct($updateId);
         $this->id           = $id;
         $this->from         = $from;
         $this->chatInstance = $chatInstance;
@@ -165,10 +167,12 @@ class CallbackQuery
         $this->chatInstance = $chatInstance;
     }
 
+    // ########################################
+
     /**
-     * @return string
+     * @return array
      */
-    public function getData(): string
+    public function getData(): array
     {
         return $this->data;
     }
@@ -178,8 +182,18 @@ class CallbackQuery
      */
     public function setData(string $data): void
     {
-        $this->data = $data;
+        $this->data = (array)json_decode($data);
     }
+
+    /**
+     * @return bool
+     */
+    public function hasData(): bool
+    {
+        return !is_null($this->data);
+    }
+
+    // ########################################
 
     /**
      * @return string

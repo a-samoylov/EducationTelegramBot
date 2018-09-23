@@ -58,7 +58,12 @@ class Factory implements FactoryInterface
             throw new ValidateException(self::class, 'chat_instance');
         }
 
-        $result = new CallbackQuery($callbackQueryData['id'], $this->userFactory->create($callbackQueryData['from']), $callbackQueryData['chat_instance']);
+        $result = new CallbackQuery(
+            $data['update_id'],
+            $callbackQueryData['id'],
+            $this->userFactory->create($callbackQueryData['from']),
+            $callbackQueryData['chat_instance']
+        );
 
         if (!empty($callbackQueryData['data'])) {
             if (!is_string($callbackQueryData['data'])) {

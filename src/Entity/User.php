@@ -173,7 +173,7 @@ class User
 
     public function hasSubjects(): bool
     {
-        return !empty($this->subjects);
+        return !$this->subjects->isEmpty();
     }
 
     public function getIsRegister(): ?bool

@@ -95,7 +95,7 @@ class ServiceResolver
             //todo ZNO test
         }
 
-        if ($userEntity->hasSubjects()) {
+        if (!$userEntity->hasSubjects()) {
             return $this->telegramConfig->getCallbackQueryServiceName('subject_step');
         }
 
