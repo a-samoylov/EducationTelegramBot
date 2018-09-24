@@ -22,4 +22,11 @@ class SendCallbackMessageRepository extends ServiceEntityRepository
     }
 
     // ########################################
+
+    public function create(): SendCallbackMessage
+    {
+        //todo
+    }
+
+    // ########################################
 }

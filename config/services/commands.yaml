@@ -6,10 +6,3 @@ services:
     telegram.command.register.subjectstep:
         alias: App\Command\Register\SubjectStep
         public: true
-
-    #App\Command\Register\v1:
-    #    arguments:
-    #        $sendMessageFactory: '@telegram.model.methods.send.message.factory'
-    #        $responseFactory: '@model.command.response.factory'
-    #        $replyKeyboardMarkupFactory: '@telegram.model.type.replykeyboardmarkup.factory'
-    #        $keyboardButtonFactory: '@telegram.model.type.replymarkup.keyboardbutton.factory'

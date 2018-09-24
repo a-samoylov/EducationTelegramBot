@@ -29,7 +29,7 @@ class TelegramChatRepository extends ServiceEntityRepository
         ?string $username,
         ?string $firstName,
         ?string $lastName
-    ) {
+    ): TelegramChat {
         $chat = new TelegramChat();
 
         $chat->setId($chatId);

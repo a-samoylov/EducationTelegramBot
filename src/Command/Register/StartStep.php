@@ -8,20 +8,7 @@
 
 namespace App\Command\Register;
 
-use App\Command\Response;
-use App\Command\Response\Factory as ResponseFactory;
-use App\Command\BaseAbstract;
-
-use App\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
-use App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
-use App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory as InlineKeyboardMarkupFactory;
-
-use App\Repository\TelegramChatRepository;
-use App\Repository\UserRepository;
-
-use App\Model\Helper\DateTime as DateTimeHelper;
-
-class StartStep extends BaseAbstract
+class StartStep extends \App\Command\BaseAbstract
 {
     /**
      * @var \App\Telegram\Model\Methods\Send\Message\Factory
@@ -46,7 +33,17 @@ class StartStep extends BaseAbstract
     /**
      * @var \App\Repository\UserRepository
      */
-    private $telegramUserRepository;
+    private $userRepository;
+
+    /**
+     * @var \App\Repository\Telegram\CallbackMessageRepository
+     */
+    private $telegramCallbackMessageRepository;
+
+    /**
+     * @var \App\Repository\Telegram\SendCallbackMessageRepository
+     */
+    private $telegramSendCallbackMessageRepository;
 
     /**
      * @var \App\Model\Helper\DateTime
@@ -56,27 +53,31 @@ class StartStep extends BaseAbstract
     // ########################################
 
     public function __construct(
-        SendMessageFactory          $sendMessageFactory,
-        ResponseFactory             $responseFactory,
-        InlineKeyboardMarkupFactory $inlineKeyboardMarkupFactory,
-        InlineKeyboardButtonFactory $inlineKeyboardButtonFactory,
-        TelegramChatRepository      $telegramChatRepository,
-        UserRepository              $telegramUserRepository,
-        DateTimeHelper              $dateTimeHelper
+        \App\Telegram\Model\Methods\Send\Message\Factory                  $sendMessageFactory,
+        \App\Command\Response\Factory                                     $responseFactory,
+        \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory $inlineKeyboardMarkupFactory,
+        \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
+        \App\Repository\TelegramChatRepository                            $telegramChatRepository,
+        \App\Repository\UserRepository                                    $userRepository,
+        \App\Repository\Telegram\CallbackMessageRepository                $telegramCallbackMessageRepository,
+        \App\Repository\Telegram\SendCallbackMessageRepository            $telegramSendCallbackMessageRepository,
+        \App\Model\Helper\DateTime                                        $dateTimeHelper
     ) {
         parent::__construct($responseFactory);
 
-        $this->sendMessageFactory          = $sendMessageFactory;
-        $this->inlineKeyboardMarkupFactory = $inlineKeyboardMarkupFactory;
-        $this->inlineKeyboardButtonFactory = $inlineKeyboardButtonFactory;
-        $this->telegramChatRepository      = $telegramChatRepository;
-        $this->telegramUserRepository      = $telegramUserRepository;
-        $this->dateTimeHelper              = $dateTimeHelper;
+        $this->sendMessageFactory                    = $sendMessageFactory;
+        $this->inlineKeyboardMarkupFactory           = $inlineKeyboardMarkupFactory;
+        $this->inlineKeyboardButtonFactory           = $inlineKeyboardButtonFactory;
+        $this->telegramChatRepository                = $telegramChatRepository;
+        $this->userRepository                        = $userRepository;
+        $this->telegramCallbackMessageRepository     = $telegramCallbackMessageRepository;
+        $this->telegramSendCallbackMessageRepository = $telegramSendCallbackMessageRepository;
+        $this->dateTimeHelper                        = $dateTimeHelper;
     }
 
     // ########################################
 
-    public function process(): Response
+    public function process(): \App\Command\Response
     {
         /**
          * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
@@ -95,9 +96,15 @@ class StartStep extends BaseAbstract
                 $updateChat->getLastName()
             );
 
-            $this->telegramUserRepository->create($chatEntity);
+            $this->userRepository->create($chatEntity);
 
-            $this->sendFirstMessage($chatEntity);
+            $callbackMessage = $this->telegramCallbackMessageRepository->findOneBy(['name' => 'start_step']);
+            if (is_null($callbackMessage)) {
+                //todo event все плохо
+                return $this->createFailedResponse();
+            }
+
+            $this->sendFirstMessage($chatEntity, $callbackMessage);
         }
 
         return $this->createSuccessResponse();
@@ -105,13 +112,20 @@ class StartStep extends BaseAbstract
 
     // ########################################
 
-    private function sendFirstMessage(\App\Entity\TelegramChat $chatEntity)
-    {
-        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), 'Підготуватися до ЗНО дуже легко!) 10-15 хвилин щодня і ти отримаешь свої 200 балів!');//TODO TEXT
+    private function sendFirstMessage(
+        \App\Entity\TelegramChat $chatEntity,
+        \App\Entity\Telegram\CallbackMessage $callbackMessage
+    ) {
+
+        $sendCallbackMessage = $this->telegramSendCallbackMessageRepository->create();
+
+        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), $callbackMessage->getMessageText());
         //TODO id, btn
+
+        //todo add inlineKeyboardButton
         $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
             $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([
-                'id' => 13333,
+                'id' => $sendCallbackMessage->getId(),
                 'btn' => 11111
             ])),
         ]));
