@@ -38,5 +38,5 @@ services:
         arguments:
             $baseDir: '%kernel.project_dir%'
 
-    App\Service\Telegram\Auth\Checker:
-        factory: 'App\Service\Telegram\Auth\Checker\Factory:create'
+    App\Telegram\Auth\Checker:
+        factory: 'App\Telegram\Auth\Checker\Factory:create'

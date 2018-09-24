@@ -18,7 +18,7 @@ abstract class BaseAbstract
     private $responseFactory = null;
 
     /**
-     * @var \App\Service\Telegram\Model\Type\Update\BaseAbstract
+     * @var \App\Telegram\Model\Type\Update\BaseAbstract
      */
     private $update = null;
 
@@ -48,17 +48,17 @@ abstract class BaseAbstract
     // ########################################
 
     /**
-     * @return \App\Service\Telegram\Model\Type\Update\BaseAbstract
+     * @return \App\Telegram\Model\Type\Update\BaseAbstract
      */
-    public function getUpdate(): \App\Service\Telegram\Model\Type\Update\BaseAbstract
+    public function getUpdate(): \App\Telegram\Model\Type\Update\BaseAbstract
     {
         return $this->update;
     }
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Update\BaseAbstract $update
+     * @param \App\Telegram\Model\Type\Update\BaseAbstract $update
      */
-    public function setUpdate(\App\Service\Telegram\Model\Type\Update\BaseAbstract $update): void
+    public function setUpdate(\App\Telegram\Model\Type\Update\BaseAbstract $update): void
     {
         $this->update = $update;
     }

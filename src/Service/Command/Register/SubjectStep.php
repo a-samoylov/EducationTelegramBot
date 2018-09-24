@@ -12,14 +12,14 @@ use App\Model\Command\Response;
 use App\Model\Command\Response\Factory as ResponseFactory;
 use App\Model\Command\BaseAbstract;
 use App\Model\Exception\Logic as LogicException;
-use App\Service\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory as CallbackDataFactory;
+use App\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory as CallbackDataFactory;
 
 class SubjectStep extends BaseAbstract
 {
     // ########################################
 
     /**
-     * @var \App\Service\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory
+     * @var \App\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory
      */
     private $callbackDataFactory;
 
@@ -38,7 +38,7 @@ class SubjectStep extends BaseAbstract
     public function process(): Response
     {
         /**
-         * @var \App\Service\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
+         * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
          */
         $callbackQuery = $this->getUpdate();
         if (!$callbackQuery->hasData()) {

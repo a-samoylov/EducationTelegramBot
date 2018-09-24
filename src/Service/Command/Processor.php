@@ -49,7 +49,7 @@ class Processor
     // ########################################
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Update\BaseAbstract $update
+     * @param \App\Telegram\Model\Type\Update\BaseAbstract $update
      *
      * @return \App\Model\Command\Response
      */

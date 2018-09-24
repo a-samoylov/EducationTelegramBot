@@ -9,8 +9,8 @@
 namespace App\Service\Command;
 
 use App\Config\Telegram as TelegramConfig;
-use App\Service\Telegram\Model\Type\Update\MessageUpdate;
-use App\Service\Telegram\Model\Type\Update\CallbackQuery;
+use App\Telegram\Model\Type\Update\MessageUpdate;
+use App\Telegram\Model\Type\Update\CallbackQuery;
 use App\Repository\UserRepository;
 use App\Model\Exception\Logic as LogicException;
 
@@ -38,7 +38,7 @@ class ServiceResolver
 
     // ########################################
     /**
-     * @param \App\Service\Telegram\Model\Type\Update\BaseAbstract $update
+     * @param \App\Telegram\Model\Type\Update\BaseAbstract $update
      *
      * @return string
      */
@@ -67,7 +67,7 @@ class ServiceResolver
     // ########################################
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Update\MessageUpdate $update
+     * @param \App\Telegram\Model\Type\Update\MessageUpdate $update
      *
      * @return null|string
      */
@@ -79,7 +79,7 @@ class ServiceResolver
     // ----------------------------------------
 
     /**
-     * @param \App\Service\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
+     * @param \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
      *
      * @return null|string
      * @throws \App\Model\Exception\Logic

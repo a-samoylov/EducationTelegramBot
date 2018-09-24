@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Psr\Log\LoggerInterface;
 
 use App\Model\Exception\Validate as ValidateException;
-use App\Service\Telegram\Auth\Checker as TelegramAuthChecker;
+use App\Telegram\Auth\Checker as TelegramAuthChecker;
 use App\Service\Command\Processor as TelegramCommandProcessor;
-use App\Service\Telegram\Model\Type\Update\Resolver as UpdateResolver;
+use App\Telegram\Model\Type\Update\Resolver as UpdateResolver;
 
 class TelegramController extends AbstractController
 {
@@ -21,10 +21,10 @@ class TelegramController extends AbstractController
     /**
      * @Route("/telegram", name="telegram_index")
      *
-     * @param \App\Service\Telegram\Auth\Checker               $telegramAuthChecker
-     * @param \App\Service\Command\Processor                   $telegramCommandProcessor
-     * @param \App\Service\Telegram\Model\Type\Update\Resolver $updateResolver
-     * @param \Psr\Log\LoggerInterface                         $logger
+     * @param \App\Telegram\Auth\Checker               $telegramAuthChecker
+     * @param \App\Service\Command\Processor           $telegramCommandProcessor
+     * @param \App\Telegram\Model\Type\Update\Resolver $updateResolver
+     * @param \Psr\Log\LoggerInterface                 $logger
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */

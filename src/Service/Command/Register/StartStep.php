@@ -12,9 +12,9 @@ use App\Model\Command\Response;
 use App\Model\Command\Response\Factory as ResponseFactory;
 use App\Model\Command\BaseAbstract;
 
-use App\Service\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
-use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
-use App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory as InlineKeyboardMarkupFactory;
+use App\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
+use App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
+use App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory as InlineKeyboardMarkupFactory;
 
 use App\Repository\TelegramChatRepository;
 use App\Repository\UserRepository;
@@ -24,17 +24,17 @@ use App\Model\Helper\DateTime as DateTimeHelper;
 class StartStep extends BaseAbstract
 {
     /**
-     * @var \App\Service\Telegram\Model\Methods\Send\Message\Factory
+     * @var \App\Telegram\Model\Methods\Send\Message\Factory
      */
     private $sendMessageFactory;
 
     /**
-     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory
+     * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory
      */
     private $inlineKeyboardMarkupFactory;
 
     /**
-     * @var \App\Service\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory
+     * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory
      */
     private $inlineKeyboardButtonFactory;
 
@@ -78,7 +78,7 @@ class StartStep extends BaseAbstract
     public function process(): Response
     {
         /**
-         * @var \App\Service\Telegram\Model\Type\Update\MessageUpdate $update
+         * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
          */
         $update = $this->getUpdate();
 
