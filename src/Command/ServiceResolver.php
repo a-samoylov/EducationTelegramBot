@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Command;
+namespace App\Command;
 
 use App\Config\Telegram as TelegramConfig;
 use App\Telegram\Model\Type\Update\MessageUpdate;

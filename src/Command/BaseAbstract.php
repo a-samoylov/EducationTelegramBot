@@ -6,14 +6,14 @@
  * Time: 00:12
  */
 
-namespace App\Model\Command;
+namespace App\Command;
 
 abstract class BaseAbstract
 {
     // ########################################
 
     /**
-     * @var \App\Model\Command\Response\Factory
+     * @var \App\Command\Response\Factory
      */
     private $responseFactory = null;
 

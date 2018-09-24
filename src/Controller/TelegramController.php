@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 
 use App\Model\Exception\Validate as ValidateException;
 use App\Telegram\Auth\Checker as TelegramAuthChecker;
-use App\Service\Command\Processor as TelegramCommandProcessor;
+use App\Command\Processor as TelegramCommandProcessor;
 use App\Telegram\Model\Type\Update\Resolver as UpdateResolver;
 
 class TelegramController extends AbstractController
@@ -22,7 +22,7 @@ class TelegramController extends AbstractController
      * @Route("/telegram", name="telegram_index")
      *
      * @param \App\Telegram\Auth\Checker               $telegramAuthChecker
-     * @param \App\Service\Command\Processor           $telegramCommandProcessor
+     * @param \App\Command\Processor           $telegramCommandProcessor
      * @param \App\Telegram\Model\Type\Update\Resolver $updateResolver
      * @param \Psr\Log\LoggerInterface                 $logger
      *
@@ -79,7 +79,7 @@ class TelegramController extends AbstractController
             return $response;
         }
 
-        /** @var \App\Model\Command\Response $commandResponse */
+        /** @var \App\Command\Response $commandResponse */
         $commandResponse = $telegramCommandProcessor->process($update);
         if (!$commandResponse->isSuccess()) {
             $response->setContent(json_encode(['message' => 'Server error.']));

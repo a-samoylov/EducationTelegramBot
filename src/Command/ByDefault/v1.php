@@ -6,11 +6,11 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Command\ByDefault;
+namespace App\Command\ByDefault;
 
-use App\Model\Command\BaseAbstract;
-use App\Model\Command\Response;
-use App\Model\Command\Response\Factory as ResponseFactory;
+use App\Command\BaseAbstract;
+use App\Command\Response;
+use App\Command\Response\Factory as ResponseFactory;
 
 class v1 extends BaseAbstract
 {

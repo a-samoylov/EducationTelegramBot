@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Model\Command;
+namespace App\Command;
 
 class Response
 {

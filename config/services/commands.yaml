@@ -1,13 +1,13 @@
 services:
     telegram.command.register.startstep:
-        alias: App\Service\Command\Register\StartStep
+        alias: App\Command\Register\StartStep
         public: true:
 
     telegram.command.register.subjectstep:
-        alias: App\Service\Command\Register\SubjectStep
+        alias: App\Command\Register\SubjectStep
         public: true
 
-    #App\Service\Command\Register\v1:
+    #App\Command\Register\v1:
     #    arguments:
     #        $sendMessageFactory: '@telegram.model.methods.send.message.factory'
     #        $responseFactory: '@model.command.response.factory'

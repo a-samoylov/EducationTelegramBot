@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Command;
+namespace App\Command;
 
 use Psr\Log\LoggerInterface;
 
@@ -23,7 +23,7 @@ class Processor
     private $container = null;
 
     /**
-     * @var \App\Service\Command\ServiceResolver
+     * @var \App\Command\ServiceResolver
      */
     private $serviceResolver;
 
@@ -51,14 +51,14 @@ class Processor
     /**
      * @param \App\Telegram\Model\Type\Update\BaseAbstract $update
      *
-     * @return \App\Model\Command\Response
+     * @return \App\Command\Response
      */
     public function process($update)
     {
         /** @var string $serviceName */
         $serviceName = $this->serviceResolver->resolve($update);
 
-        /** @var \App\Model\Command\BaseAbstract $command */
+        /** @var \App\Command\BaseAbstract $command */
         $command = $this->container->get($serviceName);
         $command->setUpdate($update);
 

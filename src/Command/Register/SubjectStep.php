@@ -6,11 +6,11 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Command\Register;
+namespace App\Command\Register;
 
-use App\Model\Command\Response;
-use App\Model\Command\Response\Factory as ResponseFactory;
-use App\Model\Command\BaseAbstract;
+use App\Command\Response;
+use App\Command\Response\Factory as ResponseFactory;
+use App\Command\BaseAbstract;
 use App\Model\Exception\Logic as LogicException;
 use App\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory as CallbackDataFactory;
 

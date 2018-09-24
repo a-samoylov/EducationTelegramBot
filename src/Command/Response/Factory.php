@@ -6,9 +6,9 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Model\Command\Response;
+namespace App\Command\Response;
 
-use App\Model\Command\Response;
+use App\Command\Response;
 
 class Factory
 {
@@ -17,7 +17,7 @@ class Factory
     /**
      * @param bool $isSuccess
      *
-     * @return \App\Model\Command\Response
+     * @return \App\Command\Response
      */
     public function create(bool $isSuccess): Response
     {

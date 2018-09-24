@@ -6,11 +6,11 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Command\Register;
+namespace App\Command\Register;
 
-use App\Model\Command\Response;
-use App\Model\Command\Response\Factory as ResponseFactory;
-use App\Model\Command\BaseAbstract;
+use App\Command\Response;
+use App\Command\Response\Factory as ResponseFactory;
+use App\Command\BaseAbstract;
 
 use App\Telegram\Model\Methods\Send\Message\Factory as SendMessageFactory;
 use App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory as InlineKeyboardButtonFactory;
@@ -47,6 +47,7 @@ class StartStep extends BaseAbstract
      * @var \App\Repository\UserRepository
      */
     private $telegramUserRepository;
+
     /**
      * @var \App\Model\Helper\DateTime
      */

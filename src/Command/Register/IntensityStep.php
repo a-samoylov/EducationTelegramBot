@@ -6,8 +6,8 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Service\Command\Register;
+namespace App\Command\Register;
 
-class LastStep
+class IntensityStep
 {
 }
