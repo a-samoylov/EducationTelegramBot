@@ -18,17 +18,19 @@ class Subject
      */
     private $id;
 
+    /**
+     * @ORM\Column(type="string", length=70)
+     */
+    private $name;
+
+    // ########################################
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
     // ########################################
-
-    /**
-     * @ORM\Column(type="string", length=70)
-     */
-    private $name;
 
     public function getName(): ?string
     {

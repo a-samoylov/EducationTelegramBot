@@ -176,10 +176,5 @@ class User
         return !$this->subjects->isEmpty();
     }
 
-    public function getIsRegister(): ?bool
-    {
-        return $this->isRegister;
-    }
-
     // ########################################
 }
