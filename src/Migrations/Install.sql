@@ -13,10 +13,10 @@ CREATE TABLE telegram_chat (
 
 DROP TABLE IF EXISTS user;
 CREATE TABLE user (
-  id          INT        NOT NULL,
-  phone       VARCHAR(50)         DEFAULT NULL,
-  intensity   SMALLINT            DEFAULT NULL,
-  is_register TINYINT(1) NOT NULL DEFAULT 0,
+  id            INT      NOT NULL,
+  phone         VARCHAR(50) DEFAULT NULL,
+  intensity     SMALLINT    DEFAULT NULL,
+  register_step SMALLINT NOT NULL,
   PRIMARY KEY (id),
   CONSTRAINT telegram_chat_id FOREIGN KEY (id) REFERENCES telegram_chat (id)
 )

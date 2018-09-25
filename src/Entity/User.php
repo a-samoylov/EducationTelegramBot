@@ -17,8 +17,10 @@ class User
     private const INTENSITY_MEDIUM = 2;
     private const INTENSITY_LARGE  = 3;
 
-    private const IS_REGISTER     = 1;
-    private const IS_NOT_REGISTER = 0;
+    private const REGISTER_STEP_FINISH    = 1;
+    private const REGISTER_STEP_START     = 2;
+    private const REGISTER_STEP_SUBJECT   = 3;
+    private const REGISTER_STEP_INTENSITY = 4;
 
     // ########################################
 
@@ -57,9 +59,9 @@ class User
     private $subjects;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default" : "0"})
+     * @ORM\Column(type="smallint", nullable=false)
      */
-    private $isRegister;
+    private $registerStep;
 
     // ########################################
 
@@ -112,19 +114,29 @@ class User
 
     public function isRegister(): bool
     {
-        return $this->isRegister == self::IS_REGISTER;
+        return $this->registerStep == self::REGISTER_STEP_FINISH;
     }
 
-    public function setRegister(): self
+    public function isRegisterStartStep(): bool
     {
-        $this->isRegister = self::IS_REGISTER;
-
-        return $this;
+        return $this->registerStep == self::REGISTER_STEP_START;
     }
 
-    public function setNotRegister(): self
+    public function isRegisterSubjectStep(): bool
     {
-        $this->isRegister = self::IS_NOT_REGISTER;
+        return $this->registerStep == self::REGISTER_STEP_SUBJECT;
+    }
+
+    public function isRegisterIntensityStep(): bool
+    {
+        return $this->registerStep == self::REGISTER_STEP_INTENSITY;
+    }
+
+    // ----------------------------------------
+
+    public function setRegisterStartStep(): self
+    {
+        $this->registerStep = self::REGISTER_STEP_START;
 
         return $this;
     }

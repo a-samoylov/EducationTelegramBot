@@ -8,20 +8,11 @@
 
 namespace App\Command;
 
-use App\Config\Telegram as TelegramConfig;
-use App\Telegram\Model\Type\Update\MessageUpdate;
-use App\Telegram\Model\Type\Update\CallbackQuery;
-use App\Repository\UserRepository;
-use App\Model\Exception\Logic as LogicException;
-
 class ServiceResolver
 {
-    private const DEFAULT_COMMAND_SERVICE = 'telegram.default.command';
-
-    /**
-     * @var \App\Config\Telegram
-     */
-    private $telegramConfig;
+    private const DEFAULT_COMMAND_SERVICE               = 'telegram.default.command';
+    private const REGISTER_START_STEP_COMMAND_SERVICE   = 'telegram.command.register.startstep';
+    private const REGISTER_SUBJECT_STEP_COMMAND_SERVICE = 'telegram.command.register.subjectstep';
 
     /**
      * @var \App\Repository\UserRepository
@@ -30,9 +21,8 @@ class ServiceResolver
 
     // ########################################
 
-    public function __construct(TelegramConfig $telegramConfig, UserRepository $userRepository)
+    public function __construct(\App\Repository\UserRepository $userRepository)
     {
-        $this->telegramConfig = $telegramConfig;
         $this->userRepository = $userRepository;
     }
 
@@ -46,12 +36,12 @@ class ServiceResolver
     {
         $result = self::DEFAULT_COMMAND_SERVICE;
 
-        if ($update instanceof MessageUpdate) {
+        if ($update instanceof \App\Telegram\Model\Type\Update\MessageUpdate) {
             $serviceName = $this->getServiceNameByMessageUpdate($update);
             if (!is_null($serviceName)) {
                 $result = $serviceName;
             }
-        } elseif ($update instanceof CallbackQuery) {
+        } elseif ($update instanceof \App\Telegram\Model\Type\Update\CallbackQuery) {
             $serviceName = $this->getServiceNameByCallbackQuery($update);
             if (!is_null($serviceName)) {
                 $result = $serviceName;
@@ -71,9 +61,18 @@ class ServiceResolver
      *
      * @return null|string
      */
-    private function getServiceNameByMessageUpdate(MessageUpdate $update): ?string
+    private function getServiceNameByMessageUpdate(\App\Telegram\Model\Type\Update\MessageUpdate $update): ?string
     {
-        return $this->telegramConfig->getMessageServiceName($update->getMessage()->getText());
+        $userEntity = $this->userRepository->find($update->getMessage()->getChat()->getId());
+        if (is_null($userEntity)) {
+            return self::REGISTER_START_STEP_COMMAND_SERVICE;
+        }
+
+        if ($userEntity->isRegisterSubjectStep()) {
+            return '';//todo
+        }
+
+        return null;
     }
 
     // ----------------------------------------
@@ -84,19 +83,19 @@ class ServiceResolver
      * @return null|string
      * @throws \App\Model\Exception\Logic
      */
-    private function getServiceNameByCallbackQuery(CallbackQuery $callbackQuery): ?string
+    private function getServiceNameByCallbackQuery(\App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery): ?string
     {
         $userEntity = $this->userRepository->find($callbackQuery->getFrom()->getId());
         if (is_null($userEntity)) {
-            throw new LogicException('Not found user by chat id from callback query.');
+            throw new \App\Model\Exception\Logic('Not found user by chat id from callback query.');
         }
 
         if ($userEntity->isRegister()) {
             //todo ZNO test
         }
 
-        if (!$userEntity->hasSubjects()) {
-            return $this->telegramConfig->getCallbackQueryServiceName('subject_step');
+        if ($userEntity->isRegisterStartStep()) {
+            return self::REGISTER_SUBJECT_STEP_COMMAND_SERVICE;
         }
 
         return null;
