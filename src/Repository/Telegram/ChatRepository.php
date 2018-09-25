@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\Telegram;
 
-use App\Entity\TelegramChat;
+use App\Entity\Telegram\Chat;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method TelegramChat|null find($id, $lockMode = null, $lockVersion = null)
- * @method TelegramChat|null findOneBy(array $criteria, array $orderBy = null)
- * @method TelegramChat[]    findAll()
- * @method TelegramChat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Chat|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Chat|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Chat[]    findAll()
+ * @method Chat[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TelegramChatRepository extends ServiceEntityRepository
+class ChatRepository extends ServiceEntityRepository
 {
     // ########################################
 
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, TelegramChat::class);
+        parent::__construct($registry, Chat::class);
     }
 
     // ########################################
@@ -29,22 +29,22 @@ class TelegramChatRepository extends ServiceEntityRepository
         ?string $username,
         ?string $firstName,
         ?string $lastName
-    ): TelegramChat {
-        $chat = new TelegramChat();
+    ): Chat {
+        $chat = new Chat();
 
         $chat->setId($chatId);
 
         switch ($type) {
-            case \App\Entity\TelegramChat::TYPE_PRIVATE:
+            case \App\Entity\Telegram\Chat::TYPE_PRIVATE:
                 $chat->setTypePrivate();
                 break;
-            case \App\Entity\TelegramChat::TYPE_GROUP:
+            case \App\Entity\Telegram\Chat::TYPE_GROUP:
                 $chat->setTypeGroup();
                 break;
-            case \App\Entity\TelegramChat::TYPE_SUPERGROUP:
+            case \App\Entity\Telegram\Chat::TYPE_SUPERGROUP:
                 $chat->setTypeSupergroup();
                 break;
-            case \App\Entity\TelegramChat::TYPE_CHANNEL:
+            case \App\Entity\Telegram\Chat::TYPE_CHANNEL:
                 $chat->setTypeChannel();
                 break;
         }

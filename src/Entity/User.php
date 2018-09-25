@@ -35,8 +35,8 @@ class User
     private $phone;
 
     /**
-     * @var \App\Entity\TelegramChat
-     * @ORM\OneToOne(targetEntity="App\Entity\TelegramChat")
+     * @var \App\Entity\Telegram\Chat
+     * @ORM\OneToOne(targetEntity="App\Entity\Telegram\Chat")
      * @JoinColumn(name="id", nullable=false, referencedColumnName="id")
      */
     private $chat;
@@ -131,12 +131,12 @@ class User
 
     // ########################################
 
-    public function getChat(): TelegramChat
+    public function getChat(): Telegram\Chat
     {
         return $this->chat;
     }
 
-    public function setChat(TelegramChat $chat): self
+    public function setChat(Telegram\Chat $chat): self
     {
         $this->chat = $chat;
 

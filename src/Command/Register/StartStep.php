@@ -26,7 +26,7 @@ class StartStep extends \App\Command\BaseAbstract
     private $inlineKeyboardButtonFactory;
 
     /**
-     * @var \App\Repository\TelegramChatRepository
+     * @var \App\Repository\Telegram\ChatRepository
      */
     private $telegramChatRepository;
 
@@ -57,7 +57,7 @@ class StartStep extends \App\Command\BaseAbstract
         \App\Command\Response\Factory                                     $responseFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory $inlineKeyboardMarkupFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
-        \App\Repository\TelegramChatRepository                            $telegramChatRepository,
+        \App\Repository\Telegram\ChatRepository                            $telegramChatRepository,
         \App\Repository\UserRepository                                    $userRepository,
         \App\Repository\Telegram\CallbackMessageRepository                $telegramCallbackMessageRepository,
         \App\Repository\Telegram\SendCallbackMessageRepository            $telegramSendCallbackMessageRepository,
@@ -113,7 +113,7 @@ class StartStep extends \App\Command\BaseAbstract
     // ########################################
 
     private function sendFirstMessage(
-        \App\Entity\TelegramChat $chatEntity,
+        \App\Entity\Telegram\Chat $chatEntity,
         \App\Entity\Telegram\CallbackMessage $callbackMessage
     ) {
 

@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\TelegramChat;
+use App\Entity\Telegram\Chat as TelegramChat;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;

@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Telegram;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Table;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TelegramChatRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Telegram\ChatRepository")
  * @Table(name="telegram_chat")})
  */
-class TelegramChat
+class Chat
 {
     public const TYPE_PRIVATE    = 'private';
     public const TYPE_GROUP      = 'group';
