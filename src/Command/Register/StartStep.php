@@ -36,16 +36,6 @@ class StartStep extends \App\Command\BaseAbstract
     private $userRepository;
 
     /**
-     * @var \App\Repository\Telegram\CallbackMessageRepository
-     */
-    private $telegramCallbackMessageRepository;
-
-    /**
-     * @var \App\Repository\Telegram\SendCallbackMessageRepository
-     */
-    private $telegramSendCallbackMessageRepository;
-
-    /**
      * @var \App\Model\Helper\DateTime
      */
     private $dateTimeHelper;
@@ -59,8 +49,6 @@ class StartStep extends \App\Command\BaseAbstract
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
         \App\Repository\Telegram\ChatRepository                            $telegramChatRepository,
         \App\Repository\UserRepository                                    $userRepository,
-        \App\Repository\Telegram\CallbackMessageRepository                $telegramCallbackMessageRepository,
-        \App\Repository\Telegram\SendCallbackMessageRepository            $telegramSendCallbackMessageRepository,
         \App\Model\Helper\DateTime                                        $dateTimeHelper
     ) {
         parent::__construct($responseFactory);
@@ -70,8 +58,6 @@ class StartStep extends \App\Command\BaseAbstract
         $this->inlineKeyboardButtonFactory           = $inlineKeyboardButtonFactory;
         $this->telegramChatRepository                = $telegramChatRepository;
         $this->userRepository                        = $userRepository;
-        $this->telegramCallbackMessageRepository     = $telegramCallbackMessageRepository;
-        $this->telegramSendCallbackMessageRepository = $telegramSendCallbackMessageRepository;
         $this->dateTimeHelper                        = $dateTimeHelper;
     }
 
@@ -87,47 +73,35 @@ class StartStep extends \App\Command\BaseAbstract
         $updateChat = $update->getMessage()->getChat();
 
         $chatEntity = $this->telegramChatRepository->find($updateChat->getId());
-        if (is_null($chatEntity)) {
-            $chatEntity = $this->telegramChatRepository->create(
-                $updateChat->getId(),
-                $updateChat->getType(),
-                $updateChat->getUsername(),
-                $updateChat->getFirstName(),
-                $updateChat->getLastName()
-            );
-
-            $this->userRepository->create($chatEntity);
-
-            $callbackMessage = $this->telegramCallbackMessageRepository->findOneBy(['name' => 'start_step']);
-            if (is_null($callbackMessage)) {
-                //todo event все плохо
-                return $this->createFailedResponse();
-            }
-
-            $this->sendFirstMessage($chatEntity, $callbackMessage);
+        if (!is_null($chatEntity)) {
+            throw new \App\Model\Exception\Logic('User already exist. Can\'t run start step.');
         }
+
+        $chatEntity = $this->telegramChatRepository->create(
+            $updateChat->getId(),
+            $updateChat->getType(),
+            $updateChat->getUsername(),
+            $updateChat->getFirstName(),
+            $updateChat->getLastName()
+        );
+
+        $this->userRepository->create($chatEntity);
+
+        $this->sendFirstMessage($chatEntity);
 
         return $this->createSuccessResponse();
     }
 
     // ########################################
 
-    private function sendFirstMessage(
-        \App\Entity\Telegram\Chat $chatEntity,
-        \App\Entity\Telegram\CallbackMessage $callbackMessage
-    ) {
+    private function sendFirstMessage(\App\Entity\Telegram\Chat $chatEntity) {
+        $sendMessageModel = $this->sendMessageFactory->create(
+            $chatEntity->getId(),
+            'Підготуватися до ЗНО дуже легко!) 10-15 хвилин щодня і ти отримаешь свої 200 балів!'//TODO TEXT
+        );
 
-        $sendCallbackMessage = $this->telegramSendCallbackMessageRepository->create();
-
-        $sendMessageModel = $this->sendMessageFactory->create($chatEntity->getId(), $callbackMessage->getMessageText());
-        //TODO id, btn
-
-        //todo add inlineKeyboardButton
         $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
-            $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([
-                'id' => $sendCallbackMessage->getId(),
-                'btn' => 11111
-            ])),
+            $this->inlineKeyboardButtonFactory->create('Розпочати', 'start_step'),
         ]));
         $sendMessageModel->send();
     }

@@ -39,12 +39,14 @@ class ServiceResolver
         if ($update instanceof \App\Telegram\Model\Type\Update\MessageUpdate) {
             $serviceName = $this->getServiceNameByMessageUpdate($update);
             if (!is_null($serviceName)) {
-                $result = $serviceName;
+                return $serviceName;
             }
-        } elseif ($update instanceof \App\Telegram\Model\Type\Update\CallbackQuery) {
+        }
+
+        if ($update instanceof \App\Telegram\Model\Type\Update\CallbackQuery) {
             $serviceName = $this->getServiceNameByCallbackQuery($update);
             if (!is_null($serviceName)) {
-                $result = $serviceName;
+                return $serviceName;
             }
         }
         //todo other
