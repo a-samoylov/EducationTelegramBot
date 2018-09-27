@@ -75,13 +75,13 @@ class TelegramController extends AbstractController
         /** @var \App\Command\Response $commandResponse */
         $commandResponse = $telegramCommandProcessor->process($update);
         if (!$commandResponse->isSuccess()) {
-            $response->setContent(json_encode(['message' => 'Server error.']));
+            $response->setContent(json_encode(['message' => $commandResponse->getMessage()]));
             $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
 
             return $response;
         }
 
-        $response->setContent(json_encode(['message' => 'Success.']));
+        $response->setContent(json_encode(['message' => $commandResponse->getMessage()]));
         $response->setStatusCode(Response::HTTP_OK);
 
         //dump($request);

@@ -72,8 +72,8 @@ class StartStep extends \App\Command\BaseAbstract
          */
         $update = $this->getUpdate();
 
-        $chatEntity = $this->telegramChatRepository->find($update->getMessage()->getChat()->getId());
-        if (!is_null($chatEntity)) {
+        $userEntity = $this->userRepository->find($update->getMessage()->getChat()->getId());
+        if (!is_null($userEntity)) {
             return 'User already exist. Can\'t run start step.';
         }
 
@@ -91,22 +91,29 @@ class StartStep extends \App\Command\BaseAbstract
 
         $updateChat = $update->getMessage()->getChat();
 
-        $chatEntity = $this->telegramChatRepository->create(
-            $updateChat->getId(),
-            $updateChat->getType(),
-            $updateChat->getUsername(),
-            $updateChat->getFirstName(),
-            $updateChat->getLastName()
-        );
+        $telegramChatEntity = $this->telegramChatRepository->find($updateChat->getId());
+        if (is_null($telegramChatEntity)) {
+            $telegramChatEntity = $this->telegramChatRepository->create(
+                $updateChat->getId(),
+                $updateChat->getType(),
+                $updateChat->getUsername(),
+                $updateChat->getFirstName(),
+                $updateChat->getLastName()
+            );
+        }
 
-        $this->userRepository->create($chatEntity);
+        if ($this->sendFirstMessage($telegramChatEntity)) {
+            $this->userRepository->create($telegramChatEntity);
+            return;
+        }
 
-        $this->sendFirstMessage($chatEntity);
+        //todo log problem
     }
 
     // ########################################
 
-    private function sendFirstMessage(\App\Entity\Telegram\Chat $chatEntity) {
+    private function sendFirstMessage(\App\Entity\Telegram\Chat $chatEntity): bool
+    {
         $sendMessageModel = $this->sendMessageFactory->create(
             $chatEntity->getId(),
             'Підготуватися до ЗНО дуже легко!) 10-15 хвилин щодня і ти отримаешь свої 200 балів!'//TODO TEXT
@@ -116,7 +123,9 @@ class StartStep extends \App\Command\BaseAbstract
             $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([self::CALLBACK_STEP_NAME])),
         ]));
 
-        $sendMessageModel->send();
+        $sendMessageModel->send();//todo return bool
+
+        return true;
     }
 
     // ########################################

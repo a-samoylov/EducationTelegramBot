@@ -80,6 +80,7 @@ class CallbackQuery extends BaseAbstract
     public function __construct(int $updateId, string $id, \App\Telegram\Model\Type\Base\User $from, string $chatInstance)
     {
         parent::__construct($updateId);
+
         $this->id           = $id;
         $this->from         = $from;
         $this->chatInstance = $chatInstance;

@@ -13,21 +13,18 @@ class Factory
     // ########################################
 
     /**
-     * @param \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton[] $keyboardButtons
-     * @param bool                                                                      $resizeKeyboard
-     * @param bool                                                                      $oneTimeKeyboard
-     * @param bool                                                                      $selective
+     * @param bool $resizeKeyboard
+     * @param bool $oneTimeKeyboard
+     * @param bool $selective
      *
      * @return \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup
      */
     public function create(
-        array $keyboardButtons = [],
         bool $resizeKeyboard = false,
         bool $oneTimeKeyboard = false,
         bool $selective = false
     ): \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup {
         return new \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup(
-            $keyboardButtons,
             $resizeKeyboard,
             $oneTimeKeyboard,
             $selective

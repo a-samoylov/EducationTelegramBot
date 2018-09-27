@@ -25,16 +25,23 @@ class SubjectStep extends \App\Command\BaseAbstract
      */
     private $keyboardButtonFactory;
 
+    /**
+     * @var \App\Repository\SubjectRepository
+     */
+    private $subjectRepository;
+
     // ########################################
 
     public function __construct(
         \App\Telegram\Model\Methods\Send\Message\Factory                                $sendMessageFactory,
         \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory                $replyKeyboardMarkupFactory,
-        \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton\Factory $keyboardButtonFactory
+        \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton\Factory $keyboardButtonFactory,
+        \App\Repository\SubjectRepository                                               $subjectRepository
     ) {
         $this->sendMessageFactory         = $sendMessageFactory;
         $this->replyKeyboardMarkupFactory = $replyKeyboardMarkupFactory;
-        $this->keyboardButtonFactory = $keyboardButtonFactory;
+        $this->keyboardButtonFactory      = $keyboardButtonFactory;
+        $this->subjectRepository          = $subjectRepository;
     }
 
     // ########################################
@@ -63,7 +70,9 @@ class SubjectStep extends \App\Command\BaseAbstract
          */
         $callbackQuery = $this->getUpdate();
 
-        $callbackData = array_shift($callbackQuery->getData());
+        $callbackData = $callbackQuery->getData();
+        $callbackData = array_shift($callbackData);
+
         if ($callbackData != \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
             throw new \App\Model\Exception\Logic('Invalid callback data: ' . print_r($callbackQuery->getData(), true));
         }
@@ -75,9 +84,21 @@ class SubjectStep extends \App\Command\BaseAbstract
     {
         $sendMessageModel = $this->sendMessageFactory->create($chatId, 'Оберіть предмети для заннятя');//TODO TEXT
 
-        $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
-            $this->keyboardButtonFactory->create('Укр. мова')
-        ]));
+        $subjects = $this->subjectRepository->findAll();
+
+        $replyKeyboardMarkup = $this->replyKeyboardMarkupFactory->create();
+
+        $replyKeyboardMarkup->addKeyboardButtonRow([
+            $this->keyboardButtonFactory->create('Укр. мова1'),
+            $this->keyboardButtonFactory->create('Укр. мова2'),
+        ]);
+
+        $replyKeyboardMarkup->addKeyboardButtonRow([
+            $this->keyboardButtonFactory->create('Укр. мова3'),
+            $this->keyboardButtonFactory->create('Укр. мова4'),
+        ]);
+
+        $sendMessageModel->setReplyMarkup($replyKeyboardMarkup);
 
         $sendMessageModel->send();
     }

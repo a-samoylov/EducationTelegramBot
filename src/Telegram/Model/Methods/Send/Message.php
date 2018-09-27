@@ -87,18 +87,24 @@ class Message extends BaseAbstract
                 $replyKeyboardMarkup = $this->getReplyMarkup();
 
                 $keyboard = [];
-                foreach ($replyKeyboardMarkup->getKeyboardButtons() as $keyboardButton) {
-                    $keyboard[] = [
-                        'text'             => $keyboardButton->getText(),
-                        'request_contact'  => $keyboardButton->isRequestContact(),
-                        'request_location' => $keyboardButton->isRequestLocation()
-                    ];
+                foreach ($replyKeyboardMarkup->getKeyboardButtonsRows() as $keyboardButtonRows) {
+
+                    $row = [];
+
+                    /** @var \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton $keyboardButton */
+                    foreach ($keyboardButtonRows as $keyboardButton) {
+                        $row[] = [
+                            'text'             => $keyboardButton->getText(),
+                            //'request_contact'  => $keyboardButton->isRequestContact(),
+                            //'request_location' => $keyboardButton->isRequestLocation()
+                        ];
+                    }
+
+                    $keyboard[] = $row;
                 }
 
                 $replyMarkup = [
-                    'keyboard' => [
-                        $keyboard
-                    ],
+                    'keyboard'          => $keyboard,
                     'resize_keyboard'   => $replyKeyboardMarkup->isResizeKeyboard(),
                     'one_time_keyboard' => $replyKeyboardMarkup->isOneTimeKeyboard(),
                     'selective'         => $replyKeyboardMarkup->isSelective()
@@ -130,6 +136,30 @@ class Message extends BaseAbstract
                 ];
             }
         }
+
+        $a = [
+            'chat_id'      => 367843856,
+            'text'         => 'Оберіть предмети ' . hex2bin('F09F9881'),
+            'parse_mode' => 'Markdown',
+            'reply_markup' => [
+                'keyboard' => [
+                    [
+                        ['text' => 'Укр. мова'],
+                        ['text' => 'Укр. мова'],
+                    ],
+                    [
+                        ['text' => 'Фізика'],
+                        ['text' => 'Фізика'],
+                    ],
+                    [
+                        ['text' => 'Фізика'],
+                        ['text' => 'Фізика'],
+                    ]
+                ],
+                'resize_keyboard' => true,
+                'one_time_keyboard' => false,
+            ]
+        ];
 
         return $result;
     }
