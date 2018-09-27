@@ -73,11 +73,12 @@ class SubjectStep extends \App\Command\BaseAbstract
         $callbackData = $callbackQuery->getData();
         $callbackData = array_shift($callbackData);
 
-        if ($callbackData != \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
-            throw new \App\Model\Exception\Logic('Invalid callback data: ' . print_r($callbackQuery->getData(), true));
+        if ($callbackData == \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
+            $this->sendSubjects($callbackQuery->getFrom()->getId());
+            return;
         }
 
-        $this->sendSubjects($callbackQuery->getFrom()->getId());
+        throw new \App\Model\Exception\Logic('Invalid callback data: ' . print_r($callbackQuery->getData(), true));
     }
 
     private function sendSubjects(int $chatId)
