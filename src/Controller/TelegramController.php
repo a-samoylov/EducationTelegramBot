@@ -7,13 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
-use Psr\Log\LoggerInterface;
-
-use App\Model\Exception\Validate as ValidateException;
-use App\Telegram\Auth\Checker as TelegramAuthChecker;
-use App\Command\Processor as TelegramCommandProcessor;
-use App\Telegram\Model\Type\Update\Resolver as UpdateResolver;
-
 class TelegramController extends AbstractController
 {
     // ########################################
@@ -22,17 +15,17 @@ class TelegramController extends AbstractController
      * @Route("/telegram", name="telegram_index")
      *
      * @param \App\Telegram\Auth\Checker               $telegramAuthChecker
-     * @param \App\Command\Processor           $telegramCommandProcessor
+     * @param \App\Command\Processor                   $telegramCommandProcessor
      * @param \App\Telegram\Model\Type\Update\Resolver $updateResolver
      * @param \Psr\Log\LoggerInterface                 $logger
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(
-        TelegramAuthChecker $telegramAuthChecker,
-        TelegramCommandProcessor $telegramCommandProcessor,
-        UpdateResolver $updateResolver,
-        LoggerInterface $logger
+        \App\Telegram\Auth\Checker               $telegramAuthChecker,
+        \App\Command\Processor                   $telegramCommandProcessor,
+        \App\Telegram\Model\Type\Update\Resolver $updateResolver,
+        \Psr\Log\LoggerInterface                 $logger
     ) {
         $request  = Request::createFromGlobals();
         $response = new Response();
@@ -64,7 +57,7 @@ class TelegramController extends AbstractController
                 return $response;
             }
 
-        } catch (ValidateException $validateException) {
+        } catch (\App\Model\Exception\Validate $validateException) {
             $logger->alert('Error input data.', [
                 'input_data' => $validateException->getInputData(),
                 'field_name' => $validateException->getFieldName(),
