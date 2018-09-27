@@ -8,25 +8,21 @@
 
 namespace App\Telegram\Model\Type\Update\CallbackQuery\CallbackData;
 
-use App\Telegram\Model\Type\FactoryInterface;
-use App\Telegram\Model\Type\Update\CallbackQuery\CallbackData;
-use App\Model\Exception\Validate as ValidateException;
-
-class Factory implements FactoryInterface
+class Factory implements \App\Telegram\Model\Type\FactoryInterface
 {
     // ########################################
 
-    public function create(array $data): CallbackData
+    public function create(array $data): \App\Telegram\Model\Type\Update\CallbackQuery\CallbackData
     {
         if (empty($data['id']) && is_int($data['id'])) {
-            throw new ValidateException(self::class, 'id');
+            throw new \App\Model\Exception\Validate(self::class, 'id');
         }
 
         if (empty($data['btn']) && is_int($data['btn'])) {
-            throw new ValidateException(self::class, 'btn');
+            throw new \App\Model\Exception\Validate(self::class, 'btn');
         }
 
-        return new CallbackData($data['id'], $data['btn']);
+        return new \App\Telegram\Model\Type\Update\CallbackQuery\CallbackData($data['id'], $data['btn']);
     }
 
     // ########################################

@@ -8,13 +8,7 @@
 
 namespace App\Command\Register;
 
-use App\Command\Response;
-use App\Command\Response\Factory as ResponseFactory;
-use App\Command\BaseAbstract;
-use App\Model\Exception\Logic as LogicException;
-use App\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory as CallbackDataFactory;
-
-class SubjectStep extends BaseAbstract
+class SubjectStep extends \App\Command\BaseAbstract
 {
     // ########################################
 
@@ -26,8 +20,8 @@ class SubjectStep extends BaseAbstract
     // ########################################
 
     public function __construct(
-        ResponseFactory $responseFactory,
-        CallbackDataFactory $callbackDataFactory
+        \App\Command\Response\Factory                                      $responseFactory,
+        \App\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory $callbackDataFactory
     ) {
         parent::__construct($responseFactory);
         $this->callbackDataFactory = $callbackDataFactory;
@@ -35,14 +29,14 @@ class SubjectStep extends BaseAbstract
 
     // ########################################
 
-    public function process(): Response
+    public function process(): \App\Command\Response
     {
         /**
          * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
          */
         $callbackQuery = $this->getUpdate();
         if (!$callbackQuery->hasData()) {
-            throw new LogicException('Callback data is empty.');
+            throw new \App\Model\Exception\Logic('Callback data is empty.');
         }
 
         $callbackData = $this->callbackDataFactory->create($callbackQuery->getData());

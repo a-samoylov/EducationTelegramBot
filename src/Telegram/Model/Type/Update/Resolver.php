@@ -34,7 +34,9 @@ class Resolver
     {
         if (!empty($data['message'])) {
             return $this->messageUpdateFactory->create($data);
-        } elseif (!empty($data['callback_query'])) {
+        }
+
+        if (!empty($data['callback_query'])) {
             return $this->callbackQueryFactory->create($data);
         }
 
