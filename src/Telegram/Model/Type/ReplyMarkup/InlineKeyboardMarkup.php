@@ -15,7 +15,7 @@ class InlineKeyboardMarkup extends BaseAbstract
     /**
      * Array of button rows, each represented by an Array of InlineKeyboardButton objects
      *
-     * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[]
+     * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[]
      */
     protected $inlineKeyboard;
 
@@ -24,7 +24,7 @@ class InlineKeyboardMarkup extends BaseAbstract
     /**
      * InlineKeyboardMarkup constructor.
      *
-     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[] $inlineKeyboard
+     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[] $inlineKeyboard
      */
     public function __construct(array $inlineKeyboard)
     {
@@ -34,7 +34,7 @@ class InlineKeyboardMarkup extends BaseAbstract
     // ########################################
 
     /**
-     * @return \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[]
+     * @return \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[]
      */
     public function getInlineKeyboard(): array
     {
@@ -42,7 +42,7 @@ class InlineKeyboardMarkup extends BaseAbstract
     }
 
     /**
-     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[] $inlineKeyboard
+     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[] $inlineKeyboard
      */
     public function setInlineKeyboard(array $inlineKeyboard): void
     {

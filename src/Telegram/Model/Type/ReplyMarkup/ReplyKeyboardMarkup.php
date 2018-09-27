@@ -16,7 +16,7 @@ class ReplyKeyboardMarkup extends BaseAbstract
      * Array of button rows, each represented by an Array of Strings
      * Array of Array of String
      *
-     * @var \App\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[]
+     * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[]
      */
     protected $keyboardButtons;
 
@@ -51,13 +51,17 @@ class ReplyKeyboardMarkup extends BaseAbstract
     /**
      * ReplyKeyboardMarkup constructor.
      *
-     * @param \App\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[] $keyboardButtons
-     * @param bool                                                                 $resizeKeyboard
-     * @param bool                                                                 $oneTimeKeyboard
-     * @param bool                                                                 $selective
+     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[] $keyboardButtons
+     * @param bool                                                                             $resizeKeyboard
+     * @param bool                                                                             $oneTimeKeyboard
+     * @param bool                                                                             $selective
      */
-    public function __construct(array $keyboardButtons, bool $resizeKeyboard, bool $oneTimeKeyboard, bool $selective)
-    {
+    public function __construct(
+        array $keyboardButtons,
+        bool $resizeKeyboard,
+        bool $oneTimeKeyboard,
+        bool $selective
+    ) {
         $this->keyboardButtons = $keyboardButtons;
         $this->resizeKeyboard  = $resizeKeyboard;
         $this->oneTimeKeyboard = $oneTimeKeyboard;
@@ -67,7 +71,15 @@ class ReplyKeyboardMarkup extends BaseAbstract
     // ########################################
 
     /**
-     * @return \App\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[]
+     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton $keyboardButton
+     */
+    public function addKeyboardButton(\App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton $keyboardButton)
+    {
+        $this->keyboardButtons[] = $keyboardButton;
+    }
+
+    /**
+     * @return \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[]
      */
     public function getKeyboardButtons(): array
     {
@@ -75,12 +87,14 @@ class ReplyKeyboardMarkup extends BaseAbstract
     }
 
     /**
-     * @param \App\Telegram\Model\Type\ReplyMarkup\KeyboardButton\Entity[] $keyboardButtons
+     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[] $keyboardButtons
      */
     public function setKeyboardButtons(array $keyboardButtons): void
     {
         $this->keyboardButtons = $keyboardButtons;
     }
+
+    // ########################################
 
     /**
      * @return bool

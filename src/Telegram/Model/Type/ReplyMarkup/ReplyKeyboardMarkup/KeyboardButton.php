@@ -6,9 +6,9 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Telegram\Model\Type\ReplyMarkup\KeyboardButton;
+namespace App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup;
 
-class Entity
+class KeyboardButton
 {
     // ########################################
 

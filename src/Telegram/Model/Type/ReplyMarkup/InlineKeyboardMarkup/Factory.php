@@ -15,13 +15,13 @@ class Factory
     // ########################################
 
     /**
-     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[] $inlineKeyboard $inlineKeyboard
+     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[] $inlineKeyboardButtons
      *
      * @return \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup
      */
-    public function create(array $inlineKeyboard): InlineKeyboardMarkup
+    public function create(array $inlineKeyboardButtons): InlineKeyboardMarkup
     {
-        return new InlineKeyboardMarkup($inlineKeyboard);
+        return new InlineKeyboardMarkup($inlineKeyboardButtons);
     }
 
     // ########################################

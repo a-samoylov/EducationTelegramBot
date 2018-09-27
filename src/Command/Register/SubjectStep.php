@@ -15,10 +15,26 @@ class SubjectStep extends \App\Command\BaseAbstract
      */
     private $sendMessageFactory;
 
+    /**
+     * @var \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory
+     */
+    private $replyKeyboardMarkupFactory;
+
+    /**
+     * @var \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton\Factory
+     */
+    private $keyboardButtonFactory;
+
     // ########################################
 
-    public function __construct(\App\Telegram\Model\Methods\Send\Message\Factory $sendMessageFactory) {
-        $this->sendMessageFactory = $sendMessageFactory;
+    public function __construct(
+        \App\Telegram\Model\Methods\Send\Message\Factory                                $sendMessageFactory,
+        \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory                $replyKeyboardMarkupFactory,
+        \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton\Factory $keyboardButtonFactory
+    ) {
+        $this->sendMessageFactory         = $sendMessageFactory;
+        $this->replyKeyboardMarkupFactory = $replyKeyboardMarkupFactory;
+        $this->keyboardButtonFactory = $keyboardButtonFactory;
     }
 
     // ########################################
@@ -59,12 +75,11 @@ class SubjectStep extends \App\Command\BaseAbstract
     {
         $sendMessageModel = $this->sendMessageFactory->create($chatId, 'Оберіть предмети для заннятя');//TODO TEXT
 
-        $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
-            $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([self::CALLBACK_STEP_NAME])),
+        $sendMessageModel->setReplyMarkup($this->replyKeyboardMarkupFactory->create([
+            $this->keyboardButtonFactory->create('Укр. мова')
         ]));
 
         $sendMessageModel->send();
-
     }
 
     // ########################################

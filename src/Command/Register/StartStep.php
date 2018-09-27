@@ -23,7 +23,7 @@ class StartStep extends \App\Command\BaseAbstract
     private $inlineKeyboardMarkupFactory;
 
     /**
-     * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory
+     * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton\Factory
      */
     private $inlineKeyboardButtonFactory;
 
@@ -45,12 +45,12 @@ class StartStep extends \App\Command\BaseAbstract
     // ########################################
 
     public function __construct(
-        \App\Telegram\Model\Methods\Send\Message\Factory                  $sendMessageFactory,
-        \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory $inlineKeyboardMarkupFactory,
-        \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
-        \App\Repository\Telegram\ChatRepository                           $telegramChatRepository,
-        \App\Repository\UserRepository                                    $userRepository,
-        \App\Model\Helper\DateTime                                        $dateTimeHelper
+        \App\Telegram\Model\Methods\Send\Message\Factory                                       $sendMessageFactory,
+        \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory                      $inlineKeyboardMarkupFactory,
+        \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
+        \App\Repository\Telegram\ChatRepository                                                $telegramChatRepository,
+        \App\Repository\UserRepository                                                         $userRepository,
+        \App\Model\Helper\DateTime                                                             $dateTimeHelper
     ) {
         $this->sendMessageFactory                    = $sendMessageFactory;
         $this->inlineKeyboardMarkupFactory           = $inlineKeyboardMarkupFactory;

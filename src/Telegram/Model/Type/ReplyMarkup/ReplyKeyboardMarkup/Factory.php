@@ -8,27 +8,25 @@
 
 namespace App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup;
 
-use App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup;
-
 class Factory
 {
     // ########################################
 
     /**
-     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Entity[] $keyboardButtons
-     * @param bool                                                  $resizeKeyboard
-     * @param bool                                                  $oneTimeKeyboard
-     * @param bool                                                  $selective
+     * @param \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton[] $keyboardButtons
+     * @param bool                                                                      $resizeKeyboard
+     * @param bool                                                                      $oneTimeKeyboard
+     * @param bool                                                                      $selective
      *
      * @return \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup
      */
     public function create(
-        array $keyboardButtons,
+        array $keyboardButtons = [],
         bool $resizeKeyboard = false,
         bool $oneTimeKeyboard = false,
         bool $selective = false
-    ): ReplyKeyboardMarkup {
-        return new ReplyKeyboardMarkup(
+    ): \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup {
+        return new \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup(
             $keyboardButtons,
             $resizeKeyboard,
             $oneTimeKeyboard,
