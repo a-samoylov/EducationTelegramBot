@@ -8,7 +8,7 @@
 
 namespace App\Command;
 
-abstract class BaseAbstract
+abstract class BaseAbstract implements AwareInterface
 {
     // ########################################
 
@@ -24,25 +24,43 @@ abstract class BaseAbstract
 
     // ########################################
 
-    public function __construct(Response\Factory $responseFactory)
+    public function setResponseFactory(Response\Factory $responseFactory)
     {
         $this->responseFactory = $responseFactory;
     }
 
     // ########################################
 
-    abstract public function process(): Response;
+    /**
+     * @return string|bool
+     */
+    abstract public function validate();
+
+    abstract public function processCommand(): void;
+
+    public function run()
+    {
+        $trueOrMessage = $this->validate();
+
+        if ($trueOrMessage !== true) {
+            return $this->createFailedResponse($trueOrMessage);
+        }
+
+        $this->processCommand();
+
+        return $this->createSuccessResponse();
+    }
 
     // ########################################
 
     public function createSuccessResponse(): Response
     {
-        return $this->responseFactory->create(true);
+        return $this->responseFactory->create();
     }
 
-    public function createFailedResponse(): Response
+    public function createFailedResponse(string $message): Response
     {
-        return $this->responseFactory->create(false);
+        return $this->responseFactory->create(false, $message);
     }
 
     // ########################################
@@ -58,7 +76,7 @@ abstract class BaseAbstract
     /**
      * @param \App\Telegram\Model\Type\Update\BaseAbstract $update
      */
-    public function setUpdate(\App\Telegram\Model\Type\Update\BaseAbstract $update): void
+    public function setUpdate(\App\Telegram\Model\Type\Update\BaseAbstract $update)
     {
         $this->update = $update;
     }

@@ -8,23 +8,23 @@
 
 namespace App\Command\ByDefault;
 
-use App\Command\BaseAbstract;
-use App\Command\Response;
-use App\Command\Response\Factory as ResponseFactory;
-
-class v1 extends BaseAbstract
+class v1 extends \App\Command\BaseAbstract
 {
     // ########################################
 
-    public function __construct(ResponseFactory $responseFactory) {
-        parent::__construct($responseFactory);
+    /**
+     * @return bool|string
+     */
+    public function validate()
+    {
+        return true;
     }
 
-    public function process(): Response
+    // ########################################
+
+    public function processCommand(): void
     {
         //todo is not register
-
-        return $this->createSuccessResponse();
     }
 
     // ########################################

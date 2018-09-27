@@ -8,19 +8,17 @@
 
 namespace App\Command;
 
-use Psr\Log\LoggerInterface;
-
 class Processor
 {
     /**
      * @var \App\Config\Telegram
      */
-    private $telegramConfigs = null;
+    private $telegramConfigs;
 
     /**
      * @var \Psr\Container\ContainerInterface
      */
-    private $container = null;
+    private $container;
 
     /**
      * @var \App\Command\ServiceResolver
@@ -32,18 +30,25 @@ class Processor
      */
     private $logger;
 
+    /**
+     * @var \App\Command\Response\Factory
+     */
+    private $responseFactory;
+
     // ########################################
 
     public function __construct(
-        \App\Config\Telegram $telegramConfigs,
+        \App\Config\Telegram              $telegramConfigs,
         \Psr\Container\ContainerInterface $container,
-        ServiceResolver $serviceResolver,
-        LoggerInterface $logger
+        \App\Command\ServiceResolver      $serviceResolver,
+        \Psr\Log\LoggerInterface          $logger,
+        \App\Command\Response\Factory     $responseFactory
     ) {
         $this->telegramConfigs = $telegramConfigs;
         $this->container       = $container;
         $this->serviceResolver = $serviceResolver;
         $this->logger          = $logger;
+        $this->responseFactory = $responseFactory;
     }
 
     // ########################################
@@ -61,8 +66,9 @@ class Processor
         /** @var \App\Command\BaseAbstract $command */
         $command = $this->container->get($serviceName);
         $command->setUpdate($update);
+        $command->setResponseFactory($this->responseFactory);
 
-        return $command->process();
+        return $command->run();
     }
 
     // ########################################

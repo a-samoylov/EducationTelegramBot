@@ -190,7 +190,7 @@ class CallbackQuery extends BaseAbstract
      */
     public function hasData(): bool
     {
-        return !is_null($this->data);
+        return !empty($this->data);
     }
 
     // ########################################

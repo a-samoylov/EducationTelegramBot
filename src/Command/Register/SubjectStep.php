@@ -10,38 +10,61 @@ namespace App\Command\Register;
 
 class SubjectStep extends \App\Command\BaseAbstract
 {
-    // ########################################
-
     /**
-     * @var \App\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory
+     * @var \App\Telegram\Model\Methods\Send\Message\Factory
      */
-    private $callbackDataFactory;
+    private $sendMessageFactory;
 
     // ########################################
 
-    public function __construct(
-        \App\Command\Response\Factory                                      $responseFactory,
-        \App\Telegram\Model\Type\Update\CallbackQuery\CallbackData\Factory $callbackDataFactory
-    ) {
-        parent::__construct($responseFactory);
-        $this->callbackDataFactory = $callbackDataFactory;
+    public function __construct(\App\Telegram\Model\Methods\Send\Message\Factory $sendMessageFactory) {
+        $this->sendMessageFactory = $sendMessageFactory;
     }
 
     // ########################################
-
-    public function process(): \App\Command\Response
+    /**
+     * @return bool|string
+     */
+    public function validate()
     {
         /**
          * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
          */
         $callbackQuery = $this->getUpdate();
         if (!$callbackQuery->hasData()) {
-            throw new \App\Model\Exception\Logic('Callback data is empty.');
+            return 'Callback data is empty.';
         }
 
-        $callbackData = $this->callbackDataFactory->create($callbackQuery->getData());
+        return true;
+    }
 
-        return $this->createSuccessResponse();
+    // ########################################
+
+    public function processCommand(): void
+    {
+        /**
+         * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
+         */
+        $callbackQuery = $this->getUpdate();
+
+        $callbackData = array_shift($callbackQuery->getData());
+        if ($callbackData != \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
+            throw new \App\Model\Exception\Logic('Invalid callback data: ' . print_r($callbackQuery->getData(), true));
+        }
+
+        $this->sendSubjects($callbackQuery->getFrom()->getId());
+    }
+
+    private function sendSubjects(int $chatId)
+    {
+        $sendMessageModel = $this->sendMessageFactory->create($chatId, 'Оберіть предмети для заннятя');//TODO TEXT
+
+        $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
+            $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([self::CALLBACK_STEP_NAME])),
+        ]));
+
+        $sendMessageModel->send();
+
     }
 
     // ########################################

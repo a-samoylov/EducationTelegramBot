@@ -26,7 +26,7 @@ class Factory implements \App\Telegram\Model\Type\FactoryInterface
 
     public function __construct(
         \App\Telegram\Model\Type\Base\Message\Factory $messageFactory,
-        \App\Telegram\Model\Type\Base\User\Factory $userFactory
+        \App\Telegram\Model\Type\Base\User\Factory    $userFactory
     ) {
         $this->messageFactory = $messageFactory;
         $this->userFactory    = $userFactory;

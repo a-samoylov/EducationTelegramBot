@@ -10,6 +10,8 @@ namespace App\Command\Register;
 
 class StartStep extends \App\Command\BaseAbstract
 {
+    public const CALLBACK_STEP_NAME = 'start_step_callback';
+
     /**
      * @var \App\Telegram\Model\Methods\Send\Message\Factory
      */
@@ -44,15 +46,12 @@ class StartStep extends \App\Command\BaseAbstract
 
     public function __construct(
         \App\Telegram\Model\Methods\Send\Message\Factory                  $sendMessageFactory,
-        \App\Command\Response\Factory                                     $responseFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory $inlineKeyboardMarkupFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
-        \App\Repository\Telegram\ChatRepository                            $telegramChatRepository,
+        \App\Repository\Telegram\ChatRepository                           $telegramChatRepository,
         \App\Repository\UserRepository                                    $userRepository,
         \App\Model\Helper\DateTime                                        $dateTimeHelper
     ) {
-        parent::__construct($responseFactory);
-
         $this->sendMessageFactory                    = $sendMessageFactory;
         $this->inlineKeyboardMarkupFactory           = $inlineKeyboardMarkupFactory;
         $this->inlineKeyboardButtonFactory           = $inlineKeyboardButtonFactory;
@@ -63,7 +62,27 @@ class StartStep extends \App\Command\BaseAbstract
 
     // ########################################
 
-    public function process(): \App\Command\Response
+    /**
+     * @return string|bool
+     */
+    public function validate()
+    {
+        /**
+         * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
+         */
+        $update = $this->getUpdate();
+
+        $chatEntity = $this->telegramChatRepository->find($update->getMessage()->getChat()->getId());
+        if (!is_null($chatEntity)) {
+            return 'User already exist. Can\'t run start step.';
+        }
+
+        return true;
+    }
+
+    // ########################################
+
+    public function processCommand(): void
     {
         /**
          * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
@@ -71,11 +90,6 @@ class StartStep extends \App\Command\BaseAbstract
         $update = $this->getUpdate();
 
         $updateChat = $update->getMessage()->getChat();
-
-        $chatEntity = $this->telegramChatRepository->find($updateChat->getId());
-        if (!is_null($chatEntity)) {
-            throw new \App\Model\Exception\Logic('User already exist. Can\'t run start step.');
-        }
 
         $chatEntity = $this->telegramChatRepository->create(
             $updateChat->getId(),
@@ -88,8 +102,6 @@ class StartStep extends \App\Command\BaseAbstract
         $this->userRepository->create($chatEntity);
 
         $this->sendFirstMessage($chatEntity);
-
-        return $this->createSuccessResponse();
     }
 
     // ########################################
@@ -101,8 +113,9 @@ class StartStep extends \App\Command\BaseAbstract
         );
 
         $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
-            $this->inlineKeyboardButtonFactory->create('Розпочати', 'start_step'),
+            $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([self::CALLBACK_STEP_NAME])),
         ]));
+
         $sendMessageModel->send();
     }
 

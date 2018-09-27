@@ -15,13 +15,15 @@ class Factory
     // ########################################
 
     /**
-     * @param bool $isSuccess
+     * @param bool   $isSuccess
+     *
+     * @param string $message
      *
      * @return \App\Command\Response
      */
-    public function create(bool $isSuccess): Response
+    public function create(bool $isSuccess = true, string $message = 'Success'): Response
     {
-        return new Response($isSuccess);
+        return new Response($isSuccess, $message);
     }
 
     // ########################################

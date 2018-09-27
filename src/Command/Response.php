@@ -15,11 +15,17 @@ class Response
      */
     private $isSuccess;
 
+    /**
+     * @var string
+     */
+    private $message;
+
     // ########################################
 
-    public function __construct(bool $isSuccess)
+    public function __construct(bool $isSuccess, string $message)
     {
         $this->isSuccess = $isSuccess;
+        $this->message   = $message;
     }
 
     // ########################################
@@ -30,6 +36,14 @@ class Response
     public function isSuccess(): bool
     {
         return $this->isSuccess;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
     }
 
     // ########################################
