@@ -141,6 +141,27 @@ class User
         return $this;
     }
 
+    public function setRegisterSubjectStep(): self
+    {
+        $this->registerStep = self::REGISTER_STEP_SUBJECT;
+
+        return $this;
+    }
+
+    public function setRegisterIntensityStep(): self
+    {
+        $this->registerStep = self::REGISTER_STEP_INTENSITY;
+
+        return $this;
+    }
+
+    public function setRegister(): self
+    {
+        $this->registerStep = self::REGISTER_STEP_FINISH;
+
+        return $this;
+    }
+
     // ########################################
 
     public function getChat(): Telegram\Chat

@@ -37,6 +37,11 @@ class UserRepository extends ServiceEntityRepository
         return $user;
     }
 
+    public function update(User $user)
+    {
+        $this->getEntityManager()->flush($user);
+    }
+
     public function findByChatId(\App\Entity\Telegram\Chat $chat): ?\App\Entity\User
     {
         return $this->createQueryBuilder('user')

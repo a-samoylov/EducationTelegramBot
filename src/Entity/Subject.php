@@ -23,6 +23,11 @@ class Subject
      */
     private $name;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $shortName;
+
     // ########################################
 
     public function getId(): ?int
@@ -40,6 +45,25 @@ class Subject
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    // ########################################
+
+    public function isHasShortName(): bool
+    {
+        return !is_null($this->shortName);
+    }
+
+    public function getShortName(): string
+    {
+        return $this->shortName;
+    }
+
+    public function setShortName(string $shortName): self
+    {
+        $this->shortName = $shortName;
 
         return $this;
     }

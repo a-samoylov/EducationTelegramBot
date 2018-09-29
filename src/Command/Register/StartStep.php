@@ -106,14 +106,14 @@ class StartStep extends \App\Command\BaseAbstract
             );
         }
 
-        //todo create row in telegram send messages
+        //todo event user start register
 
         if ($this->sendFirstMessage($telegramChatEntity)) {
             $this->userRepository->create($telegramChatEntity);
             return;
         }
 
-        //todo log problem
+        //todo event something goes wrong
     }
 
     // ########################################

@@ -95,8 +95,8 @@ class Message extends BaseAbstract
                     foreach ($keyboardButtonRows as $keyboardButton) {
                         $row[] = [
                             'text'             => $keyboardButton->getText(),
-                            //'request_contact'  => $keyboardButton->isRequestContact(),
-                            //'request_location' => $keyboardButton->isRequestLocation()
+                            'request_contact'  => $keyboardButton->isRequestContact(),
+                            'request_location' => $keyboardButton->isRequestLocation()
                         ];
                     }
 
@@ -136,30 +136,6 @@ class Message extends BaseAbstract
                 ];
             }
         }
-
-        $a = [
-            'chat_id'      => 367843856,
-            'text'         => 'Оберіть предмети ' . hex2bin('F09F9881'),
-            'parse_mode' => 'Markdown',
-            'reply_markup' => [
-                'keyboard' => [
-                    [
-                        ['text' => 'Укр. мова'],
-                        ['text' => 'Укр. мова'],
-                    ],
-                    [
-                        ['text' => 'Фізика'],
-                        ['text' => 'Фізика'],
-                    ],
-                    [
-                        ['text' => 'Фізика'],
-                        ['text' => 'Фізика'],
-                    ]
-                ],
-                'resize_keyboard' => true,
-                'one_time_keyboard' => false,
-            ]
-        ];
 
         return $result;
     }

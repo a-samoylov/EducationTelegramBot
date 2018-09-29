@@ -26,8 +26,9 @@ CREATE TABLE user (
 
 DROP TABLE IF EXISTS subject;
 CREATE TABLE subject (
-  id   INT AUTO_INCREMENT NOT NULL,
-  name VARCHAR(70)        NOT NULL,
+  id         INT AUTO_INCREMENT NOT NULL,
+  name       VARCHAR(70)        NOT NULL,
+  short_name VARCHAR(50)        NOT NULL,
   PRIMARY KEY (id)
 )
   DEFAULT CHARACTER SET utf8
@@ -73,9 +74,10 @@ CREATE TABLE telegram_send_callback_message (
   COLLATE utf8_general_ci
   ENGINE = InnoDB;
 
-INSERT INTO subject (name) VALUES ('Українська мова');
+INSERT INTO subject (name, short_name) VALUES ('Українська мова', 'Укр. мова');
 INSERT INTO subject (name) VALUES ('Математика');
 INSERT INTO subject (name) VALUES ('Фізика');
+INSERT INTO subject (name, short_name) VALUES ('Англійска мова', 'Англ. мова');
 
 
 INSERT INTO telegram_callback_message(type, name, message_text, data, create_date) VALUES
