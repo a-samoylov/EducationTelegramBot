@@ -120,11 +120,14 @@ class Message extends BaseAbstract
                 $inlineKeyboardMarkup = $this->getReplyMarkup();
 
                 $inlineKeyboard = [];
-                foreach ($inlineKeyboardMarkup->getInlineKeyboard() as $inlineKeyboardButton) {
-                    $inlineKeyboard[] = [
-                        'text'          => $inlineKeyboardButton->getText(),
-                        'callback_data' => $inlineKeyboardButton->getCallbackData()
-                    ];
+                foreach ($inlineKeyboardMarkup->getInlineKeyboardRows() as $row) {
+                    /** @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton $inlineKeyboardButton */
+                    foreach ($row as $inlineKeyboardButton) {
+                        $inlineKeyboard[] = [
+                            'text'          => $inlineKeyboardButton->getText(),
+                            'callback_data' => $inlineKeyboardButton->getCallbackData()
+                        ];
+                    }
 
                     //todo other
                 }

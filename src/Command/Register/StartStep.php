@@ -122,9 +122,11 @@ class StartStep extends \App\Command\BaseAbstract
             'Підготуватися до ЗНО дуже легко!) 10-15 хвилин щодня і ти отримаешь свої 200 балів!'//TODO TEXT
         );
 
-        $sendMessageModel->setReplyMarkup($this->inlineKeyboardMarkupFactory->create([
+        $replyMarkup = $this->inlineKeyboardMarkupFactory->create();
+        $replyMarkup->addRowInlineKeyboard([
             $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([self::CALLBACK_STEP_NAME])),
-        ]));
+        ]);
+        $sendMessageModel->setReplyMarkup($replyMarkup);
 
         $response = $sendMessageModel->send();
 

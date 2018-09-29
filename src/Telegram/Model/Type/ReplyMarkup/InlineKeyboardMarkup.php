@@ -23,20 +23,18 @@ class InlineKeyboardMarkup extends BaseAbstract
 
     /**
      * InlineKeyboardMarkup constructor.
-     *
-     * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[] $inlineKeyboard
      */
-    public function __construct(array $inlineKeyboard)
+    public function __construct()
     {
-        $this->inlineKeyboard = $inlineKeyboard;
+        $this->inlineKeyboard = [];
     }
 
     // ########################################
 
     /**
-     * @return \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[]
+     * @return array[]
      */
-    public function getInlineKeyboard(): array
+    public function getInlineKeyboardRows(): array
     {
         return $this->inlineKeyboard;
     }
@@ -44,9 +42,9 @@ class InlineKeyboardMarkup extends BaseAbstract
     /**
      * @param \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton[] $inlineKeyboard
      */
-    public function setInlineKeyboard(array $inlineKeyboard): void
+    public function addRowInlineKeyboard(array $inlineKeyboard): void
     {
-        $this->inlineKeyboard = $inlineKeyboard;
+        $this->inlineKeyboard[] = $inlineKeyboard;
     }
 
     // ########################################
