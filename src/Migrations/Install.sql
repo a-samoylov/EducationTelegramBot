@@ -28,7 +28,7 @@ DROP TABLE IF EXISTS subject;
 CREATE TABLE subject (
   id         INT AUTO_INCREMENT NOT NULL,
   name       VARCHAR(70)        NOT NULL,
-  short_name VARCHAR(50)        NOT NULL,
+  short_name VARCHAR(50) DEFAULT NULL,
   PRIMARY KEY (id)
 )
   DEFAULT CHARACTER SET utf8

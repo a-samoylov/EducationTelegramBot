@@ -34,8 +34,6 @@ class ServiceResolver
      */
     public function resolve($update): string
     {
-        $result = self::DEFAULT_COMMAND_SERVICE;
-
         if ($update instanceof \App\Telegram\Model\Type\Update\MessageUpdate) {
             $serviceName = $this->getServiceNameByMessageUpdate($update);
             if (!is_null($serviceName)) {
@@ -53,7 +51,7 @@ class ServiceResolver
 
         //todo event if cant found service name
 
-        return $result;
+        return self::DEFAULT_COMMAND_SERVICE;
     }
 
     // ########################################
@@ -71,7 +69,7 @@ class ServiceResolver
         }
 
         if ($userEntity->isRegisterSubjectStep()) {
-            return '';//todo
+            return self::REGISTER_SUBJECT_STEP_COMMAND_SERVICE;
         }
 
         return null;

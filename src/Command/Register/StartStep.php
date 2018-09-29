@@ -108,20 +108,17 @@ class StartStep extends \App\Command\BaseAbstract
 
         //todo event user start register
 
-        if ($this->sendFirstMessage($telegramChatEntity)) {
+        if ($this->sendFirstMessage($telegramChatEntity->getId())) {
             $this->userRepository->create($telegramChatEntity);
-            return;
         }
-
-        //todo event something goes wrong
     }
 
     // ########################################
 
-    private function sendFirstMessage(\App\Entity\Telegram\Chat $chatEntity): bool
+    private function sendFirstMessage(int $chatId): bool
     {
         $sendMessageModel = $this->sendMessageFactory->create(
-            $chatEntity->getId(),
+            $chatId,
             'Підготуватися до ЗНО дуже легко!) 10-15 хвилин щодня і ти отримаешь свої 200 балів!'//TODO TEXT
         );
 
@@ -130,11 +127,8 @@ class StartStep extends \App\Command\BaseAbstract
         ]));
 
         $response = $sendMessageModel->send();
-        if ($response instanceof \App\Telegram\Model\Request\Response\Success) {
-            return true;
-        }
 
-        return false;
+        return $response !== false;
     }
 
     // ########################################

@@ -186,6 +186,11 @@ class User
         return $this->subjects;
     }
 
+    public function hasSubjects(): bool
+    {
+        return !$this->subjects->isEmpty();
+    }
+
     public function addSubject(Subject $subject): self
     {
         if (!$this->subjects->contains($subject)) {
@@ -204,9 +209,15 @@ class User
         return $this;
     }
 
-    public function hasSubjects(): bool
+    public function hasSubject(Subject $subject): bool
     {
-        return !$this->subjects->isEmpty();
+        foreach ($this->subjects as $userSubject) {
+            if ($userSubject->getId() == $subject->getId()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     // ########################################

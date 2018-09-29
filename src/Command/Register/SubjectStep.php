@@ -12,6 +12,8 @@ class SubjectStep extends \App\Command\BaseAbstract
 {
     private const BUTTON_SAVE_TEXT = 'Зберегти';
 
+    private const COUNT_SUBJECTS_IN_ROW = 2;
+
     /**
      * @var \App\Telegram\Model\Methods\Send\Message\Factory
      */
@@ -37,6 +39,11 @@ class SubjectStep extends \App\Command\BaseAbstract
      */
     private $subjectRepository;
 
+    /**
+     * @var \App\Model\Helper\Emoji
+     */
+    private $emojiHelper;
+
     // ########################################
 
     public function __construct(
@@ -44,13 +51,15 @@ class SubjectStep extends \App\Command\BaseAbstract
         \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory                $replyKeyboardMarkupFactory,
         \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton\Factory $keyboardButtonFactory,
         \App\Repository\UserRepository                                                  $userRepository,
-        \App\Repository\SubjectRepository                                               $subjectRepository
+        \App\Repository\SubjectRepository                                               $subjectRepository,
+        \App\Model\Helper\Emoji                                                         $emojiHelper
     ) {
         $this->sendMessageFactory         = $sendMessageFactory;
         $this->replyKeyboardMarkupFactory = $replyKeyboardMarkupFactory;
         $this->keyboardButtonFactory      = $keyboardButtonFactory;
         $this->userRepository             = $userRepository;
         $this->subjectRepository          = $subjectRepository;
+        $this->emojiHelper                = $emojiHelper;
     }
 
     // ########################################
@@ -59,16 +68,34 @@ class SubjectStep extends \App\Command\BaseAbstract
      */
     public function validate()
     {
-        if (!$this->getUpdate()->isCallbackQuery() || !$this->getUpdate()->isMessageUpdate()) {
+        if (!$this->getUpdate()->isCallbackQuery() && !$this->getUpdate()->isMessageUpdate()) {
             return 'Wrong update type.';
         }
 
+        if ($this->getUpdate() instanceof \App\Telegram\Model\Type\Update\CallbackQuery) {
+            /**
+             * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
+             */
+            $callbackQuery = $this->getUpdate();
+            if (!$callbackQuery->hasData()) {
+                return 'Callback data is empty.';
+            }
+
+            $userEntity = $this->userRepository->find($callbackQuery->getMessage()->getChat()->getId());
+            if (is_null($userEntity)) {
+                return 'User in not found.';
+            }
+
+            return true;
+        }
+
         /**
-         * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
+         * @var \App\Telegram\Model\Type\Update\MessageUpdate $messageUpdate
          */
-        $callbackQuery = $this->getUpdate();
-        if (!$callbackQuery->hasData()) {
-            return 'Callback data is empty.';
+        $messageUpdate = $this->getUpdate();
+        $userEntity    = $this->userRepository->find($messageUpdate->getMessage()->getChat()->getId());
+        if (is_null($userEntity)) {
+            return 'User in not found.';
         }
 
         return true;
@@ -83,81 +110,89 @@ class SubjectStep extends \App\Command\BaseAbstract
              * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
              */
             $callbackQuery = $this->getUpdate();
-
-            $userEntity = $this->userRepository->find($callbackQuery->getMessage()->getChat()->getId());
-            if (is_null($userEntity)) {
-                throw new \App\Model\Exception\Logic('User is not found.');
-            }
+            $userEntity    = $this->userRepository->find($callbackQuery->getMessage()->getChat()->getId());
 
             $callbackData = $callbackQuery->getData();
             $callbackData = array_shift($callbackData);
 
             if ($callbackData == \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
-                if ($this->sendSubjects($callbackQuery->getFrom()->getId())) {
-
+                if ($this->sendSubjects($userEntity, 'Оберіть предмети для заннятя')) {//TODO TEXT
                     $userEntity->setRegisterSubjectStep();
                     $this->userRepository->update($userEntity);
-                    return;
                 }
-
-                //todo event something goes wrong
-                return;
             }
+
+            return;
         }
 
         /**
          * @var \App\Telegram\Model\Type\Update\MessageUpdate $messageUpdate
          */
         $messageUpdate = $this->getUpdate();
-
-        $userEntity = $this->userRepository->find($messageUpdate->getMessage()->getChat()->getId());
-        if (is_null($userEntity)) {
-            throw new \App\Model\Exception\Logic('User is not found.');
-        }
+        $userEntity    = $this->userRepository->find($messageUpdate->getMessage()->getChat()->getId());
 
         if ($messageUpdate->getMessage()->getText() == self::BUTTON_SAVE_TEXT) {
             if (!$userEntity->hasSubjects()) {
-                $sendMessageModel = $this->sendMessageFactory->create(
-                    $messageUpdate->getMessage()->getChat()->getId(),
-                    'Оберіть хоча б один предмет'//TODO TEXT
-                );
+                $sendMessageModel = $this->sendMessageFactory->create($userEntity->getChat()->getId(), 'Оберіть хоча б один предмет');//TODO TEXT
                 $sendMessageModel->send();
             }
+
+            $userEntity->setRegisterIntensityStep();
+            $this->userRepository->update($userEntity);
+
+            $this->sendIntensity($userEntity);
+
+            return;
         }
 
+        $incomingText = $messageUpdate->getMessage()->getText();
         $subjects = $this->subjectRepository->findAll();
         foreach ($subjects as $subject) {
-            if ($subject->getName()      == $messageUpdate->getMessage()->getText() ||
-                $subject->getShortName() == $messageUpdate->getMessage()->getText()
+            if ($subject->getName()      == $incomingText ||
+                $subject->getShortName() == $incomingText ||
+                $subject->getName()      == substr($incomingText, 1) ||
+                $subject->getShortName() == substr($incomingText, 1)
             ) {
+                if ($userEntity->hasSubject($subject)) {
+                    $userEntity->removeSubject($subject);
+                    $this->userRepository->update($userEntity);
+
+                    $this->sendSubjects($userEntity, "Предмет: \"{$subject->getName()}\" прибранно.");//TODO TEXT
+                    return;
+                }
+
                 $userEntity->addSubject($subject);
-                break;
+                $this->userRepository->update($userEntity);
+
+                $this->sendSubjects($userEntity, "Предмет: \"{$subject->getName()}\" доданно.");//TODO TEXT
+                return;
             }
         }
     }
 
-    private function sendSubjects(int $chatId)
+    // ########################################
+
+    private function sendSubjects(\App\Entity\User $user, string $text)
     {
-        $sendMessageModel = $this->sendMessageFactory->create($chatId, 'Оберіть предмети для заннятя');//TODO TEXT
+        $sendMessageModel = $this->sendMessageFactory->create($user->getChat()->getId(), $text);
 
         $subjects = $this->subjectRepository->findAll();
 
         $replyKeyboardMarkup = $this->replyKeyboardMarkupFactory->create();
 
-        $index = 0;
-        while (count($subjects) != $index) {
-            $row = [];
-
-            $subject     = $subjects[$index];
+        $row = [];
+        foreach ($subjects as $subject) {
             $subjectName = $subject->isHasShortName() ? $subject->getShortName() : $subject->getName();
-            $row[]       = $this->keyboardButtonFactory->create($subjectName);
-            $index++;
+            $subjectName = $user->hasSubject($subject) ? $this->emojiHelper->getGreenCheck() . $subjectName : $subjectName;
 
-            $subject     = $subjects[$index];
-            $subjectName = $subject->isHasShortName() ? $subject->getShortName() : $subject->getName();
-            $row[]       = $this->keyboardButtonFactory->create($subjectName);
-            $index++;
+            $row[] = $this->keyboardButtonFactory->create($subjectName);
+            if (count($row) == self::COUNT_SUBJECTS_IN_ROW) {
+                $replyKeyboardMarkup->addKeyboardButtonRow($row);
+                $row = [];
+            }
+        }
 
+        if (!empty($row)) {
             $replyKeyboardMarkup->addKeyboardButtonRow($row);
         }
 
@@ -167,11 +202,15 @@ class SubjectStep extends \App\Command\BaseAbstract
         $sendMessageModel->setReplyMarkup($replyKeyboardMarkup);
 
         $response = $sendMessageModel->send();
-        if ($response instanceof \App\Telegram\Model\Request\Response\Success) {
-            return true;
-        }
 
-        return false;
+        return $response !== false;
+    }
+
+    // ########################################
+
+    private function sendIntensity(\App\Entity\User $user)
+    {
+        //todo send Intensity and hide keyboard
     }
 
     // ########################################
