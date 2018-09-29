@@ -67,6 +67,10 @@ class StartStep extends \App\Command\BaseAbstract
      */
     public function validate()
     {
+        if (!$this->getUpdate()->isMessageUpdate()) {
+            return 'Wrong update type.';
+        }
+
         /**
          * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
          */
@@ -102,6 +106,8 @@ class StartStep extends \App\Command\BaseAbstract
             );
         }
 
+        //todo create row in telegram send messages
+
         if ($this->sendFirstMessage($telegramChatEntity)) {
             $this->userRepository->create($telegramChatEntity);
             return;
@@ -123,9 +129,12 @@ class StartStep extends \App\Command\BaseAbstract
             $this->inlineKeyboardButtonFactory->create('Розпочати', json_encode([self::CALLBACK_STEP_NAME])),
         ]));
 
-        $sendMessageModel->send();//todo return bool
+        $response = $sendMessageModel->send();
+        if ($response instanceof \App\Telegram\Model\Request\Response\Success) {
+            return true;
+        }
 
-        return true;
+        return false;
     }
 
     // ########################################

@@ -50,6 +50,10 @@ class SubjectStep extends \App\Command\BaseAbstract
      */
     public function validate()
     {
+        if (!$this->getUpdate()->isCallbackQuery()) {
+            return 'Wrong update type.';
+        }
+
         /**
          * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
          */

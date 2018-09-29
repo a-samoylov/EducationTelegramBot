@@ -22,9 +22,12 @@ abstract class BaseAbstract
 
     // ########################################
 
+    /**
+     * @return \App\Telegram\Model\Request\Response\Failed|\App\Telegram\Model\Request\Response\Success
+     */
     public function send()
     {
-        $this->jsonRequest->execute($this->getMethodName(), $this->getRequestParams());
+        return $this->jsonRequest->execute($this->getMethodName(), $this->getRequestParams());
     }
 
     // ########################################

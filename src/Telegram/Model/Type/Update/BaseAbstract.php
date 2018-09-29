@@ -45,4 +45,16 @@ abstract class BaseAbstract
     }
 
     // ########################################
+
+    public function isCallbackQuery(): bool
+    {
+        return $this instanceof CallbackQuery;
+    }
+
+    public function isMessageUpdate(): bool
+    {
+        return $this instanceof MessageUpdate;
+    }
+
+    // ########################################
 }

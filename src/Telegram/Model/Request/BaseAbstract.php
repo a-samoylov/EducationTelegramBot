@@ -8,22 +8,27 @@
 
 namespace App\Telegram\Model\Request;
 
-use App\Config\Telegram as TelegramConfig;
+use App\Command\Response;
 
 class BaseAbstract
 {
-    /** @var \App\Telegram\Model\Request\Curl $curlRequest*/
+    /** @var \App\Telegram\Model\Request\Curl $curlRequest */
     protected $curlRequest;
 
-    /** @var string $apiUrl*/
-    private $apiUrl = null;
+    /** @var string $apiUrl */
+    private $apiUrl;
+
+    /** @var \App\Command\Response\Factory */
+    private $responseFactory;
 
     // ########################################
 
-    public function __construct(Curl $curlRequest, TelegramConfig $telegramConfig)
-    {
-        $this->apiUrl      = $telegramConfig->getApiUrl();
-        $this->curlRequest = $curlRequest;
+    public function __construct(
+        Curl $curlRequest,
+        \App\Config\Telegram $telegramConfig
+    ) {
+        $this->apiUrl          = $telegramConfig->getApiUrl();
+        $this->curlRequest     = $curlRequest;
     }
 
     // ########################################
