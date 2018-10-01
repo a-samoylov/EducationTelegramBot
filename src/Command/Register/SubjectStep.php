@@ -137,15 +137,9 @@ class SubjectStep extends \App\Command\BaseAbstract
             $callbackData = array_shift($callbackData);
 
             if ($callbackData == \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
-                $this->editStartInlineKeyboards(
-                    $userEntity,
-                    $callbackQuery->getMessage()->getMessageId(),
-                    $callbackQuery->getMessage()->getText()
-                );
-
                 if ($this->sendSubjects($userEntity, 'Оберіть предмети для заннятя')) {//TODO TEXT
                     $userEntity->setRegisterSubjectStep();
-                    $this->userRepository->update($userEntity);
+                    $this->userRepository->save($userEntity);
                 }
             }
 
@@ -166,7 +160,7 @@ class SubjectStep extends \App\Command\BaseAbstract
 
             if ($this->sendIntensity($userEntity)) {
                 $userEntity->setRegisterIntensityStep();
-                $this->userRepository->update($userEntity);
+                $this->userRepository->save($userEntity);
             }
 
             return;
@@ -182,14 +176,14 @@ class SubjectStep extends \App\Command\BaseAbstract
             ) {
                 if ($userEntity->hasSubject($subject)) {
                     $userEntity->removeSubject($subject);
-                    $this->userRepository->update($userEntity);
+                    $this->userRepository->save($userEntity);
 
                     $this->sendSubjects($userEntity, "Предмет: \"{$subject->getName()}\" прибранно.");//TODO TEXT
                     return;
                 }
 
                 $userEntity->addSubject($subject);
-                $this->userRepository->update($userEntity);
+                $this->userRepository->save($userEntity);
 
                 $this->sendSubjects($userEntity, "Предмет: \"{$subject->getName()}\" доданно.");//TODO TEXT
                 return;
@@ -198,12 +192,6 @@ class SubjectStep extends \App\Command\BaseAbstract
     }
 
     // ########################################
-
-    private function editStartInlineKeyboards(\App\Entity\User $user, int $messageId, string $text)
-    {
-        $editMessageModel = $this->editMessageFactory->create($user->getId(), $messageId, $text);
-        $editMessageModel->send();
-    }
 
     private function sendSubjects(\App\Entity\User $user, string $text)
     {

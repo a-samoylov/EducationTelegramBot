@@ -67,6 +67,7 @@ class Processor
         $command = $this->container->get($serviceName);
         $command->setUpdate($update);
         $command->setResponseFactory($this->responseFactory);
+        $command->setContainer($this->container);
 
         return $command->run();
     }

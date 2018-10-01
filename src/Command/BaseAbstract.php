@@ -15,12 +15,17 @@ abstract class BaseAbstract implements AwareInterface
     /**
      * @var \App\Command\Response\Factory
      */
-    private $responseFactory = null;
+    private $responseFactory;
 
     /**
      * @var \App\Telegram\Model\Type\Update\BaseAbstract
      */
-    private $update = null;
+    private $update;
+
+    /**
+     * @var \Psr\Container\ContainerInterface
+     */
+    private $container;
 
     // ########################################
 
@@ -31,12 +36,26 @@ abstract class BaseAbstract implements AwareInterface
 
     // ########################################
 
+    public function processAnotherCommand(string $serviceName)
+    {
+        /** @var \App\Command\BaseAbstract $command */
+        $command = $this->container->get($serviceName);
+        $command->setUpdate($this->getUpdate());
+        $command->setResponseFactory($this->responseFactory);
+        $command->setContainer($this->container);
+
+        return $command->run();
+    }
+
+    // ########################################
     /**
      * @return string|bool
      */
     abstract public function validate();
 
     abstract public function processCommand(): void;
+
+    // ----------------------------------------
 
     public function run()
     {
@@ -79,6 +98,13 @@ abstract class BaseAbstract implements AwareInterface
     public function setUpdate(\App\Telegram\Model\Type\Update\BaseAbstract $update)
     {
         $this->update = $update;
+    }
+
+    // ########################################
+
+    public function setContainer(\Psr\Container\ContainerInterface $container)
+    {
+        $this->container = $container;
     }
 
     // ########################################

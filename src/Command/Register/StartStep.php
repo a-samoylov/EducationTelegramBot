@@ -18,6 +18,11 @@ class StartStep extends \App\Command\BaseAbstract
     private $sendMessageFactory;
 
     /**
+     * @var \App\Telegram\Model\Methods\Edit\Message\Factory
+     */
+    private $editMessageFactory;
+
+    /**
      * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory
      */
     private $inlineKeyboardMarkupFactory;
@@ -46,18 +51,20 @@ class StartStep extends \App\Command\BaseAbstract
 
     public function __construct(
         \App\Telegram\Model\Methods\Send\Message\Factory                                       $sendMessageFactory,
+        \App\Telegram\Model\Methods\Edit\Message\Factory                                       $editMessageFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory                      $inlineKeyboardMarkupFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
         \App\Repository\Telegram\ChatRepository                                                $telegramChatRepository,
         \App\Repository\UserRepository                                                         $userRepository,
         \App\Model\Helper\DateTime                                                             $dateTimeHelper
     ) {
-        $this->sendMessageFactory                    = $sendMessageFactory;
-        $this->inlineKeyboardMarkupFactory           = $inlineKeyboardMarkupFactory;
-        $this->inlineKeyboardButtonFactory           = $inlineKeyboardButtonFactory;
-        $this->telegramChatRepository                = $telegramChatRepository;
-        $this->userRepository                        = $userRepository;
-        $this->dateTimeHelper                        = $dateTimeHelper;
+        $this->sendMessageFactory          = $sendMessageFactory;
+        $this->editMessageFactory          = $editMessageFactory;
+        $this->inlineKeyboardMarkupFactory = $inlineKeyboardMarkupFactory;
+        $this->inlineKeyboardButtonFactory = $inlineKeyboardButtonFactory;
+        $this->telegramChatRepository      = $telegramChatRepository;
+        $this->userRepository              = $userRepository;
+        $this->dateTimeHelper              = $dateTimeHelper;
     }
 
     // ########################################
@@ -67,18 +74,20 @@ class StartStep extends \App\Command\BaseAbstract
      */
     public function validate()
     {
-        if (!$this->getUpdate()->isMessageUpdate()) {
+        if (!$this->getUpdate()->isCallbackQuery() && !$this->getUpdate()->isMessageUpdate()) {
             return 'Wrong update type.';
         }
 
-        /**
-         * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
-         */
-        $update = $this->getUpdate();
+        if ($this->getUpdate() instanceof \App\Telegram\Model\Type\Update\MessageUpdate) {
+            /**
+             * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
+             */
+            $update = $this->getUpdate();
 
-        $userEntity = $this->userRepository->find($update->getMessage()->getChat()->getId());
-        if (!is_null($userEntity)) {
-            return 'User already exist. Can\'t run start step.';
+            $userEntity = $this->userRepository->find($update->getMessage()->getChat()->getId());
+            if (!is_null($userEntity)) {
+                return 'User already exist. Can\'t run start step.';
+            }
         }
 
         return true;
@@ -88,28 +97,54 @@ class StartStep extends \App\Command\BaseAbstract
 
     public function processCommand(): void
     {
-        /**
-         * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
-         */
-        $update = $this->getUpdate();
+        if ($this->getUpdate() instanceof \App\Telegram\Model\Type\Update\MessageUpdate) {
+            /**
+             * @var \App\Telegram\Model\Type\Update\MessageUpdate $update
+             */
+            $update = $this->getUpdate();
 
-        $updateChat = $update->getMessage()->getChat();
+            $updateChat = $update->getMessage()->getChat();
 
-        $telegramChatEntity = $this->telegramChatRepository->find($updateChat->getId());
-        if (is_null($telegramChatEntity)) {
-            $telegramChatEntity = $this->telegramChatRepository->create(
-                $updateChat->getId(),
-                $updateChat->getType(),
-                $updateChat->getUsername(),
-                $updateChat->getFirstName(),
-                $updateChat->getLastName()
-            );
+            $telegramChatEntity = $this->telegramChatRepository->find($updateChat->getId());
+            if (is_null($telegramChatEntity)) {
+                $telegramChatEntity = $this->telegramChatRepository->create(
+                    $updateChat->getId(),
+                    $updateChat->getType(),
+                    $updateChat->getUsername(),
+                    $updateChat->getFirstName(),
+                    $updateChat->getLastName()
+                );
+            }
+
+            //todo event user start register
+
+            if ($this->sendFirstMessage($telegramChatEntity->getId())) {
+                $this->userRepository->create($telegramChatEntity);
+            }
+
+            return;
         }
 
-        //todo event user start register
+        /**
+         * @var \App\Telegram\Model\Type\Update\CallbackQuery $callbackQuery
+         */
+        $callbackQuery = $this->getUpdate();
+        $userEntity    = $this->userRepository->find($callbackQuery->getMessage()->getChat()->getId());
 
-        if ($this->sendFirstMessage($telegramChatEntity->getId())) {
-            $this->userRepository->create($telegramChatEntity);
+        $callbackData = $callbackQuery->getData();
+        $callbackData = array_shift($callbackData);
+
+        if ($callbackData == \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
+            if ($this->editStartInlineKeyboards(
+                $userEntity->getId(),
+                $callbackQuery->getMessage()->getMessageId(),
+                $callbackQuery->getMessage()->getText()
+            )) {
+                $userEntity->setRegisterSubjectStep();
+                $this->userRepository->save($userEntity);
+
+                $this->processAnotherCommand(\App\Command\ServiceResolver::REGISTER_SUBJECT_STEP_COMMAND_SERVICE);
+            }
         }
     }
 
@@ -129,6 +164,14 @@ class StartStep extends \App\Command\BaseAbstract
         $sendMessageModel->setReplyMarkup($replyMarkup);
 
         $response = $sendMessageModel->send();
+
+        return $response !== false;
+    }
+
+    private function editStartInlineKeyboards(int $chatId, int $messageId, string $text)
+    {
+        $editMessageModel = $this->editMessageFactory->create($chatId, $messageId, $text);
+        $response         = $editMessageModel->send();
 
         return $response !== false;
     }

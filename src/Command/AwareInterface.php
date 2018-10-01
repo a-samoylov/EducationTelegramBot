@@ -12,6 +12,8 @@ interface AwareInterface
 {
     // ########################################
 
+    public function setContainer(\Psr\Container\ContainerInterface $container);
+
     public function setResponseFactory(Response\Factory $responseFactory);
 
     public function setUpdate(\App\Telegram\Model\Type\Update\BaseAbstract $update);

@@ -10,9 +10,9 @@ namespace App\Command;
 
 class ServiceResolver
 {
-    private const DEFAULT_COMMAND_SERVICE               = 'telegram.default.command';
-    private const REGISTER_START_STEP_COMMAND_SERVICE   = 'telegram.command.register.startstep';
-    private const REGISTER_SUBJECT_STEP_COMMAND_SERVICE = 'telegram.command.register.subjectstep';
+    public const DEFAULT_COMMAND_SERVICE               = 'telegram.default.command';
+    public const REGISTER_START_STEP_COMMAND_SERVICE   = 'telegram.command.register.startstep';
+    public const REGISTER_SUBJECT_STEP_COMMAND_SERVICE = 'telegram.command.register.subjectstep';
 
     /**
      * @var \App\Repository\UserRepository
@@ -95,6 +95,10 @@ class ServiceResolver
         }
 
         if ($userEntity->isRegisterStartStep()) {
+            return self::REGISTER_START_STEP_COMMAND_SERVICE;
+        }
+
+        if ($userEntity->isRegisterSubjectStep()) {
             return self::REGISTER_SUBJECT_STEP_COMMAND_SERVICE;
         }
 
