@@ -6,7 +6,7 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Telegram\Model\Methods\Send\Message;
+namespace App\Telegram\Model\Methods\Edit\Message;
 
 class Factory
 {
@@ -20,15 +20,18 @@ class Factory
         $this->jsonRequest = $jsonRequest;
     }
 
+    // ########################################
+
     /**
-     * @param string|integer $chatId
+     * @param int            $chatId
+     * @param string|integer $messageId
      * @param string         $text
      *
-     * @return \App\Telegram\Model\Methods\Send\Message
+     * @return \App\Telegram\Model\Methods\Edit\Message
      */
-    public function create($chatId, string $text)
+    public function create(int $chatId, int $messageId, string $text)
     {
-        $result = new \App\Telegram\Model\Methods\Send\Message($chatId, $text);
+        $result = new \App\Telegram\Model\Methods\Edit\Message($chatId, $messageId, $text);
         $result->setJsonRequest($this->jsonRequest);
 
         return $result;

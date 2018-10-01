@@ -8,7 +8,7 @@
 
 namespace App\Telegram\Model\Methods\Send;
 
-class Message extends BaseAbstract
+class Message extends \App\Telegram\Model\Methods\BaseAbstract
 {
     private const HTML_PARSE_MODE     = 'HTML';
     private const MARKDOWN_PARSE_MODE = 'Markdown';
@@ -53,16 +53,13 @@ class Message extends BaseAbstract
     // ########################################
 
     /**
-     * @param string|integer                           $chatId
-     * @param string                                   $text
-     * @param \App\Telegram\Model\Request\Json $jsonRequest
+     * @param string|integer $chatId
+     * @param string         $text
      */
-    public function __construct($chatId, string $text, \App\Telegram\Model\Request\Json $jsonRequest)
+    public function __construct($chatId, string $text)
     {
         $this->chatId = $chatId;
         $this->text   = $text;
-
-        parent::__construct($jsonRequest);
     }
 
     // ########################################

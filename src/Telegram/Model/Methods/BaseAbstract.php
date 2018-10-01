@@ -6,16 +6,16 @@
  * @license    Any usage is forbidden
  */
 
-namespace App\Telegram\Model\Methods\Send;
+namespace App\Telegram\Model\Methods;
 
-abstract class BaseAbstract
+abstract class BaseAbstract implements AwareInterface
 {
-    // ########################################
-
     /** @var \App\Telegram\Model\Request\Json */
     private $jsonRequest = null;
 
-    public function __construct(\App\Telegram\Model\Request\Json $jsonRequest)
+    // ########################################
+
+    public function setJsonRequest(\App\Telegram\Model\Request\Json $jsonRequest)
     {
         $this->jsonRequest = $jsonRequest;
     }

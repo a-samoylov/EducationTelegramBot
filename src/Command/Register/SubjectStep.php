@@ -20,6 +20,11 @@ class SubjectStep extends \App\Command\BaseAbstract
     private $sendMessageFactory;
 
     /**
+     * @var \App\Telegram\Model\Methods\Edit\Message\Factory
+     */
+    private $editMessageFactory;
+
+    /**
      * @var \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory
      */
     private $replyKeyboardMarkupFactory;
@@ -58,6 +63,7 @@ class SubjectStep extends \App\Command\BaseAbstract
 
     public function __construct(
         \App\Telegram\Model\Methods\Send\Message\Factory                                       $sendMessageFactory,
+        \App\Telegram\Model\Methods\Edit\Message\Factory                                       $editMessageFactory,
         \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory                       $replyKeyboardMarkupFactory,
         \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton\Factory        $keyboardButtonFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory                      $inlineKeyboardMarkupFactory,
@@ -67,6 +73,7 @@ class SubjectStep extends \App\Command\BaseAbstract
         \App\Model\Helper\Emoji                                                                $emojiHelper
     ) {
         $this->sendMessageFactory          = $sendMessageFactory;
+        $this->editMessageFactory          = $editMessageFactory;
         $this->replyKeyboardMarkupFactory  = $replyKeyboardMarkupFactory;
         $this->keyboardButtonFactory       = $keyboardButtonFactory;
         $this->inlineKeyboardMarkupFactory = $inlineKeyboardMarkupFactory;
@@ -130,6 +137,12 @@ class SubjectStep extends \App\Command\BaseAbstract
             $callbackData = array_shift($callbackData);
 
             if ($callbackData == \App\Command\Register\StartStep::CALLBACK_STEP_NAME) {
+                $this->editStartInlineKeyboards(
+                    $userEntity,
+                    $callbackQuery->getMessage()->getMessageId(),
+                    $callbackQuery->getMessage()->getText()
+                );
+
                 if ($this->sendSubjects($userEntity, 'Оберіть предмети для заннятя')) {//TODO TEXT
                     $userEntity->setRegisterSubjectStep();
                     $this->userRepository->update($userEntity);
@@ -185,6 +198,12 @@ class SubjectStep extends \App\Command\BaseAbstract
     }
 
     // ########################################
+
+    private function editStartInlineKeyboards(\App\Entity\User $user, int $messageId, string $text)
+    {
+        $editMessageModel = $this->editMessageFactory->create($user->getId(), $messageId, $text);
+        $editMessageModel->send();
+    }
 
     private function sendSubjects(\App\Entity\User $user, string $text)
     {
