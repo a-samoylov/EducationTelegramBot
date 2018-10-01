@@ -35,6 +35,11 @@ class SubjectStep extends \App\Command\BaseAbstract
     private $keyboardButtonFactory;
 
     /**
+     * @var \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardRemove
+     */
+    private $replyKeyboardRemove;
+
+    /**
      * @var \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory
      */
     private $inlineKeyboardMarkupFactory;
@@ -66,6 +71,7 @@ class SubjectStep extends \App\Command\BaseAbstract
         \App\Telegram\Model\Methods\Edit\Message\Factory                                       $editMessageFactory,
         \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\Factory                       $replyKeyboardMarkupFactory,
         \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardMarkup\KeyboardButton\Factory        $keyboardButtonFactory,
+        \App\Telegram\Model\Type\ReplyMarkup\ReplyKeyboardRemove                               $replyKeyboardRemove,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\Factory                      $inlineKeyboardMarkupFactory,
         \App\Telegram\Model\Type\ReplyMarkup\InlineKeyboardMarkup\InlineKeyboardButton\Factory $inlineKeyboardButtonFactory,
         \App\Repository\UserRepository                                                         $userRepository,
@@ -76,6 +82,7 @@ class SubjectStep extends \App\Command\BaseAbstract
         $this->editMessageFactory          = $editMessageFactory;
         $this->replyKeyboardMarkupFactory  = $replyKeyboardMarkupFactory;
         $this->keyboardButtonFactory       = $keyboardButtonFactory;
+        $this->replyKeyboardRemove         = $replyKeyboardRemove;
         $this->inlineKeyboardMarkupFactory = $inlineKeyboardMarkupFactory;
         $this->inlineKeyboardButtonFactory = $inlineKeyboardButtonFactory;
         $this->userRepository              = $userRepository;
@@ -158,16 +165,18 @@ class SubjectStep extends \App\Command\BaseAbstract
                 $sendMessageModel->send();
             }
 
-            if ($this->sendIntensity($userEntity)) {
+            if ($this->sendSaveSubject($userEntity)) {
                 $userEntity->setRegisterIntensityStep();
                 $this->userRepository->save($userEntity);
+
+                $this->processAnotherCommand(\App\Command\ServiceResolver::REGISTER_INTENSITY_STEP_COMMAND_SERVICE);
             }
 
             return;
         }
 
         $incomingText = $messageUpdate->getMessage()->getText();
-        $subjects = $this->subjectRepository->findAll();
+        $subjects     = $this->subjectRepository->findAll();
         foreach ($subjects as $subject) {
             if ($subject->getName()      == $incomingText ||
                 $subject->getShortName() == $incomingText ||
@@ -179,6 +188,7 @@ class SubjectStep extends \App\Command\BaseAbstract
                     $this->userRepository->save($userEntity);
 
                     $this->sendSubjects($userEntity, "Предмет: \"{$subject->getName()}\" прибранно.");//TODO TEXT
+
                     return;
                 }
 
@@ -186,6 +196,7 @@ class SubjectStep extends \App\Command\BaseAbstract
                 $this->userRepository->save($userEntity);
 
                 $this->sendSubjects($userEntity, "Предмет: \"{$subject->getName()}\" доданно.");//TODO TEXT
+
                 return;
             }
         }
@@ -229,19 +240,10 @@ class SubjectStep extends \App\Command\BaseAbstract
 
     // ########################################
 
-    private function sendIntensity(\App\Entity\User $user)
+    private function sendSaveSubject(\App\Entity\User $user)
     {
-        //todo hide keyboard
-
-        $sendMessageModel = $this->sendMessageFactory->create($user->getChat()->getId(), 'Оберіть інтенсивність заннять');//TODO TEXT
-
-        $replyMarkup = $this->inlineKeyboardMarkupFactory->create();
-        $replyMarkup->addRowInlineKeyboard([
-            $this->inlineKeyboardButtonFactory->create('Низька', json_encode(['small'])),//TODO TEXT
-            $this->inlineKeyboardButtonFactory->create('Середня', json_encode(['medium'])),
-            $this->inlineKeyboardButtonFactory->create('Висока', json_encode(['height'])),
-        ]);
-        $sendMessageModel->setReplyMarkup($replyMarkup);
+        $sendMessageModel = $this->sendMessageFactory->create($user->getChat()->getId(), 'Вітаємо предмети обранно!');//TODO TEXT
+        $sendMessageModel->setReplyMarkup($this->replyKeyboardRemove);
 
         $response = $sendMessageModel->send();
 

@@ -56,12 +56,12 @@ class Subject
         return !is_null($this->shortName);
     }
 
-    public function getShortName(): string
+    public function getShortName(): ?string
     {
         return $this->shortName;
     }
 
-    public function setShortName(string $shortName): self
+    public function setShortName(string $shortName = null): self
     {
         $this->shortName = $shortName;
 
